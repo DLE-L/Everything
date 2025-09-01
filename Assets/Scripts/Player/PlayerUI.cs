@@ -1,0 +1,33 @@
+using Player.Data;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace Player
+{
+  public class PlayerUI : MonoBehaviour // MonoBehaviour 제거 예정
+  {
+    public Canvas cvPlayer;
+
+    public Image imgPlayerHp;
+    public Image imgPlayerEnergy;
+
+    public TextMeshProUGUI txtPlayerHp;
+    public TextMeshProUGUI txtPlayerEnergy;
+
+    public void Init()
+    {
+      
+    }
+    
+
+    public void SetHP_UI(CurrentStat stat)
+    {
+      txtPlayerHp.text = $"HP: {stat.Hp} / {stat.MaxHp} ";
+    }
+    public void SetEnergy_UI(CurrentStat stat)
+    {
+      txtPlayerEnergy.text = $"Energy: {stat.Energy} / {stat.MaxEnergy} ";
+    }
+  }
+}
