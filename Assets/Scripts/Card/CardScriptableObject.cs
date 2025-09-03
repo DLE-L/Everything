@@ -7,9 +7,10 @@ namespace Card
   public class CardScriptableObject : ScriptableObject
   {
     [Header("Card Data")]
-    public CardType cardType;
+    public CardType CardType;
     public string Name;
     public int Damage;
+    public int Cost;
 
     [TextArea(order = 300)] public string Explain;
   }

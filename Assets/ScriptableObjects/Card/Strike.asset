@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf6a51469d6c86b4bb85f128ef42e40a, type: 3}
-  m_Name: Card
+  m_Name: Strike
   m_EditorClassIdentifier: 
-  cardType: 0
-  Name: 
-  Damage: 0
+  CardType: 0
+  Name: "\uD0C0\uACA9"
+  Damage: 6
+  Cost: 1
   Explain: 
