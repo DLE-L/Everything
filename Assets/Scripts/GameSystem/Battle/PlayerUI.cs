@@ -1,14 +1,11 @@
-using GameSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Player
+namespace GameSystem.Battle
 {
   public class PlayerUI : MonoBehaviour // MonoBehaviour 제거 예정
   {
-    public Canvas cvPlayer;
-
     public Image imgPlayerHp;
     public Image imgPlayerEnergy;
 
@@ -17,9 +14,9 @@ namespace Player
 
     public void Init()
     {
-      
+
     }
-    
+
 
     public void SetHP_UI(StatData stat)
     {

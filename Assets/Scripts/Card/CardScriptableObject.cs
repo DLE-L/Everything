@@ -1,8 +1,10 @@
+using System;
 using Card.Data;
 using UnityEngine;
 
 namespace Card
 {
+  [Serializable]
   [CreateAssetMenu(fileName = "Card", menuName = "MyMenu/Card")]
   public class CardScriptableObject : ScriptableObject
   {

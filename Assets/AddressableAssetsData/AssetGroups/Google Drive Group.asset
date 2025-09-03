@@ -14,12 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: Google Drive Group
   m_GUID: c084ea2c2aad17a45ad71c1182e0b042
-  m_SerializeEntries:
-  - m_GUID: 4ac89f80c1cf8344489bfe7cf5cbd4fc
-    m_Address: Assets/ScriptableObjects/Player.asset
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: a55ce5090b944964093d12fd07965c07, type: 2}
   m_SchemaSet:

@@ -4,34 +4,23 @@ namespace Player
 {
   public class PlayerController : MonoBehaviour
   {
-    public PlayerStat playerStat;
-    public PlayerUI playerUI;
+    public PlayerStat playerStat;    
+    public PlayerInventory playerInventory;
 
     private void Awake()
     {
       playerStat.Init();
-      playerUI.Init();
+      playerInventory.Init();
     }
 
     private void Start()
     {
-      SetHp();
-      SetEnergy();
+
     }
 
     private void Update()
     {
 
-    }
-
-    public void SetHp()
-    {
-      playerUI.SetHP_UI(playerStat.statData);
-    }
-
-    public void SetEnergy()
-    {
-      playerUI.SetEnergy_UI(playerStat.statData);
     }
   }
 }

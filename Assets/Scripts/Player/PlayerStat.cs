@@ -37,12 +37,12 @@ namespace Player
 
     public void LoadPlayerStat()
     {
-
+      // TODO: 플레이어 스탯 로드
     }
 
     public void SavePlayerStat()
     {
-
+      // TODO: 플레이어 스탯 저장
     }
 
   }
