@@ -1,6 +1,6 @@
 
 
-namespace Cards.Data
+namespace Card.Data
 {
   public enum CardType
   {

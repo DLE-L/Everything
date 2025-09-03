@@ -1,4 +1,4 @@
-using Player.Data;
+using GameSystem;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -21,11 +21,11 @@ namespace Player
     }
     
 
-    public void SetHP_UI(CurrentStat stat)
+    public void SetHP_UI(StatData stat)
     {
       txtPlayerHp.text = $"HP: {stat.Hp} / {stat.MaxHp} ";
     }
-    public void SetEnergy_UI(CurrentStat stat)
+    public void SetEnergy_UI(StatData stat)
     {
       txtPlayerEnergy.text = $"Energy: {stat.Energy} / {stat.MaxEnergy} ";
     }

@@ -1,8 +1,7 @@
-
-using Cards.Data;
+using Card.Data;
 using UnityEngine;
 
-namespace Cards
+namespace Card
 {
   [CreateAssetMenu(fileName = "Card", menuName = "MyMenu/Card")]
   public class CardScriptableObject : ScriptableObject
@@ -11,7 +10,7 @@ namespace Cards
     public CardType cardType;
     public string Name;
     public int Damage;
-    
+
     [TextArea(order = 300)] public string Explain;
   }
 }

@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 400d7e346a7a85944b054ec36c80779d, type: 3}
-  m_Name: Player
+  m_Script: {fileID: 11500000, guid: 71866cbf389f6b64797a8f3b6b6b5ef1, type: 3}
+  m_Name: Enemy
   m_EditorClassIdentifier: 
-  stat:
-    MaxHp: 100
+  statData:
+    MaxHp: 10
     Hp: 0
-    MaxEnergy: 3
+    MaxEnergy: 2
     Energy: 0
+  Name: "\uC801"

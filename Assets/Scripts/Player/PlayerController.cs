@@ -26,12 +26,12 @@ namespace Player
 
     public void SetHp()
     {
-      playerUI.SetHP_UI(playerStat.currentStat);
+      playerUI.SetHP_UI(playerStat.statData);
     }
 
     public void SetEnergy()
     {
-      playerUI.SetEnergy_UI(playerStat.currentStat);
+      playerUI.SetEnergy_UI(playerStat.statData);
     }
   }
 }
