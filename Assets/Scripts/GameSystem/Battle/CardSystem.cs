@@ -10,7 +10,7 @@
 using System.Collections.Generic;
 using Player;
 using UnityEngine;
-using Card.Data;
+using GameSystem.Utils;
 
 namespace GameSystem.Battle
 {

@@ -1,6 +1,6 @@
 using System;
 
-namespace GameSystem
+namespace GameSystem.Utils
 {
   [Serializable]
   public class StatData

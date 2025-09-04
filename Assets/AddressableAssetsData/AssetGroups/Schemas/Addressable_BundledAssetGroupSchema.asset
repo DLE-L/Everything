@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e5d17a21594effb4e9591490b009e7aa, type: 3}
-  m_Name: Google Drive Group_BundledAssetGroupSchema
+  m_Name: Addressable_BundledAssetGroupSchema
   m_EditorClassIdentifier: 
-  m_Group: {fileID: 11400000, guid: 2b1faecf0e71a56449b52ec582754543, type: 2}
+  m_Group: {fileID: 11400000, guid: b20c1d9ce4a259a468c78dc3d574feb0, type: 2}
   m_InternalBundleIdMode: 1
   m_Compression: 1
   m_IncludeAddressInCatalog: 1
@@ -34,14 +34,14 @@ MonoBehaviour:
   m_RedirectLimit: -1
   m_RetryCount: 0
   m_BuildPath:
-    m_Id: efad1b38b16a849429e96a481a8a504f
+    m_Id: 62fc28a784770a64bbd25d8fa5526149
   m_LoadPath:
-    m_Id: d27b07aeb69f6064fb9732fa9e888766
+    m_Id: d0321e448ea403f4c9f80f04175bac77
   m_BundleMode: 0
   m_AssetBundleProviderType:
     m_AssemblyName: Unity.ResourceManager, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
     m_ClassName: UnityEngine.ResourceManagement.ResourceProviders.AssetBundleProvider
-  m_UseDefaultSchemaSettings: 1
+  m_UseDefaultSchemaSettings: 0
   m_SelectedPathPairIndex: 0
   m_BundleNaming: 0
   m_AssetLoadMode: 0

@@ -14,12 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_GroupName: Default Local Group
   m_GUID: 64f0947349c674645a494d7b8d05611d
-  m_SerializeEntries:
-  - m_GUID: 5de177854fa76f649aa66264ed3be2e3
-    m_Address: Assets/Scripts/Data/PlayerStat.json
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: a55ce5090b944964093d12fd07965c07, type: 2}
   m_SchemaSet:

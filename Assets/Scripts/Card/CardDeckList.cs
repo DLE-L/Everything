@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Card.Data;
+using GameSystem.Utils;
 
 
-namespace Card
+namespace GameSystem
 {
   [Serializable]
   public class CardDeckList

@@ -1,8 +1,9 @@
 using System;
-using Card.Data;
+using GameSystem.Utils;
 using UnityEngine;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
-namespace Card
+namespace GameSystem
 {
   [Serializable]
   [CreateAssetMenu(fileName = "Card", menuName = "MyMenu/Card")]
@@ -13,7 +14,9 @@ namespace Card
     public string Name;
     public int Damage;
     public int Cost;
-
     [TextArea(order = 300)] public string Explain;
+    [Space(20)]
+    [Header("Card Handler")]
+    [NonSerialized] public AsyncOperationHandle handle;  
   }
 }

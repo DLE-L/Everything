@@ -1,10 +1,11 @@
-using GameSystem;
+using GameSystem.Utils;
 using UnityEngine;
 
 namespace Player
 {
   public class PlayerStat : MonoBehaviour, IStatSystem // MonoBehaviour 제거 예정
   {
+    // Addressalbe Address : Data/Player/Stat
     public PlayerScriptableObject playerSO; // TODO: Addressable로 리소스 로드로 변경 필요
 
     [Header("Player Stat")]

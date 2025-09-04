@@ -1,14 +1,18 @@
 
 using System.Collections.Generic;
-using Card;
-using Card.Data;
+using GameSystem;
+using GameSystem.Utils;
+using GameSystem.Utils;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Player
 {
   public class PlayerInventory : MonoBehaviour
   {
-    public Dictionary<string, int> Inventory = new(); // Dictionary<CardId, Count>    
+    // Addressalbe Address : Data/Player/Inventory
+    // Addressalbe Address : Data/Player/CardDeckList
+    public Dictionary<CardData, int> Inventory = new(); // Dictionary<CardData, Count>    
     public CardDeckList cardDeckList;
     public CardDeckData currentDeck;
 
@@ -17,19 +21,19 @@ namespace Player
       // 1. PlayerInventory.json에서 모든 카드정보 가져옴
       // 2. PlayerCardDeckList.json에서 덱 리스트 정보 가져옴
       // 3. 
+
     }
 
     public void LoadInventory()
     {
-      // TODO: Addressable을 이용해 인벤토리 데이터 가져옴
+      // TODO: Addressable을 이용해 인벤토리 데이터 가져옴            
+      //string json = AssetLoader.LoadAssetAsync<TextAsset>("Data/Player/Inventory").text;
 
-      // Inventroy.Add ---
     }
 
     public void SaveInventory()
     {
-      // TODO: 인벤토리 데이터 저장
-      // CardDeck 
+      // TODO: 인벤토리 데이터 저장      
     }
 
     public CardDeckData GetCardDeckData()

@@ -1,4 +1,4 @@
-using GameSystem;
+using GameSystem.Utils;
 using UnityEngine;
 
 namespace Enemy

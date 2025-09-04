@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 64f0947349c674645a494d7b8d05611d
   m_currentHash:
     serializedVersion: 2
-    Hash: 5c77685082da917cde8bcc5473e9ae8e
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -60,7 +60,7 @@ MonoBehaviour:
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
   - {fileID: 11400000, guid: dbf44208f8750f8469771c5bf4a6700a, type: 2}
-  - {fileID: 11400000, guid: 2b1faecf0e71a56449b52ec582754543, type: 2}
+  - {fileID: 11400000, guid: b20c1d9ce4a259a468c78dc3d574feb0, type: 2}
   m_BuildSettings:
     m_LogResourceManagerExceptions: 1
     m_BundleBuildPath: Temp/com.unity.addressables/AssetBundles
@@ -73,7 +73,7 @@ MonoBehaviour:
       - m_Id: 62fc28a784770a64bbd25d8fa5526149
         m_Value: 'ServerData/[BuildTarget]'
       - m_Id: d0321e448ea403f4c9f80f04175bac77
-        m_Value: <undefined>
+        m_Value: 'https://dle-l.github.io/CDN/[BuildTarget]'
       - m_Id: d27b07aeb69f6064fb9732fa9e888766
         m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
       - m_Id: efad1b38b16a849429e96a481a8a504f
@@ -99,7 +99,8 @@ MonoBehaviour:
     m_ProfileVersion: 1
   m_LabelTable:
     m_LabelNames:
-    - default
+    - Card
+    - Enemy
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 3fbcb4243ad01154e8bdb557abd75b4b, type: 2}

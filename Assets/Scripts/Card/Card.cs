@@ -1,8 +1,8 @@
 
-using Card.Data;
+using GameSystem.Utils;
 using UnityEngine;
 
-namespace Card
+namespace GameSystem
 {
   public class Card : MonoBehaviour
   {
