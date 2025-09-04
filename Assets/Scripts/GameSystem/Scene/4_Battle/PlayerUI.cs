@@ -1,0 +1,31 @@
+using Utils;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
+
+namespace GameSystem.Scene.Battle
+{
+  public class PlayerUI : MonoBehaviour // MonoBehaviour 제거 예정
+  {
+    public Image imgPlayerHp;
+    public Image imgPlayerEnergy;
+
+    public TextMeshProUGUI txtPlayerHp;
+    public TextMeshProUGUI txtPlayerEnergy;
+
+    public void Init()
+    {
+
+    }
+
+
+    public void SetHP_UI(StatData stat)
+    {
+      txtPlayerHp.text = $"HP: {stat.Hp} / {stat.MaxHp} ";
+    }
+    public void SetEnergy_UI(StatData stat)
+    {
+      txtPlayerEnergy.text = $"Energy: {stat.Energy} / {stat.MaxEnergy} ";
+    }
+  }
+}

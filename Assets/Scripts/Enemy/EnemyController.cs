@@ -1,11 +1,10 @@
-using GameSystem.Utils;
+using Utils;
 using UnityEngine;
 
 namespace Enemy
 {
   public class EnemyController : MonoBehaviour
-  {
-    public EnemyStat enemyStat;    
+  {    
 
 
   }

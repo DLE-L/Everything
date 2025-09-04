@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using GameSystem.Utils;
+using Utils;
 
 
 namespace GameSystem

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 using GameSystem;
-using GameSystem.Utils;
+using Utils;
 using UnityEngine;
 
 namespace Card
