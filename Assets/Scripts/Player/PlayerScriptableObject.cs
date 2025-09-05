@@ -7,6 +7,6 @@ namespace Player
   public class PlayerScriptableObject : ScriptableObject
   {
     [Header("Player Stat")]
-    public StatData stat;
+    public PlayerAccountData Stat;    
   }
 }

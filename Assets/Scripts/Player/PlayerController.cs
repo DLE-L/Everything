@@ -4,13 +4,17 @@ namespace Player
 {
   public class PlayerController : MonoBehaviour
   {
-    public PlayerStat playerStat;    
-    public PlayerInventory playerInventory;
+    private static PlayerStat _stat = new();
+    private static PlayerInventory _inventory = new();
+
+    public static PlayerStat Stat => _stat;    
+    public static PlayerInventory Inventory => _inventory;
+
 
     private void Awake()
     {
-      playerStat.Init();
-      playerInventory.Init();
+      _stat.Init();
+      _inventory.Init();
     }
 
     private void Start()

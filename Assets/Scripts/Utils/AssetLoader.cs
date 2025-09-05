@@ -21,8 +21,7 @@ namespace Utils
     {
       if (_handles.TryGetValue(label, out var handle))
       {
-        _refCounts[label]++;
-        Debug.Log($"라벨 증가 : {label} ");
+        _refCounts[label]++;        
         return handle.Result as IList<T>;
       }
 
@@ -32,23 +31,20 @@ namespace Utils
       if (newHandle.Status == AsyncOperationStatus.Succeeded)
       {
         _handles[label] = newHandle;
-        _refCounts[label] = 1;
-        Debug.Log($"라벨 추가 : {label} ");
+        _refCounts[label] = 1;        
         return newHandle.Result;
       }
       else
       {
         return null;
       }
-
     }
 
     public static async Task<T> LoadAssetAsync<T>(string assetAddress) where T : Object
     {
       if (_handles.TryGetValue(assetAddress, out var handle))
       {
-        _refCounts[assetAddress]++;
-        Debug.Log($"증가 : {assetAddress} ");
+        _refCounts[assetAddress]++;        
         return handle.Result as T;
       }
 
@@ -58,9 +54,8 @@ namespace Utils
       if (newHandle.Status == AsyncOperationStatus.Succeeded)
       {
         _handles[assetAddress] = newHandle;
-        _refCounts[assetAddress] = 1;
-        Debug.Log($"추가 : {assetAddress} ");
-        return newHandle.Result as T;
+        _refCounts[assetAddress] = 1;        
+        return newHandle.Result;
       }
       else
       {
@@ -83,8 +78,7 @@ namespace Utils
 
         _handles.Remove(assetAddress);
         _refCounts.Remove(assetAddress);
-      }
-      Debug.Log($"해제 : {assetAddress} ");
+      }      
     }
 
     public static void ReleaseAllAsset()

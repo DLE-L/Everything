@@ -11,11 +11,11 @@ namespace GameSystem
   public class SceneSystem
   {
     #region Scenes    
-    private static LoadingManager _loading;
-    private static TitleManager _title;
-    private static LobbyManager _lobby;
-    private static GameManager _game;
-    private static BattleManager _battle;
+    private static LoadingManager _loading = new();
+    private static TitleManager _title = new();
+    private static LobbyManager _lobby = new();
+    private static GameManager _game = new();
+    private static BattleManager _battle = new();
 
     public static LoadingManager Loading => _loading;
     public static TitleManager Title => _title;

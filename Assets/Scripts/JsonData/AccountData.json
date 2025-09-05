@@ -1,0 +1,17 @@
+{
+  "Gold": 0,
+  "UnlockedCardIDs": [
+    "Attack_Strike",
+    "Deffence_Defend",
+    "Attack_Bash",
+    "Skill_Survivor"
+  ],
+  "Decks": {
+    "Default": {
+      "Attack_Strike": 6,
+      "Deffence_Defend": 6,
+      "Attack_Bash": 2,
+      "Skill_Survivor": 2
+    }
+  }
+}

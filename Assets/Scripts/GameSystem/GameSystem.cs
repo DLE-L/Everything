@@ -1,6 +1,7 @@
 
 using Utils;
 using UnityEngine;
+using Card;
 
 namespace GameSystem
 {
@@ -11,6 +12,7 @@ namespace GameSystem
     private static SceneSystem _scene = new();
 
     public static SceneSystem Scene => _scene;
+
 
     private void Awake()
     {
@@ -30,6 +32,7 @@ namespace GameSystem
       }
 
       _scene.Init();
+      CardDatabase.Init();
     }
     
     public void LoadLobbyScene() => Scene.LoadSceneLobby();

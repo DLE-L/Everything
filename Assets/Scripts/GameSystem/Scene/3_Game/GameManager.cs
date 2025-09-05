@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GameSystem.Scene.Game
 {
-  public class GameManager : MonoBehaviour
+  public class GameManager
   {
 
     private void Awake()

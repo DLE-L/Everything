@@ -1,37 +1,36 @@
 
-using System;
 using System.Collections.Generic;
 using GameSystem;
 using Utils;
-using UnityEngine;
 
 namespace Card
 {
-  public class CardDatabase : MonoBehaviour
+  public static class CardDatabase
   {
-    public HashSet<CardData> cardDatabase = new();
-    public List<CardData> cards = new();
+    public static Dictionary<string, CardData> cardDatabase = new(); // Dictionary<CardId, CardData>    
 
-    void Start()
-    {
-      Init();
-    }
-
-    public void Init()
+    public static void Init()
     {
       LoadCardData();
     }
 
-    public async void LoadCardData()
+    public async static void LoadCardData()
     {
-      var cardList = await AssetLoader.LoadAssetLabelAsync<CardScriptableObject>("Card");
+      var cardList = await AssetLoader.LoadAssetLabelAsync<CardSO>("Card");
       foreach (var card in cardList)
       {
         CardData data = new(card);
-        cardDatabase.Add(data);
-        cards.Add(data);
-        Debug.Log(data.CardType);
+        cardDatabase.Add(card.CardId, data);
       }
+    }
+
+    public static CardData GetCardData(string cardId)
+    {
+      if (cardDatabase.ContainsKey(cardId))
+      {
+        return cardDatabase[cardId];
+      }
+      return null;
     }
   }
 }

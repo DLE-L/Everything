@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Enemy
 {
-  public class EnemyStat : MonoBehaviour, IStatSystem
+  public class EnemyStat : MonoBehaviour, IHealthSystem
   {
     public int Hp => throw new System.NotImplementedException();
 

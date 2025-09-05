@@ -23,9 +23,9 @@ namespace GameSystem.Scene.Battle
     {
       player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
       // 1. 플레이어 현재 덱 가져오기      
-      CardDeckData deckData = player.playerInventory.GetCardDeckData();
+
       // 2. 덱 섞기
-      Shuffle(deckData);
+      
       // 3. 덱에서 5장 뽑기
       DrawCard(5);
       // 손에 보여주기
@@ -39,20 +39,20 @@ namespace GameSystem.Scene.Battle
       }
     }
 
-    private void Shuffle(CardDeckData deck)
+    private void Shuffle()
     {
       System.Random random = new();
 
-      int deckCount = deck.Cards.Count;
-      for (int i = 0; i < deckCount - 1; i++)
-      {
-        var randomIndex = random.Next(i, deckCount);
-        (deck.Cards[i], deck.Cards[randomIndex]) = (deck.Cards[randomIndex], deck.Cards[i]);
-      }
-      foreach (var card in deck.Cards)
-      {
-        cards.Enqueue(card);
-      }
+    //   int deckCount = deck.Cards.Count;
+    //   for (int i = 0; i < deckCount - 1; i++)
+    //   {
+    //     var randomIndex = random.Next(i, deckCount);
+    //     (deck.Cards[i], deck.Cards[randomIndex]) = (deck.Cards[randomIndex], deck.Cards[i]);
+    //   }
+    //   foreach (var card in deck.Cards)
+    //   {
+    //     cards.Enqueue(card);
+    //   }
     }
   }
 }

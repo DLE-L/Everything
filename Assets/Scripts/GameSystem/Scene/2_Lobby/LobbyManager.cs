@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GameSystem.Scene.Lobby
 {
-  public class LobbyManager : MonoBehaviour
+  public class LobbyManager
   {
 
     private void Awake()

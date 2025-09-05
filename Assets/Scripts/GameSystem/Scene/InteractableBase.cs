@@ -12,12 +12,12 @@ namespace GameSystem.Scene
   {
     public virtual void OnPointerDown(PointerEventData eventData)
     {
-      transform.localScale = new Vector3(0.95f, 0.95f, 1f);
+      
     }
 
     public virtual void OnPointerUp(PointerEventData eventData)
     {
-      transform.localScale = Vector3.one;
+      
     }
 
     public virtual void OnPointerClick(PointerEventData eventData)

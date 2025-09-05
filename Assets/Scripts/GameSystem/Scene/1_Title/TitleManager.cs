@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GameSystem.Scene.Title
 {
-  public class TitleManager : MonoBehaviour
+  public class TitleManager
   {
 
     private void Awake()

@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6a51469d6c86b4bb85f128ef42e40a, type: 3}
   m_Name: Bash
   m_EditorClassIdentifier: 
+  CardId: Attack_Bash
+  IsDefaultCard: 1
   CardType: 0
   Name: "\uAC15\uD0C0"
   Damage: 8

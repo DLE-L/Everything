@@ -3,48 +3,44 @@ using UnityEngine;
 
 namespace Player
 {
-  public class PlayerStat : MonoBehaviour, IStatSystem // MonoBehaviour 제거 예정
+  public class PlayerStat : IHealthSystem
   {
-    // Addressalbe Address : Data/Player/Stat
-    public PlayerScriptableObject playerSO; // TODO: Addressable로 리소스 로드로 변경 필요
-
-    [Header("Player Stat")]
-    public StatData statData;
-
-    public int Hp => statData.Hp;
-    public int MaxHp => statData.MaxHp;
-    public int Energy => statData.Energy;
-    public int MaxEnergy => statData.MaxEnergy;
+    public PlayerScriptableObject playerSO;
+    public PlayerRunState runState = new();
 
     public void Init()
     {
-      LoadPlayerStat();
+
     }
 
     public void Damaged(int damage)
     {
-      throw new System.NotImplementedException();
+      
     }
 
     public void Heal(int heal)
     {
-      throw new System.NotImplementedException();
+      
     }
 
     public bool IsDie()
     {
-      throw new System.NotImplementedException();
+      return false;
     }
-
-    public void LoadPlayerStat()
-    {
-      // TODO: 플레이어 스탯 로드
-    }
-
-    public void SavePlayerStat()
-    {
-      // TODO: 플레이어 스탯 저장
-    }
-
   }
 }
+
+/*
+1. 플레이어 스탯 (PlayerStat.json)
+가장 기본적인 생존 능력치야.
+
+MaxHp (최대 체력): 80
+
+Hp (현재 체력): 80
+
+MaxEnergy (최대 에너지): 3
+
+Energy (현재 에너지): 3
+
+Gold (골드): 0
+*/

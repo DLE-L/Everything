@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6a51469d6c86b4bb85f128ef42e40a, type: 3}
   m_Name: Defend
   m_EditorClassIdentifier: 
+  CardId: Deffence_Defend
+  IsDefaultCard: 1
   CardType: 1
   Name: "\uC218\uBE44"
   Damage: 5
