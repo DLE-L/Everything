@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Card;
 
 namespace Utils
@@ -18,6 +17,17 @@ namespace Utils
     // public Dictionary<string, int> Unlocks = new(); // Dictionary<해금 요소 ID, 개수>
 
     public Dictionary<string, Dictionary<string, int>> Decks = new(); // Dictionary<덱ID, Dictionary<카드ID, 개수>>
+    public string CurrentDeckID;
+
+    public Dictionary<string, int> GetCurrentCardDeck()
+    {
+      if (string.IsNullOrEmpty(CurrentDeckID) || !Decks.TryGetValue(CurrentDeckID, out var deck))
+      {
+        UnityEngine.Debug.LogWarning($"현재 덱(ID: '{CurrentDeckID}')을 찾을 수 없습니다. 비어있는 덱을 반환합니다.");
+        return new Dictionary<string, int>();
+      }
+      return deck;
+    }
 
     public bool IsCardUnlocked(string cardId)
     {
@@ -53,9 +63,14 @@ namespace Utils
       }
 
       string deckId = "Default";
+      CurrentDeckID = deckId;
       if (!Decks.ContainsKey(deckId))
       {
         Decks[deckId] = new Dictionary<string, int>();
+      }
+      else
+      {
+        Decks[deckId].Clear();
       }
 
       foreach (var cardInfo in defaultDeck)

@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using GameSystem;
+using GameSystems;
 using UnityEngine;
 
 namespace Utils

@@ -8,10 +8,11 @@
   ],
   "Decks": {
     "Default": {
-      "Attack_Strike": 6,
-      "Deffence_Defend": 6,
-      "Attack_Bash": 2,
-      "Skill_Survivor": 2
+      "Attack_Strike": 4,
+      "Deffence_Defend": 4,
+      "Attack_Bash": 1,
+      "Skill_Survivor": 1
     }
-  }
+  },
+  "CurrentDeckID": "Default"
 }

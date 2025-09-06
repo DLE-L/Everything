@@ -1,9 +1,9 @@
 
 using UnityEngine;
 
-namespace GameSystem.Scene.Loading
+namespace GameSystems.Scene.Loading
 {
-  public class LoadingManager
+  public class LoadingManager : MonoBehaviour
   {
 
     private void Awake()

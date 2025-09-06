@@ -3,11 +3,12 @@ using Utils;
 using UnityEngine;
 using Card;
 
-namespace GameSystem
+namespace GameSystems
 {
   public class GameSystem : MonoBehaviour
   {
     public static GameSystem Instance;
+    public PlayerAccountData PlayerData { get; set; }
 
     private static SceneSystem _scene = new();
 

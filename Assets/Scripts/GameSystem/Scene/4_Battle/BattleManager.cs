@@ -1,18 +1,39 @@
 
 using UnityEngine;
+using System.Collections.Generic;
+using GameSystems.Scene.Battle.States;
+using Player;
 
-namespace GameSystem.Scene.Battle
+namespace GameSystems.Scene.Battle
 {
-  public class BattleManager
+  public class BattleManager : MonoBehaviour
   {
+    public List<string> DrawPile = new();
+    public List<string> DiscardPile = new();
+    public List<string> Hand = new();
+    public Stack<string> Deck = new();
+
+    public PlayerController Player;// { get; private set; }
+    public PlayerInventory Inventory;// { get; private set; }
+
+    public BattleStateSystem StateSystem { get; private set; }
+    
+
     private void Awake()
     {
-      Init();
+      StateSystem = new BattleStateSystem();
+      Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+      Inventory = Player.Inventory;
     }
 
-    public void Init()
+    private void Start()
     {
+      StateSystem.ChangeState(new StateSetup(this, StateSystem));
+    }
 
+    public void Update()
+    {
+      StateSystem.Execute();
     }
   }
 }

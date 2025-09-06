@@ -1,9 +1,9 @@
 
 using UnityEngine;
 
-namespace GameSystem.Scene.Title
+namespace GameSystems.Scene.Title
 {
-  public class TitleManager
+  public class TitleManager : MonoBehaviour
   {
 
     private void Awake()

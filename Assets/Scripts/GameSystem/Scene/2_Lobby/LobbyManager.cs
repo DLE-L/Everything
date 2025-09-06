@@ -1,9 +1,9 @@
 
 using UnityEngine;
 
-namespace GameSystem.Scene.Lobby
+namespace GameSystems.Scene.Lobby
 {
-  public class LobbyManager
+  public class LobbyManager : MonoBehaviour
   {
 
     private void Awake()

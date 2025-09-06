@@ -1,9 +1,9 @@
 
 using UnityEngine;
 
-namespace GameSystem.Scene.Game
+namespace GameSystems.Scene.Game
 {
-  public class GameManager
+  public class GameManager : MonoBehaviour
   {
 
     private void Awake()

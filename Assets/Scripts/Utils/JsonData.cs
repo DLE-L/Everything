@@ -12,11 +12,11 @@ namespace Utils
     public static StringBuilder _sb = new();
     private static string _path = "Assets/Scripts/JsonData/";
 
-    public static void SavePlayerData(PlayerAccountData data) => SaveJsonData(data, _path + "AccountData.json");
+    public static Task SavePlayerDataAsync(PlayerAccountData data) => SaveJsonDataAsync(data, _path + "AccountData.json");
 
     public static Task<PlayerAccountData> LoadPlayerData() => LoadJsonData<PlayerAccountData>(_path + "AccountData.json");
 
-    private async static void SaveJsonData<T>(T data, string path)
+    private async static Task SaveJsonDataAsync<T>(T data, string path)
     {
       string json = JsonConvert.SerializeObject(data, Formatting.Indented);
       await File.WriteAllTextAsync(path, json);

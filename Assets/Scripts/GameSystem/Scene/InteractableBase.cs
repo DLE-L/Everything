@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace GameSystem.Scene
+namespace GameSystems.Scene
 {
   /// <summary>
   /// 모든 상호작용 UI의 기반이 될 추상 클래스입니다.

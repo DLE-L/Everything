@@ -3,9 +3,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace GameSystem.Scene.Battle
+namespace GameSystems.Scene.Battle
 {
-  public class PlayerUI : MonoBehaviour // MonoBehaviour 제거 예정
+  public class BattleUI : MonoBehaviour // MonoBehaviour 제거 예정
   {
     public Image imgPlayerHp;
     public Image imgPlayerEnergy;

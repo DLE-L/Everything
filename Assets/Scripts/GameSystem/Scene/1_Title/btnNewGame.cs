@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using Utils;
 
-namespace GameSystem.Scene.Title
+namespace GameSystems.Scene.Title
 {
   public class btnNewGame : InteractableBase
   {
@@ -11,10 +11,11 @@ namespace GameSystem.Scene.Title
       GameSystem.Instance.LoadLobbyScene();
       // TODO: 새로운 게임 시작
       // 1. 플레이어 초기 덱 설정
-      var accountData = await JsonData.LoadPlayerData();
-      accountData??= new();
+      PlayerAccountData accountData = await JsonData.LoadPlayerData();
+      accountData ??= new();
       accountData.DefaultCardDeck();
-      JsonData.SavePlayerData(accountData);
+      await JsonData.SavePlayerDataAsync(accountData);
+      GameSystem.Instance.PlayerData = accountData;
     }
   }
 }

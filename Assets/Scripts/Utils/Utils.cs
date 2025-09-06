@@ -28,6 +28,13 @@ namespace Utils
     // 공통 진행 상황
     // 현재 위치
     // 맵 시드 등등...
-    
+
+  }
+
+  public interface IBattleState
+  {
+    public void Enter();
+    public void Execute();
+    public void Exit();
   }
 }

@@ -1,7 +1,7 @@
 
 using UnityEngine.EventSystems;
 
-namespace GameSystem.Scene.Title
+namespace GameSystems.Scene.Title
 {
   public class btnContinueGame : InteractableBase
   {

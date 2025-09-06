@@ -2,7 +2,7 @@ using System;
 using Utils;
 using UnityEngine;
 
-namespace GameSystem
+namespace GameSystems
 {
   [Serializable]
   [CreateAssetMenu(fileName = "Card", menuName = "MyMenu/Card")]

@@ -2,7 +2,7 @@
 using Utils;
 using UnityEngine;
 
-namespace GameSystem
+namespace GameSystems
 {
   public class Card : MonoBehaviour
   {

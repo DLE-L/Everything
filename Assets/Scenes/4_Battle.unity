@@ -2326,7 +2326,7 @@ GameObject:
   - component: {fileID: 2115878360}
   - component: {fileID: 2115878359}
   m_Layer: 0
-  m_Name: BattleSystem
+  m_Name: BattleManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2344,6 +2344,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b7bc065593ba6940810917d4b0d4a6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DrawPile: []
+  DiscardPile: []
+  Hand: []
 --- !u!4 &2115878360
 Transform:
   m_ObjectHideFlags: 0
