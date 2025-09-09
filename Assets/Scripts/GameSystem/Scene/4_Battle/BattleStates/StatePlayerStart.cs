@@ -16,9 +16,14 @@ namespace GameSystems.Scene.Battle.States
       _stateSystem = stateSystem;
     }
 
+    
     public void Enter()
     {
-      _stateSystem.ChangeState(new StatePlayerTurn(_battleManager, _stateSystem));
+      // 1. 카드 5장 드로우
+      _battleManager.DrawCard(5);
+
+      // 2. 플레이어 턴 상태로 변경
+      //_battleManager.ChangePlayerTurnState();
     }
 
     public void Execute()
@@ -28,17 +33,7 @@ namespace GameSystems.Scene.Battle.States
 
     public void Exit()
     {
-
-    }
-
-    private void Shuffle(List<string> deck)
-    {
-      System.Random random = new();
-      for (int i = 0; i < deck.Count - 1; i++)
-      {
-        var randomIndex = random.Next(i, deck.Count);
-        (deck[i], deck[randomIndex]) = (deck[randomIndex], deck[i]);
-      }
+      
     }
   }
 }

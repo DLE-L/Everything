@@ -18,17 +18,19 @@ namespace GameSystems.Scene.Battle.States
 
     public void Enter()
     {
-
+      Execute();
     }
 
     public void Execute()
     {
+      // 1. 플레이어 행동
 
+      // 2. 연결된 버튼 클릭해 턴 종료
     }
 
     public void Exit()
     {
-
+     
     }
   }
 }

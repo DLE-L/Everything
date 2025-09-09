@@ -5,12 +5,12 @@ using Utils;
 
 namespace GameSystems.Scene.Battle.States
 {
-  public class StatePlayerEnd : IBattleState
+  public class StateEnemyStart : IBattleState
   {
     private BattleManager _battleManager;
     private BattleStateSystem _stateSystem;
 
-    public StatePlayerEnd(BattleManager battleManager, BattleStateSystem stateSystem)
+    public StateEnemyStart(BattleManager battleManager, BattleStateSystem stateSystem)
     {
       _battleManager = battleManager;
       _stateSystem = stateSystem;
@@ -18,10 +18,7 @@ namespace GameSystems.Scene.Battle.States
 
     public void Enter()
     {
-      // 1. 플레이어 핸드 카드 버리기
-      _battleManager.DiscardHandCard();
-      
-     // _battleManager.ChangeEnemyStartState();
+      _battleManager.ChangeEnemyTurnState();
     }
 
     public void Execute()
@@ -33,6 +30,5 @@ namespace GameSystems.Scene.Battle.States
     {
       
     }
-
   }
 }

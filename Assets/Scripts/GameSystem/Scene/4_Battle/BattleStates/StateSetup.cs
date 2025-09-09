@@ -30,10 +30,11 @@ namespace GameSystems.Scene.Battle.States
         }
       }
       // 2. 플레이어 덱 섞기
-      Shuffle(deck);
+      _battleManager.Shuffle(deck);
       _battleManager.DrawPile = deck;
 
-      _stateSystem.ChangeState(new StatePlayerStart(_battleManager, _stateSystem));
+      // 3. Setup 상태 종료(플레이어 턴 상태로 변경)
+      _battleManager.ChangePlayerStartState();
     }
 
     public void Execute()
@@ -43,17 +44,7 @@ namespace GameSystems.Scene.Battle.States
 
     public void Exit()
     {
-
-    }
-
-    private void Shuffle(List<string> deck)
-    {
-      System.Random random = new();
-      for (int i = 0; i < deck.Count - 1; i++)
-      {
-        var randomIndex = random.Next(i, deck.Count);
-        (deck[i], deck[randomIndex]) = (deck[randomIndex], deck[i]);
-      }
+      
     }
   }
 }
