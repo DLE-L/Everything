@@ -1,5 +1,3 @@
-using System.Diagnostics;
-using UnityEngine;
 using Utils;
 
 namespace GameSystems.Scene.Battle
@@ -18,7 +16,7 @@ namespace GameSystems.Scene.Battle
       CurrentState?.Exit();
       CurrentState = newState;
       UnityEngine.Debug.Log($"CurrentState: {CurrentState.ToString()}");
-      CurrentState?.Enter();      
+      CurrentState?.Enter();
     }
   }
 }

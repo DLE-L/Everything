@@ -37,6 +37,16 @@ namespace GameSystems.Scene.Battle
       StateSystem.Execute();
     }
 
+    public void ResetEnergy()
+    {
+      // TODO: 플레이어 스탯 정보 불러와서 에너지 회복
+    }
+
+    public void UseEnergy(int cost)
+    {
+      // TODO: 플레이어 스탯 정보 불러와서 에너지 소모
+    }
+
     public void DiscardHandCard()
     {
       int handCount = Hand.Count;

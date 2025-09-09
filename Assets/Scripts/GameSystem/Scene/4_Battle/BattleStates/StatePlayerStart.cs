@@ -16,11 +16,12 @@ namespace GameSystems.Scene.Battle.States
       _stateSystem = stateSystem;
     }
 
-    
+
     public void Enter()
     {
       // 1. 카드 5장 드로우
       _battleManager.DrawCard(5);
+      _battleManager.ResetEnergy();
 
       // 2. 플레이어 턴 상태로 변경
       //_battleManager.ChangePlayerTurnState();

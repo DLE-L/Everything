@@ -108,11 +108,7 @@ namespace Utils
     public int CurrentEnergy = 3;
     public int MaxEnergy = 3;
 
-    public List<string> Deck;
-    public List<string> DrawPile;
-    public List<string> DiscardPile;
-    public List<string> Hand;
-    public List<string> AcquiredRelics;
+    // public List<string> AcquiredRelics; // TODO: 추후 유물 시스템 도입
 
     // 플레이어가 했던 행동 모두 기록할 로그(?)
   }
