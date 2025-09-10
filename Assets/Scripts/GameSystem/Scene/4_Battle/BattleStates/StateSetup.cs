@@ -18,21 +18,10 @@ namespace GameSystems.Scene.Battle.States
 
     public void Enter()
     {
-      PlayerAccountData account = _battleManager.Inventory.PlayerData;
-      if (account == null) return;
-      Dictionary<string, int> data = account.GetCurrentCardDeck();
-      List<string> deck = new();
-      foreach (var cardInfo in data)
-      {
-        for (int i = 0; i < cardInfo.Value; i++)
-        {
-          deck.Add(cardInfo.Key);
-        }
-      }
+      // 1. 플레이어 덱 로드
+      _battleManager.GetPlayerDeck();
       // 2. 플레이어 덱 섞기
-      _battleManager.Shuffle(deck);
-      _battleManager.DrawPile = deck;
-
+      _battleManager.Shuffle(_battleManager.DrawPile);
       // 3. Setup 상태 종료(플레이어 턴 상태로 변경)
       _battleManager.ChangePlayerStartState();
     }

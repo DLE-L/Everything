@@ -1,26 +1,35 @@
 using Utils;
 using UnityEngine;
+using GameSystems;
 
 namespace Enemy
 {
-  public class EnemyStat : MonoBehaviour, IHealthSystem
+  public class EnemyStat : IHealthSystem
   {
-    public int Hp => throw new System.NotImplementedException();
+    public StatData Stat;
+    public EnemyController enemyController;
 
-    public int MaxHp => throw new System.NotImplementedException();
+    public void Init(EnemyController controller)
+    {
+      enemyController = controller;
 
-    public int Energy => throw new System.NotImplementedException();
-
-    public int MaxEnergy => throw new System.NotImplementedException();
+      enemyController.battleManager.OnCardAction += (card) =>
+      {
+        if (card.Data.CardType == CardType.Attack)
+        {
+          Damaged(card.Data.Damage);
+        }
+      };
+    }
 
     public void Damaged(int damage)
     {
-      throw new System.NotImplementedException();
+      Debug.Log($"적 피해: {damage}");
     }
 
     public void Heal(int heal)
     {
-      throw new System.NotImplementedException();
+      
     }
 
     public bool IsDie()

@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71866cbf389f6b64797a8f3b6b6b5ef1, type: 3}
-  m_Name: Enemy
+  m_Name: Goblin
   m_EditorClassIdentifier: 
-  statData:
-    MaxHp: 10
+  EnemyId: Goblin
+  StatData:
     Hp: 0
-    MaxEnergy: 2
+    MaxHp: 30
     Energy: 0
-  Name: Goblin
+    MaxEnergy: 2

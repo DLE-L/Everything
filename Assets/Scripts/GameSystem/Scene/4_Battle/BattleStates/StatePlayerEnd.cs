@@ -19,7 +19,7 @@ namespace GameSystems.Scene.Battle.States
     public void Enter()
     {
       // 1. 플레이어 핸드 카드 버리기
-      _battleManager.DiscardHandCard();
+      _battleManager.DiscardHandCardAll();
       
      // _battleManager.ChangeEnemyStartState();
     }

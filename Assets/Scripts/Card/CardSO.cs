@@ -9,8 +9,7 @@ namespace GameSystems
   public class CardSO : ScriptableObject
   {
     [Header("Card Identity")]
-    public string CardId;
-    public bool IsDefaultCard;
+    public string CardId;    
 
     [Space(20)]
     [Header("Card Data")]
@@ -19,6 +18,5 @@ namespace GameSystems
     public int Damage;
     public int Cost;
     [TextArea(order = 300)] public string Explain;
-
   }
 }

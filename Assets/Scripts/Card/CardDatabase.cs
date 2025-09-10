@@ -7,7 +7,14 @@ namespace Card
 {
   public static class CardDatabase
   {
-    public static Dictionary<string, CardData> cardDatabase = new(); // Dictionary<CardId, CardData>    
+    public static Dictionary<string, CardSO> cardDatabase = new(); // Dictionary<CardId, CardData>      
+    private static HashSet<string> _defaultCardIDs = new()
+    {
+      "Attack_Strike",
+      "Deffence_Defend",
+      "Attack_Bash",
+      "Skill_Survivor"
+    };
 
     public static void Init()
     {
@@ -18,19 +25,23 @@ namespace Card
     {
       var cardList = await AssetLoader.LoadAssetLabelAsync<CardSO>("Card");
       foreach (var card in cardList)
-      {
-        CardData data = new(card);
-        cardDatabase.Add(card.CardId, data);
+      {        
+        cardDatabase.Add(card.CardId, card);
       }
     }
 
-    public static CardData GetCardData(string cardId)
+    public static CardSO GetCardData(string cardId)
     {
       if (cardDatabase.ContainsKey(cardId))
       {
         return cardDatabase[cardId];
       }
       return null;
+    }
+
+    public static bool IsDefaultCard(string cardId)
+    {
+      return _defaultCardIDs.Contains(cardId);
     }
   }
 }

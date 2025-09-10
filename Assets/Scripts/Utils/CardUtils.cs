@@ -1,7 +1,6 @@
 using System;
-using System.Collections.Generic;
+using Card;
 using GameSystems;
-using UnityEngine;
 
 namespace Utils
 {
@@ -13,24 +12,15 @@ namespace Utils
   }
 
   [Serializable]
-  public class CardData
+  public class BattleCardData
   {
-    public bool IsDefaultCard;
-    public CardType CardType;
-    public string Name;
-    public int Damage;
-    public int Cost;
-    public string Explain;
+    public CardSO Data;
+    public string BattleCardID;
 
-    public CardData(CardSO so)
+    public BattleCardData(string cardObjectID, string cardId)
     {
-      IsDefaultCard = so.IsDefaultCard;
-      CardType = so.CardType;
-      Name = so.Name;
-      Damage = so.Damage;
-      Cost = so.Cost;
-      Explain = so.Explain;
+      Data = CardDatabase.GetCardData(cardObjectID);
+      BattleCardID = cardId;
     }
   }
-
 }

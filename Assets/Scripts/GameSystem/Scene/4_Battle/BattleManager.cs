@@ -1,35 +1,47 @@
-
 using UnityEngine;
 using System.Collections.Generic;
 using GameSystems.Scene.Battle.States;
 using Player;
+using Utils;
+using System;
 
 namespace GameSystems.Scene.Battle
 {
   public class BattleManager : MonoBehaviour
   {
-    public List<string> DrawPile = new();
-    public List<string> DiscardPile = new();
-    public List<string> Hand = new();
+    public List<BattleCardData> DrawPile = new();
+    public List<BattleCardData> DiscardPile = new();
+    public List<BattleCardData> Hand = new();
 
     public PlayerController Player { get; private set; }
-    public PlayerInventory Inventory { get; private set; }
+    public PlayerInventory PlayerInventory => Player.Inventory;
+    public PlayerRunState PlayerRunState => Player.Stat.RunState;
 
     public BattleStateSystem StateSystem { get; private set; }
 
     private System.Random _random = new();
+    public BattleCard[] battleCards;
 
+    public event Action<BattleCardData> OnCardAction;
 
     private void Awake()
     {
       StateSystem = new BattleStateSystem();
       Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-      Inventory = Player.Inventory;
     }
 
     private void Start()
     {
       StateSystem.ChangeState(new StateSetup(this, StateSystem));
+
+      foreach (BattleCard battleCard in battleCards)
+      {
+        battleCard.OnCardClicked += (card) =>
+        {
+          // 1. 카드 사용
+          UseCard(battleCard, card);
+        };
+      }
     }
 
     public void Update()
@@ -37,17 +49,46 @@ namespace GameSystems.Scene.Battle
       StateSystem.Execute();
     }
 
+    public void UseCard(BattleCard card, BattleCardData data)
+    {
+      // 1. 플레이어 코스트 > 에너지 소모 일시 사용
+      if (UseEnergy(data.Data.Cost) == false)
+      {
+        // TODO: 에너지 부족 경고 문구 UI추가
+        Debug.Log("에너지 부족");
+        return;
+      }
+      // 2. 사용 카드 효과 발동
+      OnCardAction?.Invoke(data);
+      Debug.Log($"[카드 사용]: {data.Data.Name}\n[남은 에너지]: {Player.Stat.RunState.CurrentEnergy}");
+      // 3. 사용 카드 DiscardPile에 추가
+      DiscardHandCard(data);
+      // 4. 카드 UI 업데이트
+      CardUIUpdate(card, false);
+    }
+
     public void ResetEnergy()
     {
-      // TODO: 플레이어 스탯 정보 불러와서 에너지 회복
+      PlayerRunState.CurrentEnergy = PlayerRunState.MaxEnergy;
     }
 
-    public void UseEnergy(int cost)
+    public bool UseEnergy(int cost)
     {
-      // TODO: 플레이어 스탯 정보 불러와서 에너지 소모
+      if (PlayerRunState.CurrentEnergy < cost)
+      {
+        return false;
+      }
+      PlayerRunState.CurrentEnergy -= cost;
+      return true;
     }
 
-    public void DiscardHandCard()
+    public void DiscardHandCard(BattleCardData battleCard)
+    {
+      DiscardPile.Add(battleCard);
+      Hand.Remove(battleCard);
+    }
+
+    public void DiscardHandCardAll()
     {
       int handCount = Hand.Count;
       for (int i = 0; i < handCount; i++)
@@ -57,6 +98,12 @@ namespace GameSystems.Scene.Battle
       }
     }
 
+    public void CardUIUpdate(BattleCard card, bool active)
+    {      
+      card.UpdateUI();
+      card.gameObject.SetActive(active);
+    }
+
     public void DrawCard(int amount)
     {
       for (int i = 0; i < amount; i++)
@@ -64,21 +111,37 @@ namespace GameSystems.Scene.Battle
         if (DrawPile.Count == 0)
         {
           DrawPile = DiscardPile;
-          DiscardPile = new List<string>();
+          DiscardPile = new();
           Shuffle(DrawPile);
         }
 
         Hand.Add(DrawPile[0]);
+        battleCards[i].BattleCardData = DrawPile[0];
+        CardUIUpdate(battleCards[i], true);
         DrawPile.RemoveAt(0);
       }
     }
 
-    public void Shuffle(List<string> deck)
+    public void Shuffle<T>(List<T> deck)
     {
       for (int i = 0; i < deck.Count - 1; i++)
       {
         var randomIndex = _random.Next(i, deck.Count);
         (deck[i], deck[randomIndex]) = (deck[randomIndex], deck[i]);
+      }
+    }
+
+    public void GetPlayerDeck()
+    {
+      PlayerAccountData account = PlayerInventory.PlayerData;
+      if (account == null) return;
+      Dictionary<string, int> data = account.GetCurrentCardDeck();      
+      foreach (var cardInfo in data)
+      {
+        for (int i = 0; i < cardInfo.Value; i++)
+        {          
+          DrawPile.Add(new BattleCardData(cardInfo.Key, $"{cardInfo.Key}_{i}"));
+        }
       }
     }
 

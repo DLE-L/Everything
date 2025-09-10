@@ -92,9 +92,8 @@ namespace Utils
 
       Dictionary<string, int> deck = Decks[deckId];
       deck.TryGetValue(cardId, out int count);
-
-      CardData cardData = CardDatabase.GetCardData(cardId);
-      if (cardData.IsDefaultCard == false && count == 2) return false;
+     
+      if (CardDatabase.IsDefaultCard(cardId) == false && count == 2) return false;
 
       deck[cardId] = count + 1;
       return true;
@@ -108,7 +107,7 @@ namespace Utils
     public int CurrentEnergy = 3;
     public int MaxEnergy = 3;
 
-    // public List<string> AcquiredRelics; // TODO: 추후 유물 시스템 도입
+    // public List<string> AcquiredRelics = new(); // TODO: 추후 유물 시스템 도입
 
     // 플레이어가 했던 행동 모두 기록할 로그(?)
   }

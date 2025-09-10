@@ -5,8 +5,8 @@ namespace Player
 {
   public class PlayerStat : IHealthSystem
   {
-    public PlayerScriptableObject playerSO;
-    public PlayerRunState runState = new();
+    public PlayerSO playerSO;
+    public PlayerRunState RunState = new();
 
     public void Init()
     {
