@@ -31,7 +31,7 @@ namespace GameSystems
 
     public void UpdateUI()
     {
-      txtName.text = BattleCardData.Data.Name;
+      txtName.text = BattleCardData.Data.CardName;
       txtCost.text = $"Cost: {BattleCardData.Data.Cost}";
     }
   }

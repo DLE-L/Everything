@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Defend
   m_EditorClassIdentifier: 
   CardId: Deffence_Defend
-  IsDefaultCard: 1
   CardType: 1
-  Name: "\uC218\uBE44"
-  Damage: 5
+  CardEffectType: 1
+  EffectValue: 5
+  CardName: "\uC218\uBE44"
   Cost: 1
-  Explain: 
+  Description: "5\uC758 \uBC29\uC5B4\uB3C4\uB97C \uC5BB\uC2B5\uB2C8\uB2E4"

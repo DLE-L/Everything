@@ -9,14 +9,20 @@ namespace GameSystems
   public class CardSO : ScriptableObject
   {
     [Header("Card Identity")]
-    public string CardId;    
+    public string CardId;
 
     [Space(20)]
-    [Header("Card Data")]
+    [Header("Card Type")]
     public CardType CardType;
-    public string Name;
-    public int Damage;
+    public CardEffectType CardEffectType;
+    public int EffectValue;
+
+    [Space(20)]
+    [Header("Card Info")]    
+    public string CardName;        
     public int Cost;
-    [TextArea(order = 300)] public string Explain;
+    // public Sprite CardImage; // TODO: 카드 이미지 추가
+    [TextArea(order = 300)] public string Description;
+    
   }
 }

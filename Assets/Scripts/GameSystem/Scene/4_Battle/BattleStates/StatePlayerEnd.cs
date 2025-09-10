@@ -20,6 +20,7 @@ namespace GameSystems.Scene.Battle.States
     {
       // 1. 플레이어 핸드 카드 버리기
       _battleManager.DiscardHandCardAll();
+      _battleManager.ResetBlock();
       
      // _battleManager.ChangeEnemyStartState();
     }

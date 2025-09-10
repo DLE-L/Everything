@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Survivor
   m_EditorClassIdentifier: 
   CardId: Skill_Survivor
-  IsDefaultCard: 1
   CardType: 2
-  Name: "\uC0DD\uC874 \uBCF8\uB2A5"
-  Damage: 7
+  CardEffectType: 1
+  EffectValue: 0
+  CardName: "\uC0DD\uC874 \uBCF8\uB2A5"
   Cost: 1
-  Explain: 
+  Description: 

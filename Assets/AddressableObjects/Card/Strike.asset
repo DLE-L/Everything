@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Strike
   m_EditorClassIdentifier: 
   CardId: Attack_Strike
-  IsDefaultCard: 1
   CardType: 0
-  Name: "\uD0C0\uACA9"
-  Damage: 6
+  CardEffectType: 0
+  EffectValue: 6
+  CardName: "\uD0C0\uACA9"
   Cost: 1
-  Explain: 
+  Description: "\uC801\uC5D0\uAC8C 6\uC758 \uD53C\uD574\uB97C \uC90D\uB2C8\uB2E4"

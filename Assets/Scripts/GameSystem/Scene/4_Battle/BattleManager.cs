@@ -22,7 +22,7 @@ namespace GameSystems.Scene.Battle
     private System.Random _random = new();
     public BattleCard[] battleCards;
 
-    public event Action<BattleCardData> OnCardAction;
+    public event Action<BattleCardData> OnCardActionDealDamage;
 
     private void Awake()
     {
@@ -58,13 +58,32 @@ namespace GameSystems.Scene.Battle
         Debug.Log("에너지 부족");
         return;
       }
-      // 2. 사용 카드 효과 발동
-      OnCardAction?.Invoke(data);
-      Debug.Log($"[카드 사용]: {data.Data.Name}\n[남은 에너지]: {Player.Stat.RunState.CurrentEnergy}");
+      // 2. 사용 카드 효과 발동      
+      CardEffectActvie(data);
+      Debug.Log($"[카드 사용]: {data.Data.CardName}");
       // 3. 사용 카드 DiscardPile에 추가
       DiscardHandCard(data);
       // 4. 카드 UI 업데이트
       CardUIUpdate(card, false);
+    }
+
+    public void CardEffectActvie(BattleCardData data)
+    {
+      switch (data.Data.CardEffectType)
+      {
+        case CardEffectType.DealDamage:
+          OnCardActionDealDamage?.Invoke(data);
+          break;
+        case CardEffectType.GainBlock:
+          Player.Stat.GainBlock(data.Data.EffectValue);
+          break;
+      }
+    }
+
+    public void ResetBlock()
+    {
+      Debug.Log($"Player Turn End. Block Reset");
+      PlayerRunState.CurrentBlock = 0;
     }
 
     public void ResetEnergy()
@@ -79,6 +98,7 @@ namespace GameSystems.Scene.Battle
         return false;
       }
       PlayerRunState.CurrentEnergy -= cost;
+      Debug.Log($"남은 에너지: {PlayerRunState.CurrentEnergy}");
       return true;
     }
 

@@ -13,11 +13,11 @@ namespace Enemy
     {
       enemyController = controller;
 
-      enemyController.battleManager.OnCardAction += (card) =>
+      enemyController.battleManager.OnCardActionDealDamage += (card) =>
       {
         if (card.Data.CardType == CardType.Attack)
         {
-          Damaged(card.Data.Damage);
+          Damaged(card.Data.EffectValue);
         }
       };
     }
@@ -30,6 +30,10 @@ namespace Enemy
     public void Heal(int heal)
     {
       
+    }
+    public void GainBlock(int block)
+    {
+
     }
 
     public bool IsDie()

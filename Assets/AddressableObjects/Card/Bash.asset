@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Bash
   m_EditorClassIdentifier: 
   CardId: Attack_Bash
-  IsDefaultCard: 1
   CardType: 0
-  Name: "\uAC15\uD0C0"
-  Damage: 8
+  CardEffectType: 0
+  EffectValue: 0
+  CardName: "\uAC15\uD0C0"
   Cost: 2
-  Explain: 
+  Description: 

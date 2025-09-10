@@ -11,6 +11,12 @@ namespace Utils
     Skill,
   }
 
+  public enum CardEffectType
+  {
+    DealDamage,
+    GainBlock,
+  }
+
   [Serializable]
   public class BattleCardData
   {

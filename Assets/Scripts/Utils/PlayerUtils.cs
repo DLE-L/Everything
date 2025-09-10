@@ -100,13 +100,15 @@ namespace Utils
     }
   }
 
+  [Serializable]
   public class PlayerRunState // 게임 플레이 동안의 플레이어 상태
   {
     public int CurrentHealth = 80;
     public int MaxHealth = 80;
     public int CurrentEnergy = 3;
     public int MaxEnergy = 3;
-
+    public int CurrentBlock = 0;
+    public int CurrentGold = 0;
     // public List<string> AcquiredRelics = new(); // TODO: 추후 유물 시스템 도입
 
     // 플레이어가 했던 행동 모두 기록할 로그(?)

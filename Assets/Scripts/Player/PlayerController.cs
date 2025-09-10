@@ -1,4 +1,5 @@
 using UnityEngine;
+using Utils;
 
 namespace Player
 {
@@ -9,7 +10,6 @@ namespace Player
 
     public PlayerStat Stat => _stat;    
     public PlayerInventory Inventory => _inventory;
-
 
     private void Awake()
     {

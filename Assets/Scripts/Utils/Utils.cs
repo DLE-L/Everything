@@ -16,6 +16,7 @@ namespace Utils
   {
     public void Damaged(int damage);
     public void Heal(int heal);
+    public void GainBlock(int block);
     public bool IsDie();
   }
 

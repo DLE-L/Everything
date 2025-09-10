@@ -1,8 +1,9 @@
 using Utils;
 using UnityEngine;
+using System;
 
 namespace Player
-{
+{  
   public class PlayerStat : IHealthSystem
   {
     public PlayerSO playerSO;
@@ -15,12 +16,23 @@ namespace Player
 
     public void Damaged(int damage)
     {
-      
+
     }
 
     public void Heal(int heal)
     {
-      
+
+    }
+
+    public void GainBlock(int block)
+    {
+      RunState.CurrentBlock += block;
+      Debug.Log($"현재 방어도: {RunState.CurrentBlock}");
+    }
+
+    public void ResetBlock()
+    {
+      RunState.CurrentBlock = 0;
     }
 
     public bool IsDie()
