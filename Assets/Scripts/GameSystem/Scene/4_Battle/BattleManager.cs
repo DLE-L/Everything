@@ -7,7 +7,7 @@ using System.Linq;
 using Units.Player;
 using Units.Enemy;
 using Units;
-
+using Card;
 
 namespace GameSystems.Scene.Battle
 {
@@ -22,14 +22,17 @@ namespace GameSystems.Scene.Battle
     public StatData PlayerStat => Player.Stat;
     public List<EnemyController> Enemies = new();
 
-    public BattleStateSystem StateSystem { get; private set; }
-    private System.Random _random = new();
+    public Unit CurrentUser;
+    public Unit CurrentTarget;
+
+    public BattleStateSystem StateSystem { get; private set; } = new();
+    public System.Random random = new();
     public BattleCard[] battleCards;
-    public event Action<BattleCardData> OnCardActionDealDamage;
+
+    public event Action<BattleCard> OnUseCard;
 
     private void Awake()
-    {
-      StateSystem = new BattleStateSystem();
+    {      
       Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
       Enemies = GameObject.FindGameObjectsWithTag("Enemy").Select(x => x.GetComponent<EnemyController>()).ToList();
     }
@@ -48,11 +51,18 @@ namespace GameSystems.Scene.Battle
       {
         battleCard.OnCardClicked += (card) =>
         {
-          // 1. 카드 사용
-          UseCard(battleCard, card);
+          if (UseEnergy(card.CardSO.Cost) == false)
+          {
+            // TODO: 에너지 부족 경고 문구 UI추가
+            Debug.Log("에너지 부족");
+            return;
+          }
+          UseCard(card.CardSO, CurrentUser, CurrentTarget);
+          DiscardHandCard(card);
+          CardUIUpdate(battleCard, false);
+          // OnUseCard?.Invoke(battleCard);
         };
       }
-
     }
 
     public void Update()
@@ -67,55 +77,30 @@ namespace GameSystems.Scene.Battle
         Enemies.Remove(unit as EnemyController);
         if (Enemies.Count == 0)
         {
+          Debug.Log("[플레이어 승리]");
           // ChangeState(new WinState(this, StateSystem));
         }
       }
       else if (unit is PlayerController)
       {
-        // ChangeState(new LoseState(this, StateSystem));
+        Debug.Log("[적 승리]");
+        // ChangeState(new LoseState(this, StateSystem));        
       }
     }
 
-    public void UseCard(BattleCard card, BattleCardData data)
+    public void UseCard(CardSO cardSO, Unit user, Unit target)
     {
-      // 1. 플레이어 코스트 > 에너지 소모 일시 사용
-      if (UseEnergy(data.Data.Cost) == false)
-      {
-        // TODO: 에너지 부족 경고 문구 UI추가
-        Debug.Log("에너지 부족");
-        return;
-      }
-      // 2. 사용 카드 효과 발동      
-      CardEffectActvie(data);
-      Debug.Log($"[카드 사용]: {data.Data.CardName}");
-      // 3. 사용 카드 DiscardPile에 추가
-      DiscardHandCard(data);
-      // 4. 카드 UI 업데이트
-      CardUIUpdate(card, false);
-    }
-
-    public void CardEffectActvie(BattleCardData data)
-    {
-      switch (data.Data.CardEffectType)
+      // 1. 사용 카드 효과 발동      
+      switch (cardSO.CardEffectType)
       {
         case CardEffectType.DealDamage:
-          OnCardActionDealDamage?.Invoke(data);
+          target.Damaged(cardSO.EffectValue);
           break;
         case CardEffectType.GainBlock:
-          Player.GainBlock(data.Data.EffectValue);
+          user.GainBlock(cardSO.EffectValue);
           break;
       }
-    }
-
-    public void ResetBlock()
-    {
-      Debug.Log($"Player Turn End. Block Reset");
-      PlayerStat.Block = 0;
-    }
-
-    public void ResetEnergy()
-    {
-      PlayerStat.Energy = PlayerStat.MaxEnergy;
+      Debug.Log($"[{user.name}][카드 사용]: {cardSO.CardName}");
     }
 
     public bool UseEnergy(int cost)
@@ -127,6 +112,38 @@ namespace GameSystems.Scene.Battle
       PlayerStat.Energy -= cost;
       Debug.Log($"남은 에너지: {PlayerStat.Energy}");
       return true;
+    }
+    
+    public void ResetBlock<T>(T unit)
+    {
+      Debug.Log($"Player/Enemy Turn End. Block Reset");
+      if (unit is PlayerController)
+      {
+        PlayerStat.Block = 0;
+      }
+      else if (unit is EnemyController)
+      {
+        foreach (EnemyController enemy in Enemies)
+        {
+          enemy.Stat.Block = 0;
+        }
+      }
+    }
+
+    public void ResetEnergy<T>(T unit)
+    {
+      Debug.Log($"[Player/Enemy Turn End. Energy Reset]");
+      if (unit is PlayerController)
+      {
+        PlayerStat.Energy = PlayerStat.MaxEnergy;
+      }
+      else if (unit is EnemyController)
+      {
+        foreach (EnemyController enemy in Enemies)
+        {
+          enemy.Stat.Energy = enemy.Stat.MaxEnergy;
+        }
+      }      
     }
 
     public void DiscardHandCard(BattleCardData battleCard)
@@ -173,7 +190,7 @@ namespace GameSystems.Scene.Battle
     {
       for (int i = 0; i < deck.Count - 1; i++)
       {
-        var randomIndex = _random.Next(i, deck.Count);
+        var randomIndex = random.Next(i, deck.Count);
         (deck[i], deck[randomIndex]) = (deck[randomIndex], deck[i]);
       }
     }
@@ -191,7 +208,6 @@ namespace GameSystems.Scene.Battle
         }
       }
     }
-
     public void ChangePlayerTurnState() => StateSystem.ChangeState(new StatePlayerTurn(this, StateSystem));
     public void ChangeEnemyTurnState() => StateSystem.ChangeState(new StateEnemyTurn(this, StateSystem));
   }

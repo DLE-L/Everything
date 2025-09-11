@@ -17,10 +17,14 @@ namespace GameSystems.Scene.Battle.States
     }
 
     public void Enter()
-    {
-      // 1. 카드 5장 드로우
+    {      
+      // 1. 카드 5장 드로우, 에너지 회복
       _battleManager.DrawCard(5);
-      _battleManager.ResetEnergy();
+      _battleManager.ResetEnergy(_battleManager.Player);
+
+      // 2. 타겟 설정
+      _battleManager.CurrentUser = _battleManager.Player;
+      _battleManager.CurrentTarget = _battleManager.Enemies[0];
 
       Execute();
     }
@@ -35,7 +39,7 @@ namespace GameSystems.Scene.Battle.States
     public void Exit()
     {
       _battleManager.DiscardHandCardAll();
-      _battleManager.ResetBlock();
+      _battleManager.ResetBlock(_battleManager.Player);
     }
   }
 }

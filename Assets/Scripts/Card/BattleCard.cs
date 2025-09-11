@@ -3,6 +3,7 @@ using UnityEngine;
 using TMPro;
 using System;
 using GameSystems.Scene.Battle;
+using Card;
 
 namespace GameSystems
 {
@@ -31,8 +32,8 @@ namespace GameSystems
 
     public void UpdateUI()
     {
-      txtName.text = BattleCardData.Data.CardName;
-      txtCost.text = $"Cost: {BattleCardData.Data.Cost}";
+      txtName.text = BattleCardData.CardSO.CardName;
+      txtCost.text = $"Cost: {BattleCardData.CardSO.Cost}";
     }
   }
 }

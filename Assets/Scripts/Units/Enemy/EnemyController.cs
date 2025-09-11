@@ -7,23 +7,12 @@ namespace Units.Enemy
   public class EnemyController : Unit
   {
     public BattleManager battleManager;
+    public EnemySO enemySO;
 
     void Awake()
     {
       battleManager = GameObject.Find("BattleManager").GetComponent<BattleManager>();
-
-      battleManager.OnCardActionDealDamage += (card) =>
-      {
-        if (card.Data.CardType == Utils.CardType.Attack)
-        {
-          Damaged(card.Data.EffectValue);
-        }
-      };
-    }
-
-    void Start()
-    {
-
+      Stat = enemySO.Stat;
     }
   }
 }

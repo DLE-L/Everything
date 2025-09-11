@@ -37,11 +37,11 @@ namespace GameSystems
     }
 
     public async void NewGameStart()
-    {      
+    {
       PlayerAccountData accountData = new();
       accountData.DefaultCardDeck();
       await JsonData.SavePlayerDataAsync(accountData);
-      PlayerData = accountData;
+      PlayerData = accountData;      
     }
 
     public async void ContinueGameStart()

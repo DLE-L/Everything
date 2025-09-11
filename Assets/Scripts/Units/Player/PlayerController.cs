@@ -16,7 +16,15 @@ namespace Units.Player
 
     private void Start()
     {
+      MayDelete();
+    }
 
+    public void MayDelete()
+    {
+      Stat.MaxHp = 80;
+      Stat.MaxEnergy = 3;
+      Stat.Hp = Stat.MaxHp;
+      Stat.Energy = Stat.MaxEnergy;
     }
   }
 }

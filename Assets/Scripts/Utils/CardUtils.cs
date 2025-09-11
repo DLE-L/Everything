@@ -20,12 +20,12 @@ namespace Utils
   [Serializable]
   public class BattleCardData
   {
-    public CardSO Data;
+    public CardSO CardSO;
     public string BattleCardID;
 
     public BattleCardData(string cardObjectID, string cardId)
     {
-      Data = CardDatabase.GetCardData(cardObjectID);
+      CardSO = CardDatabase.GetCardData(cardObjectID);
       BattleCardID = cardId;
     }
   }

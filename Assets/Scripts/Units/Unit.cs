@@ -6,7 +6,7 @@ namespace Units
 {
   public abstract class Unit : MonoBehaviour, IHealthSystem
   {
-    public StatData Stat { get; set; }
+    public StatData Stat { get; set; } = new();
     public event Action<Unit> OnDeath;
 
     public virtual void Damaged(int damage)

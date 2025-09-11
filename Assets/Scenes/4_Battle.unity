@@ -1540,6 +1540,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   battleManager: {fileID: 2115878359}
+  enemySO: {fileID: 11400000, guid: 2698e465291d393429fdaf9793f9b2b8, type: 2}
 --- !u!212 &969137773
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2700,6 +2701,9 @@ MonoBehaviour:
   DrawPile: []
   DiscardPile: []
   Hand: []
+  Enemies: []
+  CurrentUser: {fileID: 0}
+  CurrentTarget: {fileID: 0}
   battleCards:
   - {fileID: 297566457}
   - {fileID: 392780172}

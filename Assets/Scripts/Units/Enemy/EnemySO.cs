@@ -2,6 +2,7 @@ using Utils;
 using UnityEngine;
 using System.Collections.Generic;
 using GameSystems;
+using Card;
 
 namespace Units.Enemy
 {
@@ -11,7 +12,7 @@ namespace Units.Enemy
     [Header("Enemy Identity")]
     public string EnemyId;
 
-    [Space(20)]
+    [Space(10)]
     [Header("Enemy Stat")]
     public StatData Stat;
     public List<CardSO> AbilityCards;
