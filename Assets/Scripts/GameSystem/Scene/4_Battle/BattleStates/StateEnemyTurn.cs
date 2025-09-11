@@ -1,6 +1,3 @@
-
-using System.Collections.Generic;
-using Player;
 using Utils;
 
 namespace GameSystems.Scene.Battle.States
@@ -18,13 +15,16 @@ namespace GameSystems.Scene.Battle.States
 
     public void Enter()
     {
+      // 1. 적 행동
       
-      _battleManager.ChangeEnemyEndState();
+      
+      // 2. 플레이어 턴으로 변경
+      _battleManager.ChangePlayerTurnState();
     }
 
     public void Execute()
     {
-
+      
     }
 
     public void Exit()

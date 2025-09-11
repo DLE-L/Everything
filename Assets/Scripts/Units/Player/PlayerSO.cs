@@ -1,7 +1,7 @@
 using Utils;
 using UnityEngine;
 
-namespace Player
+namespace Units.Player
 {
   [CreateAssetMenu(fileName = "Player", menuName = "MyMenu/Player")]
   public class PlayerSO : ScriptableObject

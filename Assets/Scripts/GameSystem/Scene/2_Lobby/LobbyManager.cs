@@ -13,7 +13,7 @@ namespace GameSystems.Scene.Lobby
 
     public void Init()
     {
-
+      
     }
   }
 }

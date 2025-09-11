@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using Card;
 
 namespace Utils
-{
-  [Serializable]
+{  
   public class PlayerAccountData
   {
     // 유저 정보
@@ -102,12 +101,7 @@ namespace Utils
 
   [Serializable]
   public class PlayerRunState // 게임 플레이 동안의 플레이어 상태
-  {
-    public int CurrentHealth = 80;
-    public int MaxHealth = 80;
-    public int CurrentEnergy = 3;
-    public int MaxEnergy = 3;
-    public int CurrentBlock = 0;
+  {    
     public int CurrentGold = 0;
     // public List<string> AcquiredRelics = new(); // TODO: 추후 유물 시스템 도입
 

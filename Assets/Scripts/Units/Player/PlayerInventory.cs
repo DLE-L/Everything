@@ -1,7 +1,7 @@
 using Utils;
 using GameSystems;
 
-namespace Player
+namespace Units.Player
 {
   public class PlayerInventory
   {

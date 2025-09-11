@@ -10,6 +10,7 @@ namespace Utils
     public int MaxHp;
     public int Energy;
     public int MaxEnergy;
+    public int Block;
   }
 
   public interface IHealthSystem
@@ -17,7 +18,7 @@ namespace Utils
     public void Damaged(int damage);
     public void Heal(int heal);
     public void GainBlock(int block);
-    public bool IsDie();
+    public void Die();
   }
 
   public class RunData // TODO: 추후 DB구현시 필요

@@ -35,6 +35,19 @@ namespace GameSystems
       _scene.Init();
       CardDatabase.Init();
     }
+
+    public async void NewGameStart()
+    {      
+      PlayerAccountData accountData = new();
+      accountData.DefaultCardDeck();
+      await JsonData.SavePlayerDataAsync(accountData);
+      PlayerData = accountData;
+    }
+
+    public async void ContinueGameStart()
+    {
+      PlayerData = await JsonData.LoadPlayerData();
+    }
     
     public void LoadLobbyScene() => Scene.LoadSceneLobby();
     public void LoadGameScene() => Scene.LoadSceneGame();

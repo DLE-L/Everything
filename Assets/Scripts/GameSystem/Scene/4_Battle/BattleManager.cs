@@ -1,9 +1,13 @@
 using UnityEngine;
 using System.Collections.Generic;
 using GameSystems.Scene.Battle.States;
-using Player;
 using Utils;
 using System;
+using System.Linq;
+using Units.Player;
+using Units.Enemy;
+using Units;
+
 
 namespace GameSystems.Scene.Battle
 {
@@ -15,24 +19,30 @@ namespace GameSystems.Scene.Battle
 
     public PlayerController Player { get; private set; }
     public PlayerInventory PlayerInventory => Player.Inventory;
-    public PlayerRunState PlayerRunState => Player.Stat.RunState;
+    public StatData PlayerStat => Player.Stat;
+    public List<EnemyController> Enemies = new();
 
     public BattleStateSystem StateSystem { get; private set; }
-
     private System.Random _random = new();
     public BattleCard[] battleCards;
-
     public event Action<BattleCardData> OnCardActionDealDamage;
 
     private void Awake()
     {
       StateSystem = new BattleStateSystem();
       Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+      Enemies = GameObject.FindGameObjectsWithTag("Enemy").Select(x => x.GetComponent<EnemyController>()).ToList();
     }
 
     private void Start()
     {
       StateSystem.ChangeState(new StateSetup(this, StateSystem));
+
+      Player.OnDeath += OnUnitDied;
+      foreach (EnemyController enemy in Enemies)
+      {
+        enemy.OnDeath += OnUnitDied;
+      }
 
       foreach (BattleCard battleCard in battleCards)
       {
@@ -42,11 +52,28 @@ namespace GameSystems.Scene.Battle
           UseCard(battleCard, card);
         };
       }
+
     }
 
     public void Update()
     {
       StateSystem.Execute();
+    }
+
+    public void OnUnitDied(Unit unit)
+    {
+      if (unit is EnemyController)
+      {
+        Enemies.Remove(unit as EnemyController);
+        if (Enemies.Count == 0)
+        {
+          // ChangeState(new WinState(this, StateSystem));
+        }
+      }
+      else if (unit is PlayerController)
+      {
+        // ChangeState(new LoseState(this, StateSystem));
+      }
     }
 
     public void UseCard(BattleCard card, BattleCardData data)
@@ -75,7 +102,7 @@ namespace GameSystems.Scene.Battle
           OnCardActionDealDamage?.Invoke(data);
           break;
         case CardEffectType.GainBlock:
-          Player.Stat.GainBlock(data.Data.EffectValue);
+          Player.GainBlock(data.Data.EffectValue);
           break;
       }
     }
@@ -83,22 +110,22 @@ namespace GameSystems.Scene.Battle
     public void ResetBlock()
     {
       Debug.Log($"Player Turn End. Block Reset");
-      PlayerRunState.CurrentBlock = 0;
+      PlayerStat.Block = 0;
     }
 
     public void ResetEnergy()
     {
-      PlayerRunState.CurrentEnergy = PlayerRunState.MaxEnergy;
+      PlayerStat.Energy = PlayerStat.MaxEnergy;
     }
 
     public bool UseEnergy(int cost)
     {
-      if (PlayerRunState.CurrentEnergy < cost)
+      if (PlayerStat.Energy < cost)
       {
         return false;
       }
-      PlayerRunState.CurrentEnergy -= cost;
-      Debug.Log($"남은 에너지: {PlayerRunState.CurrentEnergy}");
+      PlayerStat.Energy -= cost;
+      Debug.Log($"남은 에너지: {PlayerStat.Energy}");
       return true;
     }
 
@@ -119,7 +146,7 @@ namespace GameSystems.Scene.Battle
     }
 
     public void CardUIUpdate(BattleCard card, bool active)
-    {      
+    {
       card.UpdateUI();
       card.gameObject.SetActive(active);
     }
@@ -155,24 +182,18 @@ namespace GameSystems.Scene.Battle
     {
       PlayerAccountData account = PlayerInventory.PlayerData;
       if (account == null) return;
-      Dictionary<string, int> data = account.GetCurrentCardDeck();      
+      Dictionary<string, int> data = account.GetCurrentCardDeck();
       foreach (var cardInfo in data)
       {
         for (int i = 0; i < cardInfo.Value; i++)
-        {          
+        {
           DrawPile.Add(new BattleCardData(cardInfo.Key, $"{cardInfo.Key}_{i}"));
         }
       }
     }
 
-    public void ChangePlayerStartState() => StateSystem.ChangeState(new StatePlayerStart(this, StateSystem));
     public void ChangePlayerTurnState() => StateSystem.ChangeState(new StatePlayerTurn(this, StateSystem));
-    public void ChangePlayerEndState() => StateSystem.ChangeState(new StatePlayerEnd(this, StateSystem));
-
-    public void ChangeEnemyStartState() => StateSystem.ChangeState(new StateEnemyStart(this, StateSystem));
-    public void ChangeEnemyTurnState() => StateSystem.ChangeState(new StateEnemyTurn(this, StateSystem));  
-    public void ChangeEnemyEndState() => StateSystem.ChangeState(new StateEnemyEnd(this, StateSystem));  
-    
+    public void ChangeEnemyTurnState() => StateSystem.ChangeState(new StateEnemyTurn(this, StateSystem));
   }
 }
 

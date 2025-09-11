@@ -1,4 +1,4 @@
-using Enemy;
+using Units.Enemy;
 
 namespace Utils
 {
@@ -12,6 +12,5 @@ namespace Utils
       Data = EnemyDatabase.GetEnemyData(enemyObjectID);
       BattleEnemyID = enemyId;
     }
-
   }
 }

@@ -1,6 +1,6 @@
 
 using System.Collections.Generic;
-using Player;
+using Units.Player;
 using Utils;
 
 namespace GameSystems.Scene.Battle.States
@@ -23,7 +23,7 @@ namespace GameSystems.Scene.Battle.States
       // 2. 플레이어 덱 섞기
       _battleManager.Shuffle(_battleManager.DrawPile);
       // 3. Setup 상태 종료(플레이어 턴 상태로 변경)
-      _battleManager.ChangePlayerStartState();
+      _battleManager.ChangePlayerTurnState();
     }
 
     public void Execute()

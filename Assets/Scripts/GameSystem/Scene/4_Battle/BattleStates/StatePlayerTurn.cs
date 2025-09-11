@@ -1,6 +1,6 @@
 
 using System.Collections.Generic;
-using Player;
+using Units.Player;
 using Utils;
 
 namespace GameSystems.Scene.Battle.States
@@ -18,6 +18,10 @@ namespace GameSystems.Scene.Battle.States
 
     public void Enter()
     {
+      // 1. 카드 5장 드로우
+      _battleManager.DrawCard(5);
+      _battleManager.ResetEnergy();
+
       Execute();
     }
 
@@ -30,7 +34,8 @@ namespace GameSystems.Scene.Battle.States
 
     public void Exit()
     {
-     
+      _battleManager.DiscardHandCardAll();
+      _battleManager.ResetBlock();
     }
   }
 }

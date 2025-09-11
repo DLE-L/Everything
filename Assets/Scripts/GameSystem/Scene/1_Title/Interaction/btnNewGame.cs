@@ -6,16 +6,11 @@ namespace GameSystems.Scene.Title
 {
   public class btnNewGame : InteractableBase
   {
-    public async override void OnPointerClick(PointerEventData eventData)
+    public override void OnPointerClick(PointerEventData eventData)
     {
-      GameSystem.Instance.LoadLobbyScene();
-      // TODO: 새로운 게임 시작
-      // 1. 플레이어 초기 덱 설정
-      PlayerAccountData accountData = await JsonData.LoadPlayerData();
-      accountData ??= new();
-      accountData.DefaultCardDeck();
-      await JsonData.SavePlayerDataAsync(accountData);
-      GameSystem.Instance.PlayerData = accountData;
+      GameSystem gameSystem = GameSystem.Instance;
+      gameSystem.LoadLobbyScene();
+      gameSystem.NewGameStart();
     }
   }
 }

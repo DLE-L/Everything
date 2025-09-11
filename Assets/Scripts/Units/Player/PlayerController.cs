@@ -1,28 +1,20 @@
+using System;
 using UnityEngine;
 using Utils;
 
-namespace Player
+namespace Units.Player
 {
-  public class PlayerController : MonoBehaviour
+  public class PlayerController : Unit
   {
-    private PlayerStat _stat = new();
     private PlayerInventory _inventory = new();
-
-    public PlayerStat Stat => _stat;    
     public PlayerInventory Inventory => _inventory;
 
     private void Awake()
     {
-      _stat.Init();
       _inventory.Init();
     }
 
     private void Start()
-    {
-
-    }
-
-    private void Update()
     {
 
     }
