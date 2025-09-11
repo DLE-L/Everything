@@ -94,8 +94,8 @@ namespace GameSystems.Scene.Battle
         enemyTransform.position += new Vector3(0, count, 0);
         GameObject go = Instantiate(enemyGameObject, enemyTransform);
         EnemyController controller = go.GetComponent<EnemyController>();
-        go.name = enemySO.name + count;
-        controller.enemySO = enemySO;
+        controller.EnemyData = new BattleEnemyData(enemySO);
+        go.name = enemySO.name + count;        
         controller.Init();
         Enemies.Add(controller);
         count++;
@@ -106,8 +106,8 @@ namespace GameSystems.Scene.Battle
     {
       for (int i = 0; i < Enemies.Count; i++)
       {
-        int rand = random.Next(0, Enemies[i].enemySO.AbilityCards.Count);
-        CardSO card = Enemies[i].enemySO.AbilityCards[rand];
+        int rand = random.Next(0, Enemies[i].EnemyData.AbilityCards.Count);
+        CardSO card = Enemies[i].EnemyData.AbilityCards[rand];
         Debug.Log($"[{Enemies[i].name}_Next Card]:{card.name}");
       }
     }
@@ -123,6 +123,12 @@ namespace GameSystems.Scene.Battle
       if (unit is EnemyController)
       {
         Enemies.Remove(unit as EnemyController);
+        if (Enemies.Count > 0)
+        {
+          CurrentTarget = Enemies[0];
+          Debug.Log($"[Death Target: {unit.name}][New Target:{CurrentTarget.name}]");
+        }
+
         if (Enemies.Count == 0)
         {
           Debug.Log("[플레이어 승리]");

@@ -9,7 +9,7 @@ namespace Units.Enemy
   public class EnemyController : Unit
   {
     public BattleManager battleManager;
-    public EnemySO enemySO;
+    public BattleEnemyData EnemyData;
     public Action<EnemyController> OnEnemyClicked;
 
     void Awake()
@@ -23,7 +23,7 @@ namespace Units.Enemy
     public void Init()
     {
       battleManager = GameObject.Find("BattleManager").GetComponent<BattleManager>();
-      Stat = enemySO.Stat;
+      Stat = EnemyData.Stat;
     }
   }
 }

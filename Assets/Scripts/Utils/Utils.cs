@@ -11,6 +11,16 @@ namespace Utils
     public int Energy;
     public int MaxEnergy;
     public int Block;
+
+    public StatData() { }
+    public StatData(StatData stat)
+    {
+      Hp = stat.Hp;
+      MaxHp = stat.MaxHp;
+      Energy = stat.Energy;
+      MaxEnergy = stat.MaxEnergy;
+      Block = stat.Block;
+    }
   }
 
   public interface IHealthSystem

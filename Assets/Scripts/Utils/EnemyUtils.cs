@@ -1,16 +1,21 @@
+using GameSystems;
 using Units.Enemy;
+using System.Collections.Generic;
+
 
 namespace Utils
 {
   public class BattleEnemyData
   {
-    public EnemySO Data;
-    public string BattleEnemyID;
+    public string EnemyId;
+    public StatData Stat;
+    public List<CardSO> AbilityCards;
 
-    public BattleEnemyData(string enemyObjectID, string enemyId)
+    public BattleEnemyData(EnemySO enemySO)
     {
-      Data = EnemyDatabase.GetEnemyData(enemyObjectID);
-      BattleEnemyID = enemyId;
+      EnemyId = enemySO.EnemyId;
+      Stat = new StatData(enemySO.Stat);
+      AbilityCards = new(enemySO.AbilityCards);
     }
   }
 }

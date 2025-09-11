@@ -1,5 +1,6 @@
 
 using System.Threading.Tasks;
+using Card;
 using UnityEngine;
 
 namespace GameSystems.Scene.Game
@@ -14,9 +15,8 @@ namespace GameSystems.Scene.Game
     }
 
     public void Init()
-    {
+    {      
       EncounterDatabase.LoadEncounterData();  
-
     }
   }
 }

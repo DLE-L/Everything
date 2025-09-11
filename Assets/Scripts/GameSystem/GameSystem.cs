@@ -32,8 +32,9 @@ namespace GameSystems
         Destroy(gameObject);
       }
 
-      _scene.Init();
+      // _scene.Init(); // TODO: 추후 다시 주석 해제
       CardDatabase.Init();
+      NewGameStart(); // TODO: 추후 다시 삭제 테스트용
     }
 
     public async void NewGameStart()

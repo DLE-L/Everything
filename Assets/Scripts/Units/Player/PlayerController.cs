@@ -1,6 +1,4 @@
-using System;
-using UnityEngine;
-using Utils;
+
 
 namespace Units.Player
 {
@@ -19,7 +17,7 @@ namespace Units.Player
       MayDelete();
     }
 
-    public void MayDelete()
+    public void MayDelete() // TODO: 추후 삭제 테스트용
     {
       Stat.MaxHp = 80;
       Stat.MaxEnergy = 3;

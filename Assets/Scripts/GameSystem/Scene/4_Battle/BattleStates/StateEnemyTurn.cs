@@ -49,8 +49,8 @@ namespace GameSystems.Scene.Battle.States
 
     private void EnemyUserCard(EnemyController user, Unit target)
     {
-      int rand = _battleManager.random.Next(0, user.enemySO.AbilityCards.Count);
-      CardSO card = user.enemySO.AbilityCards[rand];
+      int rand = _battleManager.random.Next(0, user.EnemyData.AbilityCards.Count);
+      CardSO card = user.EnemyData.AbilityCards[rand];
       _battleManager.UseCard(card, user, target);
     }
   }

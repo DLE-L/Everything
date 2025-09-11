@@ -2,7 +2,7 @@ using Utils;
 using UnityEngine;
 using System.Collections.Generic;
 using GameSystems;
-using Card;
+
 
 namespace Units.Enemy
 {
