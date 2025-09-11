@@ -7,10 +7,8 @@ namespace GameSystems.Scene.Game
   {
     public override void OnPointerClick(PointerEventData eventData)
     {
-      GameSystem.Instance.LoadBattleScene();
-      // TODO: 게임 시작
-      // 1. 맵 생성
-      // 2. 플레이어 배치
+      EncounterDatabase.CurrentEncounter = EncounterDatabase.encounters["Encounter_Goblin_Easy_01"];
+      GameSystem.Instance.LoadBattleScene();      
     }
   }
 }

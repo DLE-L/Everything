@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf6a51469d6c86b4bb85f128ef42e40a, type: 3}
-  m_Name: Bash
+  m_Name: Card_Survivor
   m_EditorClassIdentifier: 
-  CardId: Attack_Bash
-  CardType: 0
-  CardEffectType: 0
+  CardId: Skill_Survivor
+  CardType: 2
+  CardEffectType: 1
   EffectValue: 0
-  CardName: "\uAC15\uD0C0"
-  Cost: 2
+  CardName: "\uC0DD\uC874 \uBCF8\uB2A5"
+  Cost: 1
   Description: 

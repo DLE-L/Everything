@@ -8,6 +8,8 @@ using Units.Player;
 using Units.Enemy;
 using Units;
 using Card;
+using GameSystems.Scene.Game;
+using System.Text;
 
 namespace GameSystems.Scene.Battle
 {
@@ -22,8 +24,8 @@ namespace GameSystems.Scene.Battle
     public StatData PlayerStat => Player.Stat;
     public List<EnemyController> Enemies = new();
 
-    public Unit CurrentUser;
-    public Unit CurrentTarget;
+    public Unit CurrentUser { get; set; }
+    public Unit CurrentTarget { get; set; }
 
     public BattleStateSystem StateSystem { get; private set; } = new();
     public System.Random random = new();
@@ -31,22 +33,33 @@ namespace GameSystems.Scene.Battle
 
     public event Action<BattleCard> OnUseCard;
 
+    [SerializeField] private GameObject enemyGameObject;
+    [SerializeField] private Transform enemyTransform;
+
+
     private void Awake()
-    {      
+    {
       Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
       Enemies = GameObject.FindGameObjectsWithTag("Enemy").Select(x => x.GetComponent<EnemyController>()).ToList();
     }
 
     private void Start()
     {
+      // 1. 배틀 입장 - 게임 씬에서 적 정보 획득 및 생성
+      BattleEncounter();
+
+      // 2. 배틀 첫 상태 시작
       StateSystem.ChangeState(new StateSetup(this, StateSystem));
 
+      // 3. 플레이어 & 적 이벤트 등록
       Player.OnDeath += OnUnitDied;
       foreach (EnemyController enemy in Enemies)
       {
         enemy.OnDeath += OnUnitDied;
+        enemy.OnEnemyClicked += OnEnemyClicked;
       }
 
+      // 4. 카드 이벤트 등록
       foreach (BattleCard battleCard in battleCards)
       {
         battleCard.OnCardClicked += (card) =>
@@ -63,11 +76,46 @@ namespace GameSystems.Scene.Battle
           // OnUseCard?.Invoke(battleCard);
         };
       }
+
+      EnemyNextCard();
     }
 
     public void Update()
     {
       StateSystem.Execute();
+    }
+
+    public void BattleEncounter()
+    {
+      List<EnemySO> enemyList = EncounterDatabase.CurrentEncounter.EnemyList;
+      int count = 0;
+      foreach (EnemySO enemySO in enemyList)
+      {
+        enemyTransform.position += new Vector3(0, count, 0);
+        GameObject go = Instantiate(enemyGameObject, enemyTransform);
+        EnemyController controller = go.GetComponent<EnemyController>();
+        go.name = enemySO.name + count;
+        controller.enemySO = enemySO;
+        controller.Init();
+        Enemies.Add(controller);
+        count++;
+      }
+    }
+
+    public void EnemyNextCard()
+    {
+      for (int i = 0; i < Enemies.Count; i++)
+      {
+        int rand = random.Next(0, Enemies[i].enemySO.AbilityCards.Count);
+        CardSO card = Enemies[i].enemySO.AbilityCards[rand];
+        Debug.Log($"[{Enemies[i].name}_Next Card]:{card.name}");
+      }
+    }
+
+    public void OnEnemyClicked(EnemyController enemy)
+    {
+      CurrentTarget = enemy;
+      Debug.Log($"[Select Enemy:{CurrentTarget.name}]");
     }
 
     public void OnUnitDied(Unit unit)
@@ -100,7 +148,7 @@ namespace GameSystems.Scene.Battle
           user.GainBlock(cardSO.EffectValue);
           break;
       }
-      Debug.Log($"[{user.name}][카드 사용]: {cardSO.CardName}");
+      Debug.Log($"[{user.name}_카드 사용]: {cardSO.CardName}");
     }
 
     public bool UseEnergy(int cost)
@@ -110,13 +158,12 @@ namespace GameSystems.Scene.Battle
         return false;
       }
       PlayerStat.Energy -= cost;
-      Debug.Log($"남은 에너지: {PlayerStat.Energy}");
+      //Debug.Log($"남은 에너지: {PlayerStat.Energy}");
       return true;
     }
-    
+
     public void ResetBlock<T>(T unit)
-    {
-      Debug.Log($"Player/Enemy Turn End. Block Reset");
+    {      
       if (unit is PlayerController)
       {
         PlayerStat.Block = 0;
@@ -131,8 +178,7 @@ namespace GameSystems.Scene.Battle
     }
 
     public void ResetEnergy<T>(T unit)
-    {
-      Debug.Log($"[Player/Enemy Turn End. Energy Reset]");
+    {      
       if (unit is PlayerController)
       {
         PlayerStat.Energy = PlayerStat.MaxEnergy;
@@ -143,7 +189,7 @@ namespace GameSystems.Scene.Battle
         {
           enemy.Stat.Energy = enemy.Stat.MaxEnergy;
         }
-      }      
+      }
     }
 
     public void DiscardHandCard(BattleCardData battleCard)

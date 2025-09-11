@@ -20,7 +20,7 @@ namespace Utils
     {
       if (_handles.TryGetValue(label, out var handle))
       {
-        _refCounts[label]++;        
+        _refCounts[label]++;
         return handle.Result as IList<T>;
       }
 
@@ -30,7 +30,11 @@ namespace Utils
       if (newHandle.Status == AsyncOperationStatus.Succeeded)
       {
         _handles[label] = newHandle;
-        _refCounts[label] = 1;        
+        _refCounts[label] = 1;
+        foreach(var asset in newHandle.Result)
+        {
+          Debug.Log($"[AssetLoader Label]: {asset.name}");
+        }
         return newHandle.Result;
       }
       else
@@ -43,7 +47,7 @@ namespace Utils
     {
       if (_handles.TryGetValue(assetAddress, out var handle))
       {
-        _refCounts[assetAddress]++;        
+        _refCounts[assetAddress]++;
         return handle.Result as T;
       }
 
@@ -53,7 +57,8 @@ namespace Utils
       if (newHandle.Status == AsyncOperationStatus.Succeeded)
       {
         _handles[assetAddress] = newHandle;
-        _refCounts[assetAddress] = 1;        
+        _refCounts[assetAddress] = 1;
+        Debug.Log($"[AssetLoader]: {newHandle.Result.name}");
         return newHandle.Result;
       }
       else

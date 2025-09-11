@@ -1,10 +1,12 @@
 
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace GameSystems.Scene.Game
 {
   public class GameManager : MonoBehaviour
   {
+
 
     private void Awake()
     {
@@ -13,6 +15,7 @@ namespace GameSystems.Scene.Game
 
     public void Init()
     {
+      EncounterDatabase.LoadEncounterData();  
 
     }
   }

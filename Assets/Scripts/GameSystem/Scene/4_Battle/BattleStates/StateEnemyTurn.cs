@@ -42,14 +42,10 @@ namespace GameSystems.Scene.Battle.States
 
     public void Exit()
     {
-      for (int i = 0; i < _battleManager.Enemies.Count; i++)
-      {
-        int rand = _battleManager.random.Next(0, _battleManager.Enemies[i].enemySO.AbilityCards.Count);
-        CardSO card = _battleManager.Enemies[i].enemySO.AbilityCards[rand];
-        UnityEngine.Debug.Log($"[{_battleManager.Enemies[i].name}_Next Card]:{card.name}");
-      }
-      _battleManager.ResetBlock(_battleManager.Enemies);
-    }
+      _battleManager.EnemyNextCard();
+
+      _battleManager.ResetBlock(_battleManager.Player);
+    }    
 
     private void EnemyUserCard(EnemyController user, Unit target)
     {

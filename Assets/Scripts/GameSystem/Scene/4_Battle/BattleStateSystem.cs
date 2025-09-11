@@ -15,7 +15,7 @@ namespace GameSystems.Scene.Battle
     {
       CurrentState?.Exit();
       CurrentState = newState;
-      UnityEngine.Debug.Log($"[현재 턴 상태: {CurrentState.ToString()}]");
+      //UnityEngine.Debug.Log($"[현재 턴 상태: {CurrentState.ToString()}]");
       CurrentState?.Enter();
     }
   }
