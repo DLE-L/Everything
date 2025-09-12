@@ -7,9 +7,7 @@ using System.Linq;
 using Units.Player;
 using Units.Enemy;
 using Units;
-using Card;
 using GameSystems.Scene.Game;
-using System.Text;
 
 namespace GameSystems.Scene.Battle
 {
@@ -182,7 +180,6 @@ namespace GameSystems.Scene.Battle
         }
       }
     }
-
     public void ResetEnergy<T>(T unit)
     {      
       if (unit is PlayerController)
@@ -197,13 +194,11 @@ namespace GameSystems.Scene.Battle
         }
       }
     }
-
     public void DiscardHandCard(BattleCardData battleCard)
     {
       DiscardPile.Add(battleCard);
       Hand.Remove(battleCard);
     }
-
     public void DiscardHandCardAll()
     {
       int handCount = Hand.Count;
@@ -213,13 +208,11 @@ namespace GameSystems.Scene.Battle
         Hand.RemoveAt(0);
       }
     }
-
     public void CardUIUpdate(BattleCard card, bool active)
     {
       card.UpdateUI();
       card.gameObject.SetActive(active);
     }
-
     public void DrawCard(int amount)
     {
       for (int i = 0; i < amount; i++)
@@ -237,7 +230,6 @@ namespace GameSystems.Scene.Battle
         DrawPile.RemoveAt(0);
       }
     }
-
     public void Shuffle<T>(List<T> deck)
     {
       for (int i = 0; i < deck.Count - 1; i++)
@@ -246,7 +238,6 @@ namespace GameSystems.Scene.Battle
         (deck[i], deck[randomIndex]) = (deck[randomIndex], deck[i]);
       }
     }
-
     public void GetPlayerDeck()
     {
       PlayerAccountData account = PlayerInventory.PlayerData;

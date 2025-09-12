@@ -1,6 +1,9 @@
 using System;
 using Card;
 using GameSystems;
+using TMPro;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace Utils
 {
@@ -27,6 +30,28 @@ namespace Utils
     {
       CardSO = CardDatabase.GetCardData(cardObjectID);
       BattleCardID = cardId;
+    }
+  }
+
+  [Serializable]
+  public class CardUI
+  {
+    public Image imgCardFrame;
+    public Image imgCardIcon;
+    public Image imgName;
+    public Image imgCost;
+    public TextMeshProUGUI txtName;
+    public TextMeshProUGUI txtDescription;
+
+    public CardUI() {}
+    public void UpdateUI(Sprite frame, Sprite icon, Sprite name, Sprite cost, string nameText, string description)
+    {
+      imgCardFrame.sprite = frame;
+      imgCardIcon.sprite = icon;
+      imgName.sprite = name;
+      imgCost.sprite = cost;
+      txtName.text = nameText;
+      txtDescription.text = description;
     }
   }
 }
