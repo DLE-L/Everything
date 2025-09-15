@@ -1,8 +1,28 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Utils
 {
+    public enum NodeType
+  {
+    Battle, Elite, Event, Shop, Rest, Boss
+  }
+
+  [Serializable]
+  public class NodeData
+  {
+    public NodeType MapType;
+    public Vector2 Pos;
+    public List<NodeData> children = new();
+    public NodeData(NodeType type, Vector2 pos)
+    {
+      MapType = type;
+      Pos = pos;
+      children = new();
+    }
+  }
+
   [Serializable]
   public class StatData
   {
