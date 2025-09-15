@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Text;
 using Photon.Pun;
 using Photon.Realtime;
 using UnityEngine;
@@ -6,58 +8,86 @@ namespace Utils
 {
   public class NetWorkPhoton : MonoBehaviourPunCallbacks
   {
-    string gameVersion = "";
+    private const byte MAX_PLAYERS = 0b10;
+    private const string CHARACTER_SET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    private const int CODE_LENGTH = 6;
+
+    private HashSet<string> RoomID = new();
+
+    string gameVersion = "1";
     void Awake()
     {
-      PhotonNetwork.AutomaticallySyncScene = true; //
+      PhotonNetwork.AutomaticallySyncScene = true;
+
+      
     }
 
     void Start()
-    {
-      Init();
-    }
-
-    public void Init()
     {
       Connect();
     }
 
     public void Connect()
     {
-      if (PhotonNetwork.IsConnected == true)
-      {
-        PhotonNetwork.JoinRoom(gameVersion);
-        Debug.Log("Join Room");
-      }
-      else
+      if (PhotonNetwork.IsConnected == false)
       {
         PhotonNetwork.GameVersion = gameVersion;
         PhotonNetwork.ConnectUsingSettings();
-        Debug.Log("Connect");
       }
     }
 
-    public override void OnJoinRandomFailed(short returnCode, string message)
+    public void CreateRoom()
     {
-      Debug.Log("PUN: OnJoinRandomFailed() was called by PUN. So Create Room");
+      string roomId = GenerateRoomCode();
+      while (RoomID.Contains(roomId))
+      {
+        roomId = GenerateRoomCode();
+      }
 
-      PhotonNetwork.CreateRoom(null, new RoomOptions());
+      RoomID.Add(roomId);
+
+      RoomOptions options = new();
+      options.MaxPlayers = MAX_PLAYERS;
+
+      PhotonNetwork.CreateRoom(roomId, options);
+    }
+
+    public void JoinRoom(string roomId)
+    {
+      PhotonNetwork.JoinRoom(roomId);
+    }
+
+    public string GenerateRoomCode()
+    {
+      StringBuilder roomID = new();
+      for (int i = 0; i < CODE_LENGTH; i++)
+      {
+        int rand = UnityEngine.Random.Range(0, CHARACTER_SET.Length);
+        roomID.Append(CHARACTER_SET[rand]);
+      }
+      return roomID.ToString();
     }
 
     public override void OnJoinedRoom()
     {
-       Debug.Log("PUN Basics Tutorial/Launcher: OnJoinedRoom() called by PUN.");
+      Debug.Log("PUN: OnJoinedRoom()");
+      Debug.Log($"{PhotonNetwork.CurrentRoom.Name}");
     }
 
     public override void OnConnectedToMaster()
     {
-      Debug.Log("PUN: OnConnectedToMaster() was called by PUN");
+      Debug.Log("PUN: OnConnectedToMaster()");
     }
+
+    public override void OnCreatedRoom()
+    {
+      Debug.Log($"PUN: OnCreatedRoom()");
+    }    
+
 
     public override void OnDisconnected(DisconnectCause cause)
     {
       Debug.LogWarningFormat("PUN: OnDisconnected() was called by PUN with reason {0}", cause);
     }
-
   }
 }
