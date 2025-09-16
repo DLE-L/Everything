@@ -4,6 +4,10 @@ namespace GameSystems.Scene.Game
 {
   public class GameManager : MonoBehaviour
   {
+    [SerializeField] private GameObject MapNodeBase;
+
+    private MapGenerator _generator = new();
+    private MapRenderer _renderer = new();
     private void Awake()
     {
       Init();
@@ -11,9 +15,9 @@ namespace GameSystems.Scene.Game
 
     public void Init()
     {
-      EncounterDatabase.LoadEncounterData(); 
-      MapGenerator mapGenerator = new();
-      mapGenerator.Init();
+      EncounterDatabase.LoadEncounterData();
+      _generator.GenerateNode(MapNodeBase);
+      _renderer.mapData = _generator.mapData;
     }
   }
 }

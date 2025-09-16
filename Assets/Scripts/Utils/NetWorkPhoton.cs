@@ -72,6 +72,7 @@ namespace Utils
     {
       Debug.Log("PUN: OnJoinedRoom()");
       Debug.Log($"{PhotonNetwork.CurrentRoom.Name}");
+      //PhotonNetwork.Instantiate()
     }
 
     public override void OnConnectedToMaster()
