@@ -6,7 +6,9 @@ namespace Utils
 {
     public enum NodeType
   {
-    Battle, Elite, Event, Shop, Rest, Boss
+    Battle, Event,
+    Elite, Shop, Rest,
+    Boss
   }
 
   [Serializable]

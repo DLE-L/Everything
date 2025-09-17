@@ -17,7 +17,7 @@ namespace GameSystems.Scene.Game
     {
       EncounterDatabase.LoadEncounterData();
       _generator.Init();
-      _generator.GenerateMap(MapNodeBase);      
+      _renderer.MapData = _generator.GenerateMap(MapNodeBase);
     }
   }
 }

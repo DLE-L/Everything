@@ -1,7 +1,8 @@
 using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEditor.Build.Pipeline;
+using System.Linq;
+using System.Reflection;
+using Unity.Mathematics;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Utils;
@@ -10,23 +11,28 @@ namespace GameSystems.Scene.Game
 {
   public class MapGenerator
   {
-    private const int ACT_FLOOR_COUNT = 15;     // 한 Act에 총 계층 수
-    private const int BOSS_FLOOR_INDEX = 14;    // 보스 노드 인덱스
-    private const int NODE_SHOP_MAX_COUNT = 2;  // 한 Act에 최대 상점 수
-    private const int NODE_REST_MAX_COUNT = 2;  // 한 Act에 최대 휴식 수
-    private const int NODE_ELITE_MAX_COUNT = 3; // 한 Act에 최대 엘리트 적 수
-    private const int NODE_RANDOM_RANGE = 2;    // 노드 랜덤 범위
-    private const int NODE_DISTANCE = 5;        // 노드 간 거리    
-    private const int FLOOR_MAX_NODE = 3;       // 한 층에 최대 노드 수
-    private const int FLOOR_MIN_NODE = 2;       // 한 층에 최소 노드 수
+    // 맵 생성 관련
+    private const int ACT_FLOOR_COUNT = 15;
+    private const int NODE_BOSS_INDEX = 14;
+    private const int ACT_FINAL_ZONE_INDEX = 13;
+    private const int ACT_START_ZONE_END_INDEX = 3;
+    private const int NODE_MIN_DISTANCE = 2;
+    // 노드 최대 개수
+    private const int NODE_SHOP_MAX_COUNT = 2;
+    private const int NODE_REST_MAX_COUNT = 2;
+    private const int NODE_ELITE_MAX_COUNT = 3;
+    // 노드 배치 관련
+    private const int NODE_RANDOM_RANGE = 1;
+    private const int NODE_DISTANCE = 3;
+    private const int FLOOR_MAX_NODE = 3;
+    private const int FLOOR_MIN_NODE = 2;
 
     private Dictionary<NodeType, int> _nodeTypeCountData = new();
-
+    private Dictionary<NodeType, int[]> _specialNodePos = new();
     private Dictionary<NodeType, int> _nodeTypeCount = new();
     private List<MapNode> _nodeList = new();
     private System.Random _random = new();
-
-    public List<MapNode> mapData = new();
+    private List<NodeType> _randNodeTypes = new();    
     public void Init()
     {
       _nodeTypeCountData = new()
@@ -35,57 +41,52 @@ namespace GameSystems.Scene.Game
         { NodeType.Rest, NODE_REST_MAX_COUNT },
         { NodeType.Elite, NODE_ELITE_MAX_COUNT },
       };
+
+      _specialNodePos = new()
+      {
+        { NodeType.Shop, new int[1] {-NODE_MIN_DISTANCE} },
+        { NodeType.Rest, new int[1] {-NODE_MIN_DISTANCE} },
+        { NodeType.Elite, new int[1] {-NODE_MIN_DISTANCE} },
+      };
+
+      _randNodeTypes = new() { NodeType.Battle, NodeType.Event ,NodeType.Shop, NodeType.Rest, NodeType.Elite };    
     }
 
-    public void GenerateMap(GameObject nodePrefab)
+    public List<MapNode> GenerateMap(GameObject nodePrefab)
     {
-      _nodeList = new List<MapNode>();
-      _nodeTypeCount = new(); // 노드 타입 카운터 초기화
-      var nodeTypes = Enum.GetValues(typeof(NodeType));
+      NodeType finalZoneType = _random.Next(0, 2) == 0 ? NodeType.Rest : NodeType.Shop;
+      _nodeTypeCountData[finalZoneType]--;
 
       for (int floorIndex = 0; floorIndex < ACT_FLOOR_COUNT; floorIndex++)
       {
-        int nodeCountOnFloor = (floorIndex == BOSS_FLOOR_INDEX) ?
-        1 : (_random.Next(0, 2) == 0 ? FLOOR_MAX_NODE : FLOOR_MIN_NODE);
+        int nodeCountOnFloor = (floorIndex == NODE_BOSS_INDEX) ? 1 : _random.Next(FLOOR_MIN_NODE, FLOOR_MAX_NODE + 1);
 
         for (int nodeIndex = 0; nodeIndex < nodeCountOnFloor; nodeIndex++)
         {
-          // 1. 노드 생성
-          Vector2 position = CalculateNodePosition(floorIndex, nodeIndex, nodeCountOnFloor);
+          NodeType assignedType = SelectNodeTypeForFloor(floorIndex, nodeIndex, finalZoneType);
+
+          Vector2 position = SetNodePosition(floorIndex, nodeIndex, nodeCountOnFloor);
           MapNode mapNode = MonoBehaviour.Instantiate(nodePrefab, position, Quaternion.identity).GetComponent<MapNode>();
 
-          // 2. 노드 타입 결정
-          NodeType assignedType;
-          if (floorIndex == BOSS_FLOOR_INDEX)
-          {
-            assignedType = NodeType.Boss;
-          }
-          else
-          {            
-            NodeType randomType;
-            do
-            {
-              int randomIndex = _random.Next(0, nodeTypes.Length - 1); // 보스는 제외
-              randomType = (NodeType)nodeTypes.GetValue(randomIndex);              
-            } while (IsMaxCountType(randomType));
-            assignedType = randomType;
-          }
-
-          // 3. 데이터 설정 및 초기화
           mapNode.Data = new(assignedType, position);
           mapNode.name = (assignedType == NodeType.Boss) ? "Boss" : $"Node_{floorIndex}-{nodeIndex}_{assignedType}";
           mapNode.SetNodeUI();
 
-          // 4. 리스트에 추가 및 로그
           _nodeList.Add(mapNode);
-          LogSpecialNode(mapNode);
+          _nodeTypeCount[assignedType] = _nodeTypeCount.GetValueOrDefault(assignedType, 0) + 1;
+
+          if (_specialNodePos.ContainsKey(assignedType))
+          {
+            _specialNodePos[assignedType][0] = floorIndex;
+          }
         }
       }
+      
+      return _nodeList;
     }
 
-    private Vector2 CalculateNodePosition(int floorIndex, int nodeIndex, int totalNodesOnFloor)
-    {
-      // -1.0 ~ 1.0 사이의 랜덤 값을 얻는 로직을 단순화합니다.
+    private Vector2 SetNodePosition(int floorIndex, int nodeIndex, int totalNodesOnFloor)
+    {      
       float GetRandomOffset() => ((float)_random.NextDouble() * 2 - 1.0f) * NODE_RANDOM_RANGE;
 
       // TODO: 중앙 정렬 등 필요 시 nodeIndex와 totalNodesOnFloor를 사용해 x 시작점을 조절할 수 있습니다.
@@ -95,31 +96,45 @@ namespace GameSystems.Scene.Game
       return new Vector2(xPos, yPos);
     }
 
-    private void LogSpecialNode(MapNode node)
+    private NodeType SelectNodeTypeForFloor(int floorIndex, int nodeIndex, NodeType finalZoneType)
     {
-      switch (node.Data.Type)
-      {
-        case NodeType.Shop:
-        case NodeType.Rest:
-        case NodeType.Elite:
-          Debug.Log(node.name);
-          break;
-      }
-    }
+      if (floorIndex == NODE_BOSS_INDEX) return NodeType.Boss;
+      if (floorIndex == ACT_FINAL_ZONE_INDEX && nodeIndex == 0) return finalZoneType;
 
-    private bool IsMaxCountType(NodeType type)
-    {
-      if (_nodeTypeCountData.TryGetValue(type, out int count) == false) return false;
+      List<NodeType> nodeTypes = new(_randNodeTypes);
 
-      if (_nodeTypeCount.ContainsKey(type))
+      if (floorIndex <= ACT_START_ZONE_END_INDEX)
       {
-        return _nodeTypeCount[type] >= count;
+        nodeTypes.Remove(NodeType.Elite);
+        nodeTypes.Remove(NodeType.Shop);
+        nodeTypes.Remove(NodeType.Rest);
       }
-      else
+
+      while (nodeTypes.Count > 0)
       {
-        _nodeTypeCount[type] = 1;
-        return false;
+        NodeType randType = nodeTypes[_random.Next(0, nodeTypes.Count)];
+
+        int currentCount = _nodeTypeCount.GetValueOrDefault(randType, 0);
+        int maxCount = _nodeTypeCountData.GetValueOrDefault(randType, int.MaxValue);
+
+        if (currentCount >= maxCount)
+        {
+          nodeTypes.Remove(randType);
+          continue;
+        }
+
+        if (_specialNodePos.TryGetValue(randType, out int[] lastPos)
+        && Math.Abs(floorIndex - lastPos[0]) < NODE_MIN_DISTANCE)
+        {
+          nodeTypes.Remove(randType);
+          continue;
+        }
+
+        return randType;
       }
+
+      return _random.Next(0, 2) == 0 ? NodeType.Battle : NodeType.Event;
     }
   }
 }
+
