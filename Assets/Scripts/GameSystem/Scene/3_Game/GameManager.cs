@@ -16,8 +16,8 @@ namespace GameSystems.Scene.Game
     public void Init()
     {
       EncounterDatabase.LoadEncounterData();
-      _generator.GenerateNode(MapNodeBase);
-      _renderer.mapData = _generator.mapData;
+      _generator.Init();
+      _generator.GenerateMap(MapNodeBase);      
     }
   }
 }

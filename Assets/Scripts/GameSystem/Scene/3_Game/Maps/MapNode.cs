@@ -10,9 +10,9 @@ namespace GameSystems.Scene.Game
     public MapNodeUI NodeUI;
     public NodeData Data;
 
-    [SerializeField] public NodeType NodeType => Data.NodeType;
+    [SerializeField] public NodeType NodeType => Data.Type;
     [SerializeField] public Vector2 Pos => Data.Pos;
-    [SerializeField] public List<NodeData> children => Data.children;
+    //[SerializeField] public List<NodeData> children => Data.children;
 
     void Awake()
     {

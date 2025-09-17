@@ -12,14 +12,12 @@ namespace Utils
   [Serializable]
   public class NodeData
   {
-    public NodeType NodeType;
-    public Vector2 Pos;
-    public List<NodeData> children = new();
+    public NodeType Type;
+    public Vector2 Pos;    
     public NodeData(NodeType type, Vector2 pos)
     {
-      NodeType = type;
-      Pos = pos;
-      children = new();
+      Type = type;
+      Pos = pos;      
     }
   }
 

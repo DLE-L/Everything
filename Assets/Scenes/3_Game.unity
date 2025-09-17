@@ -388,7 +388,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d04c4fe976a1ca24f85d3d61e47790a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MapNode: {fileID: 6382486048665521237, guid: 571dc511655a8d1438a53678e3af913c, type: 3}
+  MapNodeBase: {fileID: 6382486048665521237, guid: 571dc511655a8d1438a53678e3af913c, type: 3}
 --- !u!1 &920132626
 GameObject:
   m_ObjectHideFlags: 0
