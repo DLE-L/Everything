@@ -2,12 +2,11 @@ using UnityEngine;
 using System.Collections.Generic;
 using GameSystems.Scene.Battle.States;
 using Utils;
-using System;
+using Card;
 using System.Linq;
 using Units.Player;
 using Units.Enemy;
 using Units;
-using GameSystems.Scene.Game;
 
 namespace GameSystems.Scene.Battle
 {
@@ -28,8 +27,6 @@ namespace GameSystems.Scene.Battle
     public BattleStateSystem StateSystem { get; private set; } = new();
     public System.Random random = new();
     public BattleCard[] battleCards;
-
-    public event Action<BattleCard> OnUseCard;
 
     [SerializeField] private GameObject enemyGameObject;
     [SerializeField] private Transform enemyTransform;

@@ -1,7 +1,6 @@
 
 using Utils;
 using UnityEngine;
-using Card;
 
 namespace GameSystems
 {
@@ -13,7 +12,6 @@ namespace GameSystems
     private static SceneSystem _scene = new();
 
     public static SceneSystem Scene => _scene;
-
 
     private void Awake()
     {
@@ -33,7 +31,7 @@ namespace GameSystems
       }
 
       // _scene.Init(); // TODO: 추후 다시 주석 해제
-      CardDatabase.Init();
+      CardDatabase.LoadCardData();
       NewGameStart(); // TODO: 추후 다시 삭제 테스트용
     }
 

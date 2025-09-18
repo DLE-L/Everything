@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42e0c036eda0fb44db7e84ca99d500cc, type: 3}
+  m_Name: NodeInfoBattle
+  m_EditorClassIdentifier: 
+  NodeType: 0
+  NodeColor: {r: 0.4433962, g: 0.4433962, b: 0.4433962, a: 1}
+  SpecialComponent: {fileID: -2902212132158455880, guid: cc888c889915be9459c51d45d5f4734d, type: 3}

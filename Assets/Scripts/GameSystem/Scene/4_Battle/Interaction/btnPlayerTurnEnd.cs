@@ -1,12 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using GameSystems.Scene.Battle;
-using GameSystems.Scene.Battle.States;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using Utils;
 
-namespace GameSystems.Scene.Bttle
+namespace GameSystems.Scene.Battle
 {
   public class btnPlayerTurnEnd : InteractableBase
   {

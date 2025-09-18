@@ -5,6 +5,6 @@ namespace GameSystems.Scene.Game
 {
   public class MapRenderer
   {
-    public List<MapNode> MapData = new();
+    public List<Node> MapData = new();
   }
 }

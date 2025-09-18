@@ -1,9 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Unity.Mathematics;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using Utils;
 
@@ -30,7 +26,7 @@ namespace GameSystems.Scene.Game
     private Dictionary<NodeType, int> _nodeTypeCountData = new();
     private Dictionary<NodeType, int[]> _specialNodePos = new();
     private Dictionary<NodeType, int> _nodeTypeCount = new();
-    private List<MapNode> _nodeList = new();
+    private List<Node> _nodeList = new();
     private System.Random _random = new();
     private List<NodeType> _randNodeTypes = new();    
     public void Init()
@@ -52,7 +48,7 @@ namespace GameSystems.Scene.Game
       _randNodeTypes = new() { NodeType.Battle, NodeType.Event ,NodeType.Shop, NodeType.Rest, NodeType.Elite };    
     }
 
-    public List<MapNode> GenerateMap(GameObject nodePrefab)
+    public List<Node> GenerateMap(GameObject nodePrefab)
     {
       NodeType finalZoneType = _random.Next(0, 2) == 0 ? NodeType.Rest : NodeType.Shop;
       _nodeTypeCountData[finalZoneType]--;
@@ -66,11 +62,12 @@ namespace GameSystems.Scene.Game
           NodeType assignedType = SelectNodeTypeForFloor(floorIndex, nodeIndex, finalZoneType);
 
           Vector2 position = SetNodePosition(floorIndex, nodeIndex, nodeCountOnFloor);
-          MapNode mapNode = MonoBehaviour.Instantiate(nodePrefab, position, Quaternion.identity).GetComponent<MapNode>();
+          Node mapNode = MonoBehaviour.Instantiate(nodePrefab, position, Quaternion.identity).GetComponent<Node>();
 
           mapNode.Data = new(assignedType, position);
           mapNode.name = (assignedType == NodeType.Boss) ? "Boss" : $"Node_{floorIndex}-{nodeIndex}_{assignedType}";
-          mapNode.SetNodeUI();
+          mapNode.SetNodeData(mapNode.Data);
+          mapNode.SetNode();
 
           _nodeList.Add(mapNode);
           _nodeTypeCount[assignedType] = _nodeTypeCount.GetValueOrDefault(assignedType, 0) + 1;

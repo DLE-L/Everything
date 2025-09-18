@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 64f0947349c674645a494d7b8d05611d
   m_currentHash:
     serializedVersion: 2
-    Hash: 6d71340142f34d7a76a5feceb1b00c30
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -102,6 +102,7 @@ MonoBehaviour:
     - Card
     - Enemy
     - Encounter
+    - Event
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 3fbcb4243ad01154e8bdb557abd75b4b, type: 2}

@@ -5,7 +5,7 @@ using System;
 using GameSystems.Scene.Battle;
 using UnityEngine.UI;
 
-namespace GameSystems
+namespace Card
 {
   public class BattleCard : MonoBehaviour
   {
@@ -39,11 +39,6 @@ namespace GameSystems
 
     public void UpdateUI()
     {
-      Image frame = null;
-      Image icon = null;
-      Image name = null;
-      Image cost = null;
-
       switch (BattleCardData.CardSO.CardType) // TODO: 카드 종류에 맞는 Sprite추가
       {
         case CardType.Attack:
