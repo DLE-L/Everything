@@ -39,20 +39,20 @@ namespace Item
 
     public void UpdateUI()
     {
-      switch (BattleCardData.CardSO.CardType) // TODO: 카드 종류에 맞는 Sprite추가
-      {
-        case CardType.Attack:
+      // switch (BattleCardData.CardSO.CardType) // TODO: 카드 종류에 맞는 Sprite추가
+      // {
+      //   case CardType.Attack:
       
-          break;
-        case CardType.Deffence:
+      //     break;
+      //   case CardType.Deffence:
         
-          break;
-        case CardType.Skill:
+      //     break;
+      //   case CardType.Skill:
          
-          break;
-        default:
-          break;
-      }
+      //     break;
+      //   default:
+      //     break;
+      // }
 
       //cardUI.UpdateUI(frame.sprite, icon.sprite, name.sprite, cost.sprite, BattleCardData.CardSO.CardName, BattleCardData.CardSO.Description);
     }

@@ -9,13 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf6a51469d6c86b4bb85f128ef42e40a, type: 3}
-  m_Name: Card_Strike
+  m_Script: {fileID: 11500000, guid: 566997172138b0c47a710efbf20b1f5f, type: 3}
+  m_Name: Narrative_Gambler
   m_EditorClassIdentifier: 
-  CardId: Attack_Strike
-  CardType: 0
-  CardEffectType: 0
-  EffectValue: 6
-  CardName: "\uD0C0\uACA9"
-  Cost: 1
-  Description: "\uC801\uC5D0\uAC8C 6\uC758 \uD53C\uD574\uB97C \uC90D\uB2C8\uB2E4"
+  EncounterType: 0
+  SpawnType: 0
+  weight: 60
+  Enemies: []
+  CardRewards: []
+  RelicRewards: []
+  GoldRewards: 0

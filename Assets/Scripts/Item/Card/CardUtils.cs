@@ -24,7 +24,7 @@ namespace Item
       var cardList = await AssetLoader.LoadAssetLabelAsync<CardSO>("Card");
       foreach (var card in cardList)
       {
-        cardDatabase.TryAdd(card.CardId, card);
+        // cardDatabase.TryAdd(card.CardId, card);
       }
       return;
     }
@@ -42,18 +42,6 @@ namespace Item
     {
       return _defaultCardIDs.Contains(cardId);
     }
-  }
-  public enum CardType
-  {
-    Attack,
-    Deffence,
-    Skill,
-  }
-
-  public enum CardEffectType
-  {
-    DealDamage,
-    GainBlock,
   }
 
   [Serializable]

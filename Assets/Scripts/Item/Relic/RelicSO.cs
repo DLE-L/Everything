@@ -2,13 +2,13 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-
 namespace Item
 {
   [CreateAssetMenu(fileName = "Relic", menuName = "MyMenu/Relic")]
   public class RelicSO : ScriptableObject
   {
     public string Name;
+    public Sprite Sprite;
     public string Description;
     public List<RelicEffect> Effects;
   }
@@ -16,6 +16,19 @@ namespace Item
   [Serializable]
   public class RelicEffect
   {
+    public EffectTrigger Trigger;
+    public EffectType EffectType;
     public int Value;
+    public TragetType Target;
+  }
+
+  public enum EffectTrigger
+  {
+    OnGameStart,        // 게임 시작 시
+    OnCombatStart,      // 전투 시작 시
+    OnTurnStart,        // 나의 턴 시작 시
+    OnPlayerHit,        // 플레이어가 피격 당했을 때
+    OnEnemyDeath,       // 적이 죽었을 때
+    OnGoldGain          // 골드를 획득했을 때}  
   }
 }

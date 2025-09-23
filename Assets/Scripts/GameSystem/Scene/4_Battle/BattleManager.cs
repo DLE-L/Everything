@@ -139,17 +139,17 @@ namespace GameSystems.Scene.Battle
 
     public void UseCard(CardSO cardSO, Unit user, Unit target)
     {
-      // 1. 사용 카드 효과 발동      
-      switch (cardSO.CardEffectType)
-      {
-        case CardEffectType.DealDamage:
-          target.Damaged(cardSO.EffectValue);
-          break;
-        case CardEffectType.GainBlock:
-          user.GainBlock(cardSO.EffectValue);
-          break;
-      }
-      Debug.Log($"[{user.name}_카드 사용]: {cardSO.CardName}");
+      // // 1. 사용 카드 효과 발동      
+      // switch (cardSO.CardEffectType)
+      // {
+      //   case CardEffectType.DealDamage:
+      //     target.Damaged(cardSO.EffectValue);
+      //     break;
+      //   case CardEffectType.GainBlock:
+      //     user.GainBlock(cardSO.EffectValue);
+      //     break;
+      // }
+      // Debug.Log($"[{user.name}_카드 사용]: {cardSO.CardName}");
     }
 
     public bool UseEnergy(int cost)

@@ -11,8 +11,8 @@ namespace Units.Enemy
 
     public BattleEnemyData(EnemySO enemySO)
     {      
-      Stat = new StatData(enemySO.Stat);
-      AbilityCards = new(enemySO.AbilityCards);
+      // Stat = new StatData(enemySO.Stat);
+      // AbilityCards = new(enemySO.AbilityCards);
     }
   }
 }

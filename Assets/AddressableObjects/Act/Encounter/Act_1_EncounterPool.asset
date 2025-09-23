@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35978eb42c4bbd54cbaf9a4c0ed4e247, type: 3}
-  m_Name: Relic
+  m_Script: {fileID: 11500000, guid: f5a1e9348f082534f83e31c2a98b51da, type: 3}
+  m_Name: Act_1_EncounterPool
   m_EditorClassIdentifier: 
-  Name: "\uD14C\uC2A4\uD2B8 \uC720\uBB3C"
-  Description: "\uC720\uBB3C \uC124\uBA85"
-  Effects:
-  - Value: 0
+  Encounters:
+  - {fileID: 11400000, guid: 5df22420eacc5694c95687f170e085c4, type: 2}
+  - {fileID: 0}
+  - {fileID: 0}

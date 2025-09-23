@@ -10,14 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 566997172138b0c47a710efbf20b1f5f, type: 3}
-  m_Name: Encounter_Goblin_Easy_01
+  m_Name: Combat_GoblinAndSlime
   m_EditorClassIdentifier: 
   EncounterType: 1
   SpawnType: 0
-  weight: 100
+  weight: 90
   Enemies:
   - {fileID: 11400000, guid: 2698e465291d393429fdaf9793f9b2b8, type: 2}
-  - {fileID: 11400000, guid: 2698e465291d393429fdaf9793f9b2b8, type: 2}
-  CardRewards: []
+  - {fileID: 11400000, guid: 645a86a820e616341828350d1895d8c8, type: 2}
+  CardRewards:
+  - {fileID: 11400000, guid: f19ae7b1eb729ab4e884b9a8a6d0e79e, type: 2}
+  - {fileID: 11400000, guid: aa0495037178cdc41b05766c38dcaf12, type: 2}
+  - {fileID: 11400000, guid: 7ec81474cdf67594c834a0822f6db8ce, type: 2}
+  - {fileID: 11400000, guid: 3d3d32ad4df768f4882488cbef9de11e, type: 2}
   RelicRewards: []
-  GoldRewards: 0
+  GoldMax: 18
+  GoldMin: 12

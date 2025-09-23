@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 566997172138b0c47a710efbf20b1f5f, type: 3}
-  m_Name: Encounter_Goblin_Easy_01
+  m_Name: Encounter 13
   m_EditorClassIdentifier: 
-  EncounterType: 1
+  EncounterType: 0
   SpawnType: 0
   weight: 100
-  Enemies:
-  - {fileID: 11400000, guid: 2698e465291d393429fdaf9793f9b2b8, type: 2}
-  - {fileID: 11400000, guid: 2698e465291d393429fdaf9793f9b2b8, type: 2}
+  Enemies: []
   CardRewards: []
   RelicRewards: []
   GoldRewards: 0

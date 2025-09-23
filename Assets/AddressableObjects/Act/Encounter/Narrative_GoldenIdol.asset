@@ -9,8 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5a1e9348f082534f83e31c2a98b51da, type: 3}
-  m_Name: Act_1_EncounterPool
+  m_Script: {fileID: 11500000, guid: 566997172138b0c47a710efbf20b1f5f, type: 3}
+  m_Name: Narrative_GoldenIdol
   m_EditorClassIdentifier: 
-  Encounters:
-  - {fileID: 11400000, guid: e99c2bfd24ed1d746bf188b78762276d, type: 2}
+  EncounterType: 0
+  SpawnType: 0
+  weight: 20
+  Enemies: []
+  CardRewards: []
+  RelicRewards: []
+  GoldRewards: 0

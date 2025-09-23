@@ -62,12 +62,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - Act
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7a60b6a1854f35a43826f21ed3820232
-    m_Address: Reward_Goblin_Easy_01
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Reward
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7ec81474cdf67594c834a0822f6db8ce
     m_Address: Card_Strike
     m_ReadOnly: 0

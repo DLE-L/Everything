@@ -21,10 +21,23 @@ namespace GameSystems.Act.Encounter
     [Header("보상 관련 데이터")]
     public List<CardSO> CardRewards;
     public List<RelicSO> RelicRewards;
-    public int GoldRewards;
 
+    public int GoldMax, GoldMin;
+
+    public int GoldRewards()
+    {
+      System.Random random = new();
+      return random.Next(GoldMin, GoldMax);
+    }
+
+    public CardSO CardReward()
+    {
+      System.Random random = new();
+      int rand = random.Next(0, CardRewards.Count);
+      return CardRewards[rand];      
+    }
   }
-  
+
   public enum EncounterType
   {
     Narrative,
