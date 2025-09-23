@@ -18,7 +18,7 @@ namespace Units.Enemy
       var enemyList = await AssetLoader.LoadAssetLabelAsync<EnemySO>("Enemy");
       foreach (var enemy in enemyList)
       {        
-        enemyDatabase.Add(enemy.EnemyId, enemy);
+        enemyDatabase.Add(enemy.name, enemy);
       }
     }
 

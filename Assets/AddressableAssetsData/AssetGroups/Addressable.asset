@@ -15,11 +15,23 @@ MonoBehaviour:
   m_GroupName: Addressable
   m_GUID: b58ab4a15bc312c4cb1ebcded6bdd1e6
   m_SerializeEntries:
-  - m_GUID: 209406a2e9de28c47b3b6fe4ac080c1d
-    m_Address: Event_AncientAltar
+  - m_GUID: 038f6afb477e7b446a544e84b5ea06de
+    m_Address: Event_UI_Choice
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Event
+    - Event_UI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 09c49bdcae96fb844867164d466b6ee2
+    m_Address: Node_Info_Boss
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Node_Info
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 21f9df412884fbb4785e7e370927c437
+    m_Address: Node_Info_Event
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Node_Info
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2698e465291d393429fdaf9793f9b2b8
     m_Address: Enemy_Goblin
@@ -27,17 +39,58 @@ MonoBehaviour:
     m_SerializedLabels:
     - Enemy
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2f0fb47ba666f61468494a0a1a5e0cc9
+    m_Address: Node_Info_Shop
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Node_Info
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 3d3d32ad4df768f4882488cbef9de11e
     m_Address: Card_Survivor
     m_ReadOnly: 0
     m_SerializedLabels:
     - Card
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 571dc511655a8d1438a53678e3af913c
+    m_Address: Node_Prefab
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 61fea7d1e7841b747966f7bc7014b6fb
+    m_Address: Act_1
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Act
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7a60b6a1854f35a43826f21ed3820232
+    m_Address: Reward_Goblin_Easy_01
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Reward
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7ec81474cdf67594c834a0822f6db8ce
     m_Address: Card_Strike
     m_ReadOnly: 0
     m_SerializedLabels:
     - Card
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 81ba48d20e43a8f4d9fd60dfe1c580ba
+    m_Address: Node_Info_Rest
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Node_Info
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 991c991667167264f92edb90bf2b28e2
+    m_Address: Node_Info_Elite
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Node_Info
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9fc8ee8e8bf8920468f0b2d2a4cc9dbb
+    m_Address: EVT_AncientAltar
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Event
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: aa0495037178cdc41b05766c38dcaf12
     m_Address: Card_Defend
@@ -56,6 +109,12 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Card
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ffe53c2a0f558c642b629212e3e1cba3
+    m_Address: Node_Info_Battle
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Node_Info
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: a55ce5090b944964093d12fd07965c07, type: 2}

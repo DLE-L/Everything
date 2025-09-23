@@ -1,38 +1,60 @@
 using UnityEngine;
+using System.Collections.Generic;
+using System.Linq;
+using System;
 using Utils;
+using System.Threading.Tasks;
+using Unity.VisualScripting;
 
 namespace GameSystems.Scene.Game
 {
-  public class GameManager : MonoBehaviour
+  public class GameManager
   {
-    [SerializeField] private GameObject MapNodeBase;
+    private MapGenerator _generator;
+    private GameObject _mapNodeBase;
+    private Event_UI event_UI;
 
-    private MapGenerator _generator = new();
-    private MapRenderer _renderer = new();
-    private void Awake()
+    public event Action<Node> OnClickNode;
+
+    public async Task InitAsync()
     {
-      Init();
+      await EncounterDatabase.LoadEncounterDataAsync();
+      await EventDatabase.LoadEventDataAsync();
+      await NodeInfoDataBase.LoadNodeInfoDataAsync();
+      _mapNodeBase = await AssetLoader.LoadAssetAsync<GameObject>("Node_Prefab");      
+
+      MapSetting();
+
+      event_UI = GameObject.Find("Event_UI").GetComponent<Event_UI>();
+      event_UI.Init();
+      
     }
 
-    public void Init()
+    private void MapSetting()
     {
-      EncounterDatabase.LoadEncounterData();
+      _generator = new();
       _generator.Init();
-      _renderer.MapData = _generator.GenerateMap(MapNodeBase);
+      _generator.GenerateMap(_mapNodeBase);
     }
 
-    void Update()
+    public void UpdateGameManger()
     {
-       if (Input.GetMouseButtonDown(0))
+      ClickNode();
+    }
+
+    public void ClickNode()
+    {
+      if (Input.GetMouseButtonDown(0))
       {
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
         if (hit.collider != null)
         {
           Node node = hit.collider.GetComponent<Node>();
-          if (node != null )
-          {            
-            Debug.Log($"[Select Node]: {node.name}");
+          if (node != null)
+          {
+            Debug.Log($"[Select Node]: {node.name}\n[Select NodeType]: {node.NodeType}");            
+            OnClickNode?.Invoke(node);
           }
         }
       }

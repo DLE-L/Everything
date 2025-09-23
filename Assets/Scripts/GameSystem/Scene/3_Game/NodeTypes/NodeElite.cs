@@ -3,7 +3,7 @@ using Utils;
 
 namespace GameSystems.Scene.Game
 {
-  public class NodeElite :  InteractableBase
+  public class NodeElite : NodeScript
   {
     
   }

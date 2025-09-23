@@ -1,8 +1,9 @@
 using UnityEngine;
 using System.Collections.Generic;
+using GameSystems.Scene.Game;
 using GameSystems.Scene.Battle.States;
 using Utils;
-using Card;
+using Item;
 using System.Linq;
 using Units.Player;
 using Units.Enemy;
@@ -16,8 +17,7 @@ namespace GameSystems.Scene.Battle
     public List<BattleCardData> DiscardPile = new();
     public List<BattleCardData> Hand = new();
 
-    public PlayerController Player { get; private set; }
-    public PlayerInventory PlayerInventory => Player.Inventory;
+    public Player Player => GameSystem.Instance.Player;
     public StatData PlayerStat => Player.Stat;
     public List<EnemyController> Enemies = new();
 
@@ -33,8 +33,7 @@ namespace GameSystems.Scene.Battle
 
 
     private void Awake()
-    {
-      Player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+    {      
       Enemies = GameObject.FindGameObjectsWithTag("Enemy").Select(x => x.GetComponent<EnemyController>()).ToList();
     }
 
@@ -47,7 +46,7 @@ namespace GameSystems.Scene.Battle
       StateSystem.ChangeState(new StateSetup(this, StateSystem));
 
       // 3. 플레이어 & 적 이벤트 등록
-      Player.OnDeath += OnUnitDied;
+      Player.OnDeath += OnUnitDied;      
       foreach (EnemyController enemy in Enemies)
       {
         enemy.OnDeath += OnUnitDied;
@@ -82,15 +81,16 @@ namespace GameSystems.Scene.Battle
 
     public void BattleEncounter()
     {
-      List<EnemySO> enemyList = EncounterDatabase.CurrentEncounter.EnemyList;
+      // TODO: 인타운터 AssetReferenceT로 변경으로 인해 재구현 필요
+      var encounter = EncounterDatabase.CurrentEncounter;
       int count = 0;
-      foreach (EnemySO enemySO in enemyList)
+      foreach (var enemy in encounter.Enemies)
       {
         enemyTransform.position += new Vector3(0, count, 0);
         GameObject go = Instantiate(enemyGameObject, enemyTransform);
-        EnemyController controller = go.GetComponent<EnemyController>();
-        controller.EnemyData = new BattleEnemyData(enemySO);
-        go.name = enemySO.name + count;        
+        EnemyController controller = go.GetComponent<EnemyController>();        
+        controller.EnemyData = new BattleEnemyData(enemy);
+        go.name = enemy.name + count;
         controller.Init();
         Enemies.Add(controller);
         count++;
@@ -130,7 +130,7 @@ namespace GameSystems.Scene.Battle
           // ChangeState(new WinState(this, StateSystem));
         }
       }
-      else if (unit is PlayerController)
+      else if (unit is Player)
       {
         Debug.Log("[적 승리]");
         // ChangeState(new LoseState(this, StateSystem));        
@@ -165,7 +165,7 @@ namespace GameSystems.Scene.Battle
 
     public void ResetBlock<T>(T unit)
     {      
-      if (unit is PlayerController)
+      if (unit is Player)
       {
         PlayerStat.Block = 0;
       }
@@ -179,7 +179,7 @@ namespace GameSystems.Scene.Battle
     }
     public void ResetEnergy<T>(T unit)
     {      
-      if (unit is PlayerController)
+      if (unit is Player)
       {
         PlayerStat.Energy = PlayerStat.MaxEnergy;
       }
@@ -237,9 +237,7 @@ namespace GameSystems.Scene.Battle
     }
     public void GetPlayerDeck()
     {
-      PlayerAccountData account = PlayerInventory.PlayerData;
-      if (account == null) return;
-      Dictionary<string, int> data = account.GetCurrentCardDeck();
+      Dictionary<string, int> data = new(Player.RunData.Deck);
       foreach (var cardInfo in data)
       {
         for (int i = 0; i < cardInfo.Value; i++)

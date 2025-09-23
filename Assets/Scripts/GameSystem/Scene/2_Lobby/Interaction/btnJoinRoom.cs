@@ -1,17 +1,34 @@
 using TMPro;
-using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using Utils;
+using UnityEngine;
+using System;
+
 
 namespace GameSystems.Scene.Lobby
 {
-  public class btnJoinRoom : InteractableBase
+  public class btnJoinRoom : MonoBehaviour
   {
     public TMP_InputField roomId;
-    public override void OnPointerClick(PointerEventData eventData)
+    public event Action OnClickJoinRoom;
+    
+    public void OnClickJoin()
     {
       var network = FindAnyObjectByType<NetWorkPhoton>();
-      network.JoinRoom(roomId.text);
+      network.CreateRoom();
+    }
+
+    void OnEnable()
+    {
+      UI_EventHandler.Get(gameObject).OnClickAction += (eventData) =>
+      {
+        OnClickJoinRoom?.Invoke();
+      };
+
+      OnClickJoinRoom += OnClickJoin;
+    }
+    void OnDisable()
+    {
+      OnClickJoinRoom -= OnClickJoin;
     }
   }
 }

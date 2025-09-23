@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d25fd945a796c0f48aec0c1a98afa320, type: 3}
+  m_Name: Act_1
+  m_EditorClassIdentifier: 
+  Encounter: {fileID: 11400000, guid: 3154509ab73094e4890085ec8e7b627c, type: 2}
+  Enemy: {fileID: 11400000, guid: f02c2a09b40c8b9438bfe74dbaf3eb38, type: 2}
+  Reward: {fileID: 11400000, guid: 37a46c2e42e34464bbe5de933afa9f45, type: 2}

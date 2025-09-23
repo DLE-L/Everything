@@ -1,11 +1,14 @@
+using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using Utils;
 
 namespace GameSystems.Scene.Battle
 {
-  public class btnPlayerTurnEnd : InteractableBase
+  public class btnPlayerTurnEnd : MonoBehaviour
   {
     public BattleManager battleManager;
+
+    public event Action OnClickPlayerTurnEnd;
 
     void Start()
     {
@@ -15,9 +18,25 @@ namespace GameSystems.Scene.Battle
       }
     }
 
-    public override void OnPointerClick(PointerEventData eventData)
+    public void OnClickTurnEnd()
     {
-      battleManager.ChangeEnemyTurnState();
+      battleManager.ChangePlayerTurnState();
     }
+
+    void OnEnable()
+    {
+      UI_EventHandler.Get(gameObject).OnClickAction += (eventData) =>
+      {
+        OnClickPlayerTurnEnd?.Invoke();
+      };
+
+      OnClickPlayerTurnEnd += OnClickTurnEnd;
+    }
+
+    void OnDisable()
+    {
+      OnClickPlayerTurnEnd -= OnClickTurnEnd;
+    }
+  
   }
 }

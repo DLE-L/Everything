@@ -1,16 +1,35 @@
 
 using UnityEngine.EventSystems;
+using UnityEngine;
 using Utils;
+using System;
 
 namespace GameSystems.Scene.Title
 {
-  public class btnNewGame : InteractableBase
+  public class btnNewGame : MonoBehaviour
   {
-    public override void OnPointerClick(PointerEventData eventData)
+    public event Action OnClickNewGame;
+
+    public void OnClickNew()
     {
       GameSystem gameSystem = GameSystem.Instance;
       gameSystem.LoadLobbyScene();
-      gameSystem.NewGameStart();
+      gameSystem.NewGameStartAsync();
+    }
+
+    void OnEnable()
+    {
+      UI_EventHandler.Get(gameObject).OnClickAction += (eventData) =>
+      {
+        OnClickNewGame?.Invoke();
+      };
+
+      OnClickNewGame += OnClickNew;
+    }
+    
+    void OnDisable()
+    {
+      OnClickNewGame -= OnClickNew;
     }
   }
 }

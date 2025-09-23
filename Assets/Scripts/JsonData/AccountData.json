@@ -6,6 +6,7 @@
     "Attack_Bash",
     "Skill_Survivor"
   ],
+  "Unlocks": [],
   "Decks": {
     "Default": {
       "Attack_Strike": 4,

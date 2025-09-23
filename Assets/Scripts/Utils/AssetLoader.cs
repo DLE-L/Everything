@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -27,14 +28,16 @@ namespace Utils
       var newHandle = Addressables.LoadAssetsAsync<T>(label);
       await newHandle.Task;
 
+      StringBuilder sb = new();      
       if (newHandle.Status == AsyncOperationStatus.Succeeded)
       {
         _handles[label] = newHandle;
         _refCounts[label] = 1;
-        foreach(var asset in newHandle.Result)
-        {
-          Debug.Log($"[AssetLoader Label]: {asset.name}");
-        }
+        // foreach (var asset in newHandle.Result)
+        // {
+        //   sb.AppendLine(asset.name);          
+        // }
+        // Debug.Log($"[AssetLoader Label Name]: {label}\n{sb.ToString()}");
         return newHandle.Result;
       }
       else
@@ -58,7 +61,7 @@ namespace Utils
       {
         _handles[assetAddress] = newHandle;
         _refCounts[assetAddress] = 1;
-        Debug.Log($"[AssetLoader]: {newHandle.Result.name}");
+        //Debug.Log($"[AssetLoader]: {newHandle.Result.name}");
         return newHandle.Result;
       }
       else

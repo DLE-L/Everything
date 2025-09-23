@@ -8,6 +8,7 @@ namespace Utils
 {
   public class NetWorkPhoton : MonoBehaviourPunCallbacks
   {
+    public static NetWorkPhoton Instance;
     private const byte MAX_PLAYERS = 0b10;
     private const string CHARACTER_SET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     private const int CODE_LENGTH = 6;
@@ -18,13 +19,22 @@ namespace Utils
     void Awake()
     {
       PhotonNetwork.AutomaticallySyncScene = true;
-
-      
     }
 
     void Start()
     {
-      Connect();
+      if (Instance == null)
+      {
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+      }
+      else
+      {
+        Destroy(gameObject);
+      }
+
+      if (PhotonNetwork.IsConnected == false)
+        Connect();
     }
 
     public void Connect()
@@ -83,7 +93,7 @@ namespace Utils
     public override void OnCreatedRoom()
     {
       Debug.Log($"PUN: OnCreatedRoom()");
-    }    
+    }
 
 
     public override void OnDisconnected(DisconnectCause cause)

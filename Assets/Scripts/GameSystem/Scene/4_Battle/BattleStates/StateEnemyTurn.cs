@@ -1,7 +1,7 @@
 using Units;
 using Units.Enemy;
 using Utils;
-using Card;
+using Item;
 
 namespace GameSystems.Scene.Battle.States
 {

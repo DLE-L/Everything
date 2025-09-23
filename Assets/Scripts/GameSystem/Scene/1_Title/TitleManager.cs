@@ -1,16 +1,11 @@
-
 using UnityEngine;
+using Units.Player;
+using Utils;
 
 namespace GameSystems.Scene.Title
 {
-  public class TitleManager : MonoBehaviour
+  public class TitleManager
   {
-
-    private void Awake()
-    {
-      Init();
-    }
-
     public void Init()
     {
 

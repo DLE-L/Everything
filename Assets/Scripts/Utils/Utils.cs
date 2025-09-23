@@ -1,4 +1,5 @@
 using System;
+using Units.Player;
 
 namespace Utils
 {
@@ -28,18 +29,6 @@ namespace Utils
     public void Heal(int heal);
     public void GainBlock(int block);
     public void Die();
-  }
-
-  public class RunData // TODO: 추후 DB구현시 필요
-  {
-    // 2인 플레이 데이터
-    public PlayerRunState Player1;
-    public PlayerRunState Player2;
-
-    // 공통 진행 상황
-    // 현재 위치
-    // 맵 시드 등등...
-
   }
 
   public interface IBattleState

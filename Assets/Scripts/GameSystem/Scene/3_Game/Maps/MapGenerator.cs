@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Utils;
+using GameSystems;
 
 namespace GameSystems.Scene.Game
 {
@@ -28,7 +28,7 @@ namespace GameSystems.Scene.Game
     private Dictionary<NodeType, int> _nodeTypeCount = new();
     private List<Node> _nodeList = new();
     private System.Random _random = new();
-    private List<NodeType> _randNodeTypes = new();    
+    private List<NodeType> _randNodeTypes = new();
     public void Init()
     {
       _nodeTypeCountData = new()
@@ -45,16 +45,20 @@ namespace GameSystems.Scene.Game
         { NodeType.Elite, new int[1] {-NODE_MIN_DISTANCE} },
       };
 
-      _randNodeTypes = new() { NodeType.Battle, NodeType.Event ,NodeType.Shop, NodeType.Rest, NodeType.Elite };    
+      _randNodeTypes = new() { NodeType.Battle, NodeType.Event, NodeType.Shop, NodeType.Rest, NodeType.Elite };
     }
 
     public List<Node> GenerateMap(GameObject nodePrefab)
     {
+      GameManager gameManager = GameSystem.Instance.Game;
+
+      // 마지막 구역 설정(Rest or Shop)
       NodeType finalZoneType = _random.Next(0, 2) == 0 ? NodeType.Rest : NodeType.Shop;
       _nodeTypeCountData[finalZoneType]--;
 
       for (int floorIndex = 0; floorIndex < ACT_FLOOR_COUNT; floorIndex++)
       {
+        // 한 층에 노드 개수 설정
         int nodeCountOnFloor = (floorIndex == NODE_BOSS_INDEX) ? 1 : _random.Next(FLOOR_MIN_NODE, FLOOR_MAX_NODE + 1);
 
         for (int nodeIndex = 0; nodeIndex < nodeCountOnFloor; nodeIndex++)
@@ -62,12 +66,10 @@ namespace GameSystems.Scene.Game
           NodeType assignedType = SelectNodeTypeForFloor(floorIndex, nodeIndex, finalZoneType);
 
           Vector2 position = SetNodePosition(floorIndex, nodeIndex, nodeCountOnFloor);
-          Node mapNode = MonoBehaviour.Instantiate(nodePrefab, position, Quaternion.identity).GetComponent<Node>();
-
-          mapNode.Data = new(assignedType, position);
+          Node mapNode = UnityEngine.MonoBehaviour.Instantiate(nodePrefab, position, Quaternion.identity).GetComponent<Node>();
+          NodeInfo info = new(NodeInfoDataBase.GetNodeInfo(assignedType));
           mapNode.name = (assignedType == NodeType.Boss) ? "Boss" : $"Node_{floorIndex}-{nodeIndex}_{assignedType}";
-          mapNode.SetNodeData(mapNode.Data);
-          mapNode.SetNode();
+          mapNode.SetNode(info);
 
           _nodeList.Add(mapNode);
           _nodeTypeCount[assignedType] = _nodeTypeCount.GetValueOrDefault(assignedType, 0) + 1;
@@ -78,12 +80,12 @@ namespace GameSystems.Scene.Game
           }
         }
       }
-      
+
       return _nodeList;
     }
 
     private Vector2 SetNodePosition(int floorIndex, int nodeIndex, int totalNodesOnFloor)
-    {      
+    {
       float GetRandomOffset() => ((float)_random.NextDouble() * 2 - 1.0f) * NODE_RANDOM_RANGE;
 
       // TODO: 중앙 정렬 등 필요 시 nodeIndex와 totalNodesOnFloor를 사용해 x 시작점을 조절할 수 있습니다.
@@ -93,10 +95,17 @@ namespace GameSystems.Scene.Game
       return new Vector2(xPos, yPos);
     }
 
+    /// <summary>
+    /// 노드 타입 결정
+    /// </summary>
+    /// <param name="floorIndex"></param>
+    /// <param name="nodeIndex"></param>
+    /// <param name="finalZoneType"></param>
+    /// <returns></returns>
     private NodeType SelectNodeTypeForFloor(int floorIndex, int nodeIndex, NodeType finalZoneType)
     {
-      if (floorIndex == NODE_BOSS_INDEX) return NodeType.Boss;
-      if (floorIndex == ACT_FINAL_ZONE_INDEX && nodeIndex == 0) return finalZoneType;
+      if (floorIndex == NODE_BOSS_INDEX) return NodeType.Boss; // 보스 노드 제외
+      if (floorIndex == ACT_FINAL_ZONE_INDEX && nodeIndex == 0) return finalZoneType; // 보스 조우 직전 첫 노드 제외
 
       List<NodeType> nodeTypes = new(_randNodeTypes);
 

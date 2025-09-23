@@ -1,19 +1,38 @@
+using System.Threading.Tasks;
+using Units.Player;
+using Utils;
 
-using UnityEngine;
 
 namespace GameSystems.Scene.Lobby
 {
-  public class LobbyManager : MonoBehaviour
+  public class LobbyManager
   {
-
-    private void Awake()
-    {
-      Init();
-    }
-
     public void Init()
     {
       
+    }
+
+    public void ContinueGame()
+    {
+
+    }
+
+    public void NewGame()
+    {
+
+    }
+
+    public async void NewGameStartAsync()
+    {
+      PlayerAccountData accountData = new();
+      accountData.DefaultCardDeck();
+      await JsonData.SavePlayerDataAsync(accountData);
+      GameSystem.Instance.Player.Init(accountData);
+    }
+
+    public async void ContinueGameStartAsync()
+    {
+      GameSystem.Instance.Player.Init(await JsonData.LoadPlayerData());
     }
   }
 }

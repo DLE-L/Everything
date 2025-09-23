@@ -1,15 +1,31 @@
 
-using UnityEngine.EventSystems;
+using UnityEngine;
+using Utils;
+using System;
 
 namespace GameSystems.Scene.Title
 {
-  public class btnContinueGame : InteractableBase
+  public class btnContinueGame : MonoBehaviour
   {
-    public override void OnPointerClick(PointerEventData eventData)
+    public event Action OnClickContinueGame;
+
+    public void OnClickContinue()
     {
       GameSystem gameSystem = GameSystem.Instance;
       gameSystem.LoadLobbyScene();
-      gameSystem.ContinueGameStart();
+    }
+    void OnEnable()
+    {
+      UI_EventHandler.Get(gameObject).OnClickAction += (eventData) =>
+            {
+              OnClickContinueGame?.Invoke();
+            };
+
+      OnClickContinueGame += OnClickContinue;
+    }
+    void OnDisable()
+    {
+      OnClickContinueGame -= OnClickContinue;
     }
   }
 }

@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace GameSystems.Scene.Battle
 {
-  public class BattleUI : MonoBehaviour // MonoBehaviour 제거 예정
+  public class BattleUI : UnityEngine.MonoBehaviour // MonoBehaviour 제거 예정
   {
     public Image imgPlayerHp;
     public Image imgPlayerEnergy;
