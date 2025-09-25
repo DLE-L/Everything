@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf6a51469d6c86b4bb85f128ef42e40a, type: 3}
   m_Name: Card_Attack_Common_Strike
   m_EditorClassIdentifier: 
-  CardId: Attack_Strike
-  CardType: 0
-  CardEffectType: 0
-  EffectValue: 6
-  CardName: "\uD0C0\uACA9"
+  Name: "\uAC15\uD0C0"
+  Illustration: {fileID: 0}
+  Type: 0
+  Rarity: 0
   Cost: 1
   Description: "\uC801\uC5D0\uAC8C 6\uC758 \uD53C\uD574\uB97C \uC90D\uB2C8\uB2E4"
+  Effects:
+  - EffectType: {fileID: 11400000, guid: 142eb6e9bb53ca946987ebf49ac8cdff, type: 2}
+    Target: {fileID: 11400000, guid: df5f9e32a05b2dc459856d247e68e0ed, type: 2}

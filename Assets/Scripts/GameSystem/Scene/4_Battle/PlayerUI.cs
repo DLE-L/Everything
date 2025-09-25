@@ -21,7 +21,7 @@ namespace GameSystems.Scene.Battle
 
     public void SetHP_UI(StatData stat)
     {
-      txtPlayerHp.text = $"HP: {stat.Hp} / {stat.MaxHp} ";
+      txtPlayerHp.text = $"HP: {stat.HP} / {stat.MaxHP} ";
     }
     public void SetEnergy_UI(StatData stat)
     {

@@ -1,4 +1,5 @@
 using GameSystems;
+using Utils;
 
 namespace Units.Player
 {
@@ -10,15 +11,8 @@ namespace Units.Player
 
     public void Init(PlayerAccountData account)
     {
-      AccountInit(account);
-      RunInit();
-      ActionInit();
-    }
-
-    public void AccountInit(PlayerAccountData account) => AccountData = account;
-    public void RunInit() => RunData = new(80);
-    public void ActionInit()
-    {
+      AccountData = account;
+      RunData = new(80);
       Action = new();
       Action.Init(this, RunData);
     }

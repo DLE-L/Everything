@@ -7,12 +7,8 @@ namespace Units.Player
 {
   [Serializable]
   public class PlayerRunData
-  {    
-    public int HP;
-    public int MaxHP;
-    public int Energy;
-    public int MaxEnergy;
-    public int Block;
+  {
+    public StatData Stat;
     public int RunStateGold;
 
     public HashSet<string> Relics = new();
@@ -22,11 +18,11 @@ namespace Units.Player
     public PlayerRunData(int maxHp)
     {
       RunStateGold = 0;
-      HP = maxHp;
-      MaxHP = maxHp;
-      Energy = 3;
-      MaxEnergy = 3;
-      Block = 0;
+      Stat.MaxHP = maxHp;
+      Stat.HP = maxHp;
+      Stat.MaxEnergy = 3;
+      Stat.Energy = 3;
+      Stat.Block = 0;
     }
 
   }
@@ -39,7 +35,7 @@ namespace Units.Player
     // 성장 요소    
     public int Gold;
     public HashSet<string> UnlockedCardIDs = new(); // 해금된 카드 ID 목록
-    public HashSet<string> Unlocks = new(); // Dictionary<해금 요소 ID>
+    public HashSet<string> UnlockedRelicIDs = new(); // Dictionary<해금 요소 ID>
     public Dictionary<string, Dictionary<string, int>> Decks = new(); // Dictionary<덱ID, Dictionary<카드ID, 개수>>
     public string CurrentDeckID;
 

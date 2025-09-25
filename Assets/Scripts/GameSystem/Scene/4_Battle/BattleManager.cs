@@ -8,6 +8,8 @@ using System.Linq;
 using Units.Player;
 using Units.Enemy;
 using Units;
+using System;
+using System.Threading.Tasks;
 
 namespace GameSystems.Scene.Battle
 {
@@ -26,14 +28,18 @@ namespace GameSystems.Scene.Battle
 
     public BattleStateSystem StateSystem { get; private set; } = new();
     public System.Random random = new();
-    public BattleCard[] battleCards;
+    public UI_Card_Battle[] battleCards;
+    public List<UI_Card_Battle> HandCardObjects = new(); 
 
     [SerializeField] private GameObject enemyGameObject;
     [SerializeField] private Transform enemyTransform;
 
+    public Action<Unit> OnEnemyClicked;
+    private TaskCompletionSource<Unit> _currentTargetSelectionTask;
+
 
     private void Awake()
-    {      
+    {
       Enemies = GameObject.FindGameObjectsWithTag("Enemy").Select(x => x.GetComponent<EnemyController>()).ToList();
     }
 
@@ -50,11 +56,10 @@ namespace GameSystems.Scene.Battle
       foreach (EnemyController enemy in Enemies)
       {
         enemy.OnDeath += OnUnitDied;
-        enemy.OnEnemyClicked += OnEnemyClicked;
       }
 
       // 4. 카드 이벤트 등록
-      foreach (BattleCard battleCard in battleCards)
+      foreach (UI_Card_Battle battleCard in battleCards)
       {
         battleCard.OnCardClicked += (card) =>
         {
@@ -77,6 +82,8 @@ namespace GameSystems.Scene.Battle
     public void Update()
     {
       StateSystem.Execute();
+
+      HandlePlayerClick();
     }
 
     public void BattleEncounter()
@@ -88,13 +95,23 @@ namespace GameSystems.Scene.Battle
       {
         enemyTransform.position += new Vector3(0, count, 0);
         GameObject go = Instantiate(enemyGameObject, enemyTransform);
-        EnemyController controller = go.GetComponent<EnemyController>();        
+        EnemyController controller = go.GetComponent<EnemyController>();
         controller.EnemyData = new BattleEnemyData(enemy);
         go.name = enemy.name + count;
         controller.Init();
         Enemies.Add(controller);
         count++;
       }
+    }
+
+    public List<Unit> GetAllEnemies()
+    {
+      List<Unit> list = new();
+      foreach (var enemy in Enemies)
+      {
+        list.Add(enemy);
+      }
+      return list;
     }
 
     public void EnemyNextCard()
@@ -105,12 +122,6 @@ namespace GameSystems.Scene.Battle
         CardSO card = Enemies[i].EnemyData.AbilityCards[rand];
         Debug.Log($"[{Enemies[i].name}_Next Card]:{card.name}");
       }
-    }
-
-    public void OnEnemyClicked(EnemyController enemy)
-    {
-      CurrentTarget = enemy;
-      Debug.Log($"[Select Enemy:{CurrentTarget.name}]");
     }
 
     public void OnUnitDied(Unit unit)
@@ -139,17 +150,55 @@ namespace GameSystems.Scene.Battle
 
     public void UseCard(CardSO cardSO, Unit user, Unit target)
     {
-      // // 1. 사용 카드 효과 발동      
-      // switch (cardSO.CardEffectType)
-      // {
-      //   case CardEffectType.DealDamage:
-      //     target.Damaged(cardSO.EffectValue);
-      //     break;
-      //   case CardEffectType.GainBlock:
-      //     user.GainBlock(cardSO.EffectValue);
-      //     break;
-      // }
-      // Debug.Log($"[{user.name}_카드 사용]: {cardSO.CardName}");
+      // 1. 사용 카드 효과 발동
+      foreach (var effect in cardSO.Effects)
+      {
+        //effect.UseCard(user);
+      }
+      //Debug.Log($"[{user.name}_카드 사용]: {cardSO.CardName}");
+    }
+
+        public Task<Unit> SelectTargetAsync()
+    {
+        // 1. 새로운 '약속 티켓'을 발행합니다.
+        _currentTargetSelectionTask = new TaskCompletionSource<Unit>();
+        
+        // 여기에 "적을 선택하세요" 화살표 UI를 활성화하는 코드를 넣습니다.
+        //TargetingArrow.Instance.Show();
+        
+        // 2. 약속 티켓(Task)을 즉시 반환합니다. 
+        //    (호출한 쪽에서는 이 Task를 await하며 기다리게 됩니다)
+        return _currentTargetSelectionTask.Task;
+    }
+
+    private void HandlePlayerClick()
+    {
+      // 타겟 선택 대기 상태가 아닐 때는 클릭을 무시
+      if (_currentTargetSelectionTask == null || _currentTargetSelectionTask.Task.IsCompleted)
+      {
+        return;
+      }
+
+      if (Input.GetMouseButtonDown(0))
+      {
+        // ... Raycast 로직 ...
+        RaycastHit2D hit = new();
+        if (hit.collider != null)
+        {
+          Unit enemy = hit.collider.GetComponent<Unit>();
+          if (enemy != null)
+          {
+            // 클릭된 적 정보를 이벤트로 방송 (다른 용도를 위해 남겨둘 수 있음)
+            OnEnemyClicked?.Invoke(enemy);
+
+            // 3. '약속 티켓'에 결과를 기록하여, await 하던 곳을 깨웁니다!
+            _currentTargetSelectionTask.SetResult(enemy);
+
+            // 화살표 UI 비활성화
+            //TargetingArrow.Instance.Hide();
+          }
+        }
+      }
     }
 
     public bool UseEnergy(int cost)
@@ -191,10 +240,28 @@ namespace GameSystems.Scene.Battle
         }
       }
     }
-    public void DiscardHandCard(BattleCardData battleCard)
+
+    public void DiscardHandCardRandom(int amount)
     {
-      DiscardPile.Add(battleCard);
-      Hand.Remove(battleCard);
+      int cardsToDiscardCount = Mathf.Min(amount, Hand.Count);
+
+      var shuffledHand = Hand.OrderBy(card => random.Next()).ToList();
+      var cardsToDiscard = shuffledHand.Take(cardsToDiscardCount).ToList();
+
+      foreach (var cardData in cardsToDiscard)
+      {
+        DiscardHandCard(cardData);
+      }
+
+    }
+    public void DiscardHandCard(BattleCardData cardData)
+    {
+      if (Hand.Remove(cardData))
+      {
+        DiscardPile.Add(cardData);
+      }
+      // 데이터 변경이 일어났으므로 UI 업데이트 호출
+      //UpdateHandUI();
     }
     public void DiscardHandCardAll()
     {
@@ -205,7 +272,7 @@ namespace GameSystems.Scene.Battle
         Hand.RemoveAt(0);
       }
     }
-    public void CardUIUpdate(BattleCard card, bool active)
+    public void CardUIUpdate(UI_Card_Battle card, bool active)
     {
       card.UpdateUI();
       card.gameObject.SetActive(active);
@@ -216,17 +283,55 @@ namespace GameSystems.Scene.Battle
       {
         if (DrawPile.Count == 0)
         {
-          DrawPile = DiscardPile;
-          DiscardPile = new();
-          Shuffle(DrawPile);
+          if (DiscardPile.Count == 0)
+          {
+            Debug.Log("뽑을 카드가 더 이상 없습니다.");
+            break; // 버린 덱에도 카드가 없으면 종료
+          }
+          ReshuffleDiscardIntoDrawPile();
         }
 
-        Hand.Add(DrawPile[0]);
-        battleCards[i].BattleCardData = DrawPile[0];
-        CardUIUpdate(battleCards[i], true);
+        // 1. 데이터만 처리: 뽑을 덱 맨 위 카드를 손으로 옮김
+        BattleCardData drawnCardData = DrawPile[0];
         DrawPile.RemoveAt(0);
+        Hand.Add(drawnCardData);
       }
+
+      // 2. UI 업데이트는 별도의 메서드에 위임
+      //UpdateHandUI();
     }
+
+    private void ReshuffleDiscardIntoDrawPile()
+    {
+      DrawPile.AddRange(DiscardPile);
+      DiscardPile.Clear();
+      Shuffle(DrawPile);
+      Debug.Log("버린 덱을 섞어 뽑을 덱을 만들었습니다.");
+    }
+
+    // --- UI 업데이트 ---
+    // 이 메서드가 현재 Hand 데이터 리스트를 보고 화면을 그려주는 모든 책임을 가집니다.
+    private void UpdateHandUI()
+    {
+      // 1. 현재 손에 있는 카드 수(Hand.Count)와 실제 UI 오브젝트 수(HandCardObjects.Count)를 맞춥니다.
+      // ... 카드가 많아졌으면 새로 Instantiate 하고, 적어졌으면 SetActive(false) 하거나 파괴하는 로직 ...
+
+      // 2. 각 UI 오브젝트에 올바른 카드 데이터를 연결합니다.
+      for (int i = 0; i < HandCardObjects.Count; i++)
+      {
+        if (i < Hand.Count)
+        {
+          //HandCardObjects[i].Setup(Hand[i]); // BattleCard의 Setup 메서드 호출
+          HandCardObjects[i].gameObject.SetActive(true);
+        }
+        else
+        {
+          HandCardObjects[i].gameObject.SetActive(false);
+        }
+      }
+      // ... 카드 위치를 예쁘게 재정렬하는 로직 ...
+    }
+
     public void Shuffle<T>(List<T> deck)
     {
       for (int i = 0; i < deck.Count - 1; i++)

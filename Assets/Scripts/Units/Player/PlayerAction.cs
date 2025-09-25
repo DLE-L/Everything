@@ -26,22 +26,23 @@ namespace Units.Player
     }
     public void UpdateHealth(int health)
     {
-      _runData.HP += health;
-      if (_runData.HP > _runData.MaxHP)
+      _runData.Stat.HP += health;
+      if (_runData.Stat.HP > _runData.Stat.MaxHP)
       {
-        _runData.HP = _runData.MaxHP;
+        _runData.Stat.HP = _runData.Stat.MaxHP;
       }
-      else if (_runData.HP <= 0)
+      else if (_runData.Stat.HP <= 0)
       {
         _player.Die();
         Debug.Log($"[플레이어 사망]");  
         return;
       }
-      Debug.Log($"[{health}체력 획득][현재체력: {_runData.HP}]");
+      Debug.Log($"[{health}체력 획득][현재체력: {_runData.Stat.HP}]");
     }
-    public void AddRelic(string relic) //TODO: RelicSO로 변경
+    public void AddRelic(RelicSO relic) 
     {
-      Debug.Log($"유물 획득: {relic}");
+      _runData.Relics.Add(relic.Name);
+      Debug.Log($"[유물 {relic.Name} 추가]");
     }
     public void AddCard(CardSO card)
     {

@@ -6,8 +6,8 @@ namespace Utils
   [Serializable]
   public class StatData
   {
-    public int Hp;
-    public int MaxHp;
+    public int HP;
+    public int MaxHP;
     public int Energy;
     public int MaxEnergy;
     public int Block;
@@ -15,8 +15,8 @@ namespace Utils
     public StatData() { }
     public StatData(StatData stat)
     {
-      Hp = stat.Hp;
-      MaxHp = stat.MaxHp;
+      HP = stat.HP;
+      MaxHP = stat.MaxHP;
       Energy = stat.Energy;
       MaxEnergy = stat.MaxEnergy;
       Block = stat.Block;
@@ -25,8 +25,8 @@ namespace Utils
 
   public interface IHealthSystem
   {
-    public void Damaged(int damage);
-    public void Heal(int heal);
+    public void Damaged(int amount);
+    public void Heal(int amount);     
     public void GainBlock(int block);
     public void Die();
   }

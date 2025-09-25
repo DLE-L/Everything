@@ -1,13 +1,15 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using GameSystems.Act;
+
 namespace GameSystems.Scene.Game
 {
   public class Event_UI : MonoBehaviour
   {
     private GameManager _gameManager;
 
-    [SerializeField] private Event_UI_Choice _Event_UI_Choice;
+    [SerializeField] private UI_Event_Choice _Event_UI_Choice;
     [SerializeField] private TextMeshProUGUI _txtEventName;
     [SerializeField] private TextMeshProUGUI _txtEventDescription;
     [SerializeField] private Transform _choiceRoot;
@@ -25,29 +27,29 @@ namespace GameSystems.Scene.Game
       _canvas = GetComponentInParent<Canvas>();
 
       _gameManager.OnClickNode += OnClickNode;
-      _Event_UI_Choice = Instantiate(EventDatabase.EventUIs["Event_UI_Choice"].GetComponent<Event_UI_Choice>());
+      //_Event_UI_Choice = Instantiate(EventDatabase.EventUIs["Event_UI_Choice"].GetComponent<UI_Event_Choice>());
       _canvas.enabled = false;
       _isInitialized = true;
     }
 
     public void OnClickNode(Node node)
     {
-      if (node.NodeType != NodeType.Event) { return; }
+      // if (node.NodeType != NodeType.Event) { return; }
 
-      NodeEvent nodeEvent = node.GetComponent<NodeEvent>();
-      _txtEventName.text = nodeEvent.Name;
-      _txtEventDescription.text = nodeEvent.Description;
-      // TODO: 선택지 생성 코드 구현
-      Debug.Log($"선택지 개수: {nodeEvent.ChoiceList.Count}");
-      Debug.Break();
-      for (int i = 0; i < nodeEvent.ChoiceList.Count; i++)
-      {
-        var choice = Instantiate(_Event_UI_Choice.gameObject);
-        choice.transform.SetParent(_choiceRoot);
-        var @event = choice.GetComponent<Event_UI_Choice>();
-        @event.SetChoice(nodeEvent.ChoiceList[i]);
-      }
-      _canvas.enabled = true;
+      // NodeEvent nodeEvent = node.GetComponent<NodeEvent>();
+      // _txtEventName.text = nodeEvent.Name;
+      // _txtEventDescription.text = nodeEvent.Description;
+      // // TODO: 선택지 생성 코드 구현
+      // Debug.Log($"선택지 개수: {nodeEvent.ChoiceList.Count}");
+      // Debug.Break();
+      // for (int i = 0; i < nodeEvent.ChoiceList.Count; i++)
+      // {
+      //   var choice = Instantiate(_Event_UI_Choice.gameObject);
+      //   choice.transform.SetParent(_choiceRoot);
+      //   var @event = choice.GetComponent<UI_Event_Choice>();
+      //   @event.SetChoice(nodeEvent.ChoiceList[i]);
+      // }
+      // _canvas.enabled = true;
     }
 
     void OnEnable()

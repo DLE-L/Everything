@@ -1,34 +1,36 @@
 using System;
 using UnityEngine;
 using Utils;
+using Item;
 
 namespace Units
 {
   public abstract class Unit : MonoBehaviour, IHealthSystem
   {
-    public StatData Stat { get; set; }
+    public virtual StatData Stat { get; set; }
     public event Action<Unit> OnDeath;
 
-    public virtual void Damaged(int damage)
+    public void Damaged(int amount)
     {
-      Stat.Hp -= damage;
-      Debug.Log($"Damage: {damage}, {gameObject.name} HP: {Stat.Hp}");
-      if (Stat.Hp <= 0)
+      Stat.HP -= amount;
+      if (Stat.HP <= 0)
       {
         Die();
+        return;
       }
+      Debug.Log($"[{amount}피격][현재체력: {Stat.HP}]");
     }
 
-    public virtual void Heal(int heal)
+    public void Heal(int amount)
     {
-      Stat.Hp += heal;
-      Debug.Log($"Heal: {heal}, {gameObject.name} HP: {Stat.Hp}");
-      if (Stat.Hp > Stat.MaxHp)
+      Stat.HP += amount;
+      if (Stat.HP > Stat.MaxHP)
       {
-        Stat.Hp = Stat.MaxHp;
+        Stat.HP = Stat.MaxHP;
       }
+      Debug.Log($"[{amount}체력 획득][현재체력: {Stat.HP}]");
     }
-
+    
     public virtual void GainBlock(int block)
     {
       Stat.Block += block;

@@ -27,47 +27,47 @@ namespace GameSystems.Scene.Game
   }
   public static class EventDatabase
   {
-    public static Dictionary<string, IEvent> Events = new();
-    public static Dictionary<string, GameObject> EventUIs = new();
-    public static IEvent CurrentEvent;
+    // public static Dictionary<string, IEvent> Events = new();
+    // public static Dictionary<string, GameObject> EventUIs = new();
+    // public static IEvent CurrentEvent;
 
-    public async static Task LoadEventDataAsync()
-    {
-      var eventList = await AssetLoader.LoadAssetLabelAsync<GameObject>("Event");
-      var eventUi = await AssetLoader.LoadAssetLabelAsync<GameObject>("Event_UI");
-      foreach (var item in eventList)
-      {
-        item.GetComponent<IEvent>().Init();
-        Events.Add(item.name, item.GetComponent<IEvent>());
-      }
+    // public async static Task LoadEventDataAsync()
+    // {
+    //   var eventList = await AssetLoader.LoadAssetLabelAsync<GameObject>("Event");
+    //   var eventUi = await AssetLoader.LoadAssetLabelAsync<GameObject>("Event_UI");
+    //   foreach (var item in eventList)
+    //   {
+    //     item.GetComponent<IEvent>().Init();
+    //     Events.Add(item.name, item.GetComponent<IEvent>());
+    //   }
 
-      foreach (var item in eventUi)
-      {
-        EventUIs.Add(item.name, item);
-      }
-    }
+    //   foreach (var item in eventUi)
+    //   {
+    //     EventUIs.Add(item.name, item);
+    //   }
+    // }
   }
 
   public static class NodeInfoDataBase
   {
-    public static Dictionary<string, NodeInfo> Infos = new();
-    public static Dictionary<NodeType, NodeInfo> TypeInfos = new();
+    // public static Dictionary<string, NodeInfo> Infos = new();
+    // public static Dictionary<NodeType, NodeInfo> TypeInfos = new();
 
-    public async static Task LoadNodeInfoDataAsync()
-    {
-      var infoSOs = await AssetLoader.LoadAssetLabelAsync<NodeInfoSO>("Node_Info");
+    // public async static Task LoadNodeInfoDataAsync()
+    // {
+    //   var infoSOs = await AssetLoader.LoadAssetLabelAsync<NodeInfoSO>("Node_Info");
 
-      foreach (var info in infoSOs)
-      {
-        NodeInfo nodeInfo = new(info);
-        Infos.Add(info.name, nodeInfo);
-        TypeInfos.Add(nodeInfo.Type, nodeInfo);
-      }
-    }
+    //   foreach (var info in infoSOs)
+    //   {
+    //     NodeInfo nodeInfo = new(info);
+    //     Infos.Add(info.name, nodeInfo);
+    //     TypeInfos.Add(nodeInfo.Type, nodeInfo);
+    //   }
+    // }
 
-    public static NodeInfo GetNodeInfo(NodeType type)
-    {
-      return TypeInfos[type];
-    }
+    // public static NodeInfo GetNodeInfo(NodeType type)
+    // {
+    //   return TypeInfos[type];
+    // }
   }
 }

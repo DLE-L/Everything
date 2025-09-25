@@ -5,7 +5,7 @@ using Item;
 
 namespace GameSystems.Act.Encounter
 {
-  [CreateAssetMenu(fileName = "Encounter", menuName = "MyMenu/Encounter")]
+  [CreateAssetMenu(fileName = "NewEncounter", menuName = "MyMenu/Act/Encounter")]
   public class EncounterSO : ScriptableObject
   {
     [Header("인카운터 분류")]

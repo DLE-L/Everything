@@ -6,7 +6,7 @@ using Item;
 
 namespace Units.Enemy
 {
-  [CreateAssetMenu(fileName = "Enemy", menuName = "MyMenu/Enemy")]
+  [CreateAssetMenu(fileName = "Enemy", menuName = "MyMenu/Unit/Enemy")]
   public class EnemySO : ScriptableObject
   {
     public string Name;

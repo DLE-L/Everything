@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf6a51469d6c86b4bb85f128ef42e40a, type: 3}
+  m_Name: Card_Skill_Common_Readjust
+  m_EditorClassIdentifier: 
+  Name: "\uC7AC\uC815\uBE44"
+  Illustration: {fileID: 0}
+  Type: 1
+  Rarity: 0
+  Cost: 0
+  Description: "\uC190\uC5D0\uC11C \uCE74\uB4DC 1\uC7A5\uC744 \uBC84\uB9AC\uACE0,
+    \uCE74\uB4DC 1\uC7A5\uC744 \uBF51\uC2B5\uB2C8\uB2E4."
+  Effects:
+  - EffectType: {fileID: 11400000, guid: 60f6961ac55ad8543be451c34e2ae570, type: 2}
+    Target: {fileID: 11400000, guid: dcf3c1dfcbf24964aa645789ec429ff5, type: 2}
+  - EffectType: {fileID: 11400000, guid: 4c2ee593a55423140abdb49ab3baf157, type: 2}
+    Target: {fileID: 11400000, guid: dcf3c1dfcbf24964aa645789ec429ff5, type: 2}

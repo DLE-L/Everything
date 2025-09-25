@@ -6,6 +6,7 @@ using GameSystems.Scene.Loading;
 using GameSystems.Scene.Lobby;
 using GameSystems.Scene.Title;
 using GameSystems.Scene.Game;
+using GameSystems.Scene.Battle;
 using System.Collections;
 
 namespace GameSystems
@@ -23,10 +24,13 @@ namespace GameSystems
     private TitleManager _title = new();
     private LobbyManager _lobby = new();
     private GameManager _game = new();
+    private BattleManager _battle = new();
+
     public LoadingManager Loading => _loading;
     public TitleManager Title => _title;
     public LobbyManager Lobby => _lobby;
     public GameManager Game => _game;
+    public BattleManager Battle => _battle;
     #endregion
 
     private void Awake()
@@ -39,7 +43,7 @@ namespace GameSystems
       else
       {
         Destroy(gameObject);
-      }      
+      }
       Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
@@ -58,7 +62,7 @@ namespace GameSystems
 
     void Update()
     {
-      _game.UpdateGameManger();
+      _game.UpdateGameManger();      
 
     }
 

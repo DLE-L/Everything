@@ -9,15 +9,11 @@ namespace Units.Enemy
   public class EnemyController : Unit
   {
     public BattleManager battleManager;
-    public BattleEnemyData EnemyData;
-    public Action<EnemyController> OnEnemyClicked;
+    public BattleEnemyData EnemyData;   
 
     void Awake()
     {
-      UI_EventHandler.Get(gameObject).OnClickAction += (eventData) =>
-      {
-        OnEnemyClicked?.Invoke(this);
-      };
+
     }
 
     public void Init()
