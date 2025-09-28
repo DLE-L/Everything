@@ -1,16 +1,20 @@
-
+using Units;
 using UnityEngine;
 
 namespace Item
 {
-  [CreateAssetMenu(fileName = "NewStatus", menuName = "MyMenu/StatusEffect/Status")]
-  public class StatusEffectSO : ScriptableObject
+  public abstract class StatusEffectSO : ScriptableObject
   {
     public string Name;
     public Sprite Icon;
     public string Description;
     public StatusType Type;
+    public int Duration;
     public bool IsStackable;
+    public abstract void OnApply(Unit user, Unit target);
+    public virtual void ProcessTurnStartEffects(Unit self) { }
+    public virtual void OnRemove(Unit user, Unit target) { }
+    public virtual int OnCalculateValue(Unit target, int originalValue) { return originalValue; }
   }
 
   public enum StatusType

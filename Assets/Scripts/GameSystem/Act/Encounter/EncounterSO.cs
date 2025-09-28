@@ -9,7 +9,7 @@ namespace GameSystems.Act.Encounter
   public class EncounterSO : ScriptableObject
   {
     [Header("인카운터 분류")]
-    public EncounterType EncounterType;
+    public EncounterSO EncounterType;
     public SpawnType SpawnType;
 
     [Header("랜덤 가중치")]
@@ -36,15 +36,6 @@ namespace GameSystems.Act.Encounter
       int rand = random.Next(0, CardRewards.Count);
       return CardRewards[rand];      
     }
-  }
-
-  public enum EncounterType
-  {
-    Narrative,
-    Combat,
-    EliteCombat,
-    Shop,
-    Rest,
   }
 
   public enum SpawnType

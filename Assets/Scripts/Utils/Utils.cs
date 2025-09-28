@@ -1,4 +1,5 @@
 using System;
+using Units;
 using Units.Player;
 
 namespace Utils
@@ -23,19 +24,10 @@ namespace Utils
     }
   }
 
-  public interface IHealthSystem
-  {
-    public void Damaged(int amount);
-    public void Heal(int amount);     
-    public void GainBlock(int block);
-    public void Die();
-  }
-
   public interface IBattleState
-  {
+  {    
     public void Enter();
     public void Execute();
     public void Exit();
-  }  
-  
+  }    
 }

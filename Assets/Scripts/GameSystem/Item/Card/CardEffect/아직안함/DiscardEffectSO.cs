@@ -1,7 +1,7 @@
 using Units;
-using UnityEngine;
 using GameSystems.Scene.Battle;
-using GameSystems;
+using UnityEngine;
+using System.Net.Mail;
 
 namespace Item.CardEffects
 {
@@ -9,17 +9,17 @@ namespace Item.CardEffects
   public class DiscardEffectSO : ItemEffectSO
   {
     public int amount;
-    public override void Execute(Unit user, Unit target)
+    public override void Execute(Unit user, Unit target, BattleManager manager)
     {
-      if (user != null && user.tag == "Player")
+      if (user != null && user.CompareTag("Player"))
       {
-        //GameSystem.Instance.Battle.DiscardHandCardRandom();
-        Debug.Log($"[Damage Effect][{user.name} is Damage {target.name}]");
+        manager.DiscardHandCardRandom(amount);
+        Debug.Log($"[Discard Effect][{user.name} is Discard {amount}]");
       }
       else
       {
-        Debug.Log($"[Damage Effect][타겟 {target.name}이 존재하지 않습니다.]");
+        Debug.Log($"[Discard Effect][{user.name} is null]");
       }
     }
-  }  
+  }
 }

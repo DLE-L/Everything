@@ -8,7 +8,7 @@ namespace Item.CardEffects
   public class DamageEffectSO : ItemEffectSO
   {
     [SerializeField] private int Amount;
-    public override void Execute(Unit user, Unit target)
+    public override void Execute(Unit user, Unit target, BattleManager manager)
     {
       if (target != null)
       {

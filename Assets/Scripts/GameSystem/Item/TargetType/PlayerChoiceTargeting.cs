@@ -10,7 +10,7 @@ namespace Item
   [CreateAssetMenu(fileName = "Targeting_PlayerChoice", menuName = "MyMenu/Target/PlayerChoice")]
   public class PlayerChoiceTargeting : TargetingStrategySO
   {
-    public override async Task<List<Unit>> FindTargetsAsync(Unit user, List<Unit> allAllies, List<Unit> allEnemies)
+    public override async Task<List<Unit>> FindTargetsAsync(TargetingContext context)
     {
       var tcs = new TaskCompletionSource<Unit>();
       Action<Unit> onTargetSelectedHandler = null;

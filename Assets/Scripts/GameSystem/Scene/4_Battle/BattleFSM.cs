@@ -2,7 +2,7 @@ using Utils;
 
 namespace GameSystems.Scene.Battle
 {
-  public class BattleStateSystem
+  public class BattleFSM
   {
     public IBattleState CurrentState { get; private set; }
 
@@ -14,9 +14,9 @@ namespace GameSystems.Scene.Battle
     public void ChangeState(IBattleState newState)
     {
       CurrentState?.Exit();
+      newState?.Enter();
       CurrentState = newState;
       //UnityEngine.Debug.Log($"[현재 턴 상태: {CurrentState.ToString()}]");
-      CurrentState?.Enter();
     }
   }
 }

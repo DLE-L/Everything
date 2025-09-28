@@ -8,7 +8,27 @@ namespace Item
 {
   public abstract class TargetingStrategySO : ScriptableObject
   {
-    public abstract Task<List<Unit>> FindTargetsAsync(Unit user, List<Unit> allAllies, List<Unit> allEnemies);
+    public abstract Task<List<Unit>> FindTargetsAsync(TargetingContext context);
+  }
+
+  public class TargetingContext
+  {
+    public Unit User { get; private set; }
+    private List<Unit> _playerTeam;
+    private List<Unit> _enemyTeam;
+
+    public List<Unit> Allies => _playerTeam.Contains(User) ? _playerTeam : _enemyTeam;
+    public List<Unit> Enemies => !_playerTeam.Contains(User) ? _enemyTeam : _playerTeam;
+
+    public Unit Attacker { get; set; }
+
+    public TargetingContext(Unit user, List<Unit> playerTeam, List<Unit> enemyTeam, Unit attacker = null)
+    {
+      User = user;
+      _playerTeam = playerTeam;
+      _enemyTeam = enemyTeam;
+      Attacker = attacker;
+    }
   }
 }
 

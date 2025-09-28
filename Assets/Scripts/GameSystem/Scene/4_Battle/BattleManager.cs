@@ -1,7 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
 using GameSystems.Scene.Game;
-using GameSystems.Scene.Battle.States;
 using Utils;
 using Item;
 using System.Linq;
@@ -21,26 +20,26 @@ namespace GameSystems.Scene.Battle
 
     public Player Player => GameSystem.Instance.Player;
     public StatData PlayerStat => Player.Stat;
-    public List<EnemyController> Enemies = new();
 
-    public Unit CurrentUser { get; set; }
-    public Unit CurrentTarget { get; set; }
+    public List<Unit> PlayerTeam { get; private set; } = new();
+    public List<Unit> EnemyTeam { get; private set; } = new();
+    private BattleFSM _FSM = new();
 
-    public BattleStateSystem StateSystem { get; private set; } = new();
     public System.Random random = new();
     public UI_Card_Battle[] battleCards;
-    public List<UI_Card_Battle> HandCardObjects = new(); 
+    public List<UI_Card_Battle> HandCardObjects = new();
 
     [SerializeField] private GameObject enemyGameObject;
     [SerializeField] private Transform enemyTransform;
 
-    public Action<Unit> OnEnemyClicked;
-    private TaskCompletionSource<Unit> _currentTargetSelectionTask;
+    public event Action<Unit> OnEnemyClicked;
 
+    private TaskCompletionSource<Unit> _currentTargetSelectionTask;
 
     private void Awake()
     {
-      Enemies = GameObject.FindGameObjectsWithTag("Enemy").Select(x => x.GetComponent<EnemyController>()).ToList();
+      PlayerTeam = GameObject.FindGameObjectsWithTag("Player").Select(x => x.GetComponent<Player>() as Unit).ToList();
+      //EnemyTeam = GameObject.FindGameObjectsWithTag("Enemy").Select(x => x.GetComponent<EnemyController>() as Unit).ToList();
     }
 
     private void Start()
@@ -49,11 +48,11 @@ namespace GameSystems.Scene.Battle
       BattleEncounter();
 
       // 2. 배틀 첫 상태 시작
-      StateSystem.ChangeState(new StateSetup(this, StateSystem));
+      _FSM.ChangeState(new SetupBattle(this, _FSM));
 
       // 3. 플레이어 & 적 이벤트 등록
-      Player.OnDeath += OnUnitDied;      
-      foreach (EnemyController enemy in Enemies)
+      Player.OnDeath += OnUnitDied;
+      foreach (EnemyController enemy in EnemyTeam)
       {
         enemy.OnDeath += OnUnitDied;
       }
@@ -69,7 +68,6 @@ namespace GameSystems.Scene.Battle
             Debug.Log("에너지 부족");
             return;
           }
-          UseCard(card.CardSO, CurrentUser, CurrentTarget);
           DiscardHandCard(card);
           CardUIUpdate(battleCard, false);
           // OnUseCard?.Invoke(battleCard);
@@ -81,10 +79,21 @@ namespace GameSystems.Scene.Battle
 
     public void Update()
     {
-      StateSystem.Execute();
+      _FSM.Execute();
 
       HandlePlayerClick();
     }
+
+    public List<Unit> GetPlayerTeam()
+    {
+      return PlayerTeam;
+    }
+
+    public List<Unit> GetEnemyTeam()
+    {
+      return EnemyTeam;
+    }
+
 
     public void BattleEncounter()
     {
@@ -99,28 +108,19 @@ namespace GameSystems.Scene.Battle
         controller.EnemyData = new BattleEnemyData(enemy);
         go.name = enemy.name + count;
         controller.Init();
-        Enemies.Add(controller);
+        EnemyTeam.Add(controller);
         count++;
       }
     }
 
-    public List<Unit> GetAllEnemies()
-    {
-      List<Unit> list = new();
-      foreach (var enemy in Enemies)
-      {
-        list.Add(enemy);
-      }
-      return list;
-    }
-
     public void EnemyNextCard()
     {
-      for (int i = 0; i < Enemies.Count; i++)
+      for (int i = 0; i < EnemyTeam.Count; i++)
       {
-        int rand = random.Next(0, Enemies[i].EnemyData.AbilityCards.Count);
-        CardSO card = Enemies[i].EnemyData.AbilityCards[rand];
-        Debug.Log($"[{Enemies[i].name}_Next Card]:{card.name}");
+        EnemyController enmey = EnemyTeam[i] as EnemyController;
+        int rand = random.Next(0, enmey.EnemyData.AbilityCards.Count);
+        CardSO card = enmey.EnemyData.AbilityCards[rand];
+        Debug.Log($"[{enmey.name}_Next Card]:{card.name}");
       }
     }
 
@@ -128,14 +128,13 @@ namespace GameSystems.Scene.Battle
     {
       if (unit is EnemyController)
       {
-        Enemies.Remove(unit as EnemyController);
-        if (Enemies.Count > 0)
+        EnemyTeam.Remove(unit);
+        if (EnemyTeam.Count > 0)
         {
-          CurrentTarget = Enemies[0];
-          Debug.Log($"[Death Target: {unit.name}][New Target:{CurrentTarget.name}]");
+          Debug.Log($"[Death Enemy: {unit.name}]");
         }
 
-        if (Enemies.Count == 0)
+        if (EnemyTeam.Count == 0)
         {
           Debug.Log("[플레이어 승리]");
           // ChangeState(new WinState(this, StateSystem));
@@ -148,27 +147,17 @@ namespace GameSystems.Scene.Battle
       }
     }
 
-    public void UseCard(CardSO cardSO, Unit user, Unit target)
+    public Task<Unit> SelectTargetAsync()
     {
-      // 1. 사용 카드 효과 발동
-      foreach (var effect in cardSO.Effects)
-      {
-        //effect.UseCard(user);
-      }
-      //Debug.Log($"[{user.name}_카드 사용]: {cardSO.CardName}");
-    }
+      // 1. 새로운 '약속 티켓'을 발행합니다.
+      _currentTargetSelectionTask = new TaskCompletionSource<Unit>();
 
-        public Task<Unit> SelectTargetAsync()
-    {
-        // 1. 새로운 '약속 티켓'을 발행합니다.
-        _currentTargetSelectionTask = new TaskCompletionSource<Unit>();
-        
-        // 여기에 "적을 선택하세요" 화살표 UI를 활성화하는 코드를 넣습니다.
-        //TargetingArrow.Instance.Show();
-        
-        // 2. 약속 티켓(Task)을 즉시 반환합니다. 
-        //    (호출한 쪽에서는 이 Task를 await하며 기다리게 됩니다)
-        return _currentTargetSelectionTask.Task;
+      // 여기에 "적을 선택하세요" 화살표 UI를 활성화하는 코드를 넣습니다.
+      //TargetingArrow.Instance.Show();
+
+      // 2. 약속 티켓(Task)을 즉시 반환합니다. 
+      //    (호출한 쪽에서는 이 Task를 await하며 기다리게 됩니다)
+      return _currentTargetSelectionTask.Task;
     }
 
     private void HandlePlayerClick()
@@ -212,29 +201,29 @@ namespace GameSystems.Scene.Battle
       return true;
     }
 
-    public void ResetBlock<T>(T unit)
-    {      
+    public void ResetBlock(Unit unit)
+    {
       if (unit is Player)
       {
         PlayerStat.Block = 0;
       }
       else if (unit is EnemyController)
       {
-        foreach (EnemyController enemy in Enemies)
+        foreach (EnemyController enemy in EnemyTeam)
         {
           enemy.Stat.Block = 0;
         }
       }
     }
-    public void ResetEnergy<T>(T unit)
-    {      
+    public void ResetEnergy(Unit unit)
+    {
       if (unit is Player)
       {
         PlayerStat.Energy = PlayerStat.MaxEnergy;
       }
       else if (unit is EnemyController)
       {
-        foreach (EnemyController enemy in Enemies)
+        foreach (EnemyController enemy in EnemyTeam)
         {
           enemy.Stat.Energy = enemy.Stat.MaxEnergy;
         }
@@ -350,9 +339,7 @@ namespace GameSystems.Scene.Battle
           DrawPile.Add(new BattleCardData(cardInfo.Key, $"{cardInfo.Key}_{i}"));
         }
       }
-    }
-    public void ChangePlayerTurnState() => StateSystem.ChangeState(new StatePlayerTurn(this, StateSystem));
-    public void ChangeEnemyTurnState() => StateSystem.ChangeState(new StateEnemyTurn(this, StateSystem));
+    }    
   }
 }
 

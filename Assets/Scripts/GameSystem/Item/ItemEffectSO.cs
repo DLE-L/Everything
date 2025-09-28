@@ -5,8 +5,8 @@ using GameSystems.Scene.Battle;
 namespace Item
 {  
   public abstract class ItemEffectSO : ScriptableObject
-  {    
-    public abstract void Execute(Unit user, Unit target);
+  {
+    public abstract void Execute(Unit user, Unit target, BattleManager manager);
   }
 }
 

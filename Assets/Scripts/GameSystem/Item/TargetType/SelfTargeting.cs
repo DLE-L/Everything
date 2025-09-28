@@ -9,9 +9,9 @@ namespace Item
   [CreateAssetMenu(fileName = "Targeting_Self", menuName = "MyMenu/Target/Self")]
   public class SelfTargeting : TargetingStrategySO
   {
-    public override Task<List<Unit>> FindTargetsAsync(Unit user, List<Unit> allAllies, List<Unit> allEnemies)
+    public override Task<List<Unit>> FindTargetsAsync(TargetingContext context)
     {
-      return Task.FromResult(new List<Unit>() { user });
+      return Task.FromResult(new List<Unit>() { context.User });
     }
   }
 }

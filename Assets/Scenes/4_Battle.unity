@@ -4042,6 +4042,7 @@ MonoBehaviour:
   - {fileID: 1328097346}
   - {fileID: 54463482}
   - {fileID: 471025690}
+  HandCardObjects: []
   enemyGameObject: {fileID: 2904219502281615209, guid: 6823351aa79171e4d969c6d33a90071b, type: 3}
   enemyTransform: {fileID: 1168891648}
 --- !u!4 &2115878360

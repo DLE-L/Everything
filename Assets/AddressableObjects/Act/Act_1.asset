@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d25fd945a796c0f48aec0c1a98afa320, type: 3}
   m_Name: Act_1
   m_EditorClassIdentifier: 
-  Encounter: {fileID: 11400000, guid: 3154509ab73094e4890085ec8e7b627c, type: 2}
-  Enemy: {fileID: 11400000, guid: f02c2a09b40c8b9438bfe74dbaf3eb38, type: 2}
-  Reward: {fileID: 11400000, guid: 37a46c2e42e34464bbe5de933afa9f45, type: 2}
+  CommonEncounters:
+  - {fileID: 11400000, guid: 53df2f8c0aab45e46a698098329594ce, type: 2}
+  EliteEncounters:
+  - {fileID: 0}
+  BossEncounter: {fileID: 0}
+  MaxShopCount: 2
+  MaxRestCount: 2
+  MaxEliteCount: 3

@@ -1,8 +1,6 @@
 using System;
 using UnityEngine;
 using System.Collections.Generic;
-using Units;
-using System.Threading.Tasks;
 
 namespace Item
 {
@@ -24,15 +22,6 @@ namespace Item
   {
     public ItemEffectSO EffectType;
     public TargetingStrategySO Target;
-
-    public async Task UseCard(Unit user, List<Unit> allies, List<Unit> enemies)
-    {
-      List<Unit> targets = await Target.FindTargetsAsync(user, allies, enemies);
-      foreach (var target in targets)
-      {
-        EffectType.Execute(user, target);
-      }
-    }
   }
 
   public enum CardRarity

@@ -8,9 +8,9 @@ namespace Item
   [CreateAssetMenu(fileName = "Targeting_AllEnemies",menuName = "MyMenu/Target/AllEnemies")]
   public class AllEnemiesTargeting : TargetingStrategySO
   {
-    public override Task<List<Unit>> FindTargetsAsync(Unit user, List<Unit> allAllies, List<Unit> allEnemies)
+    public override Task<List<Unit>> FindTargetsAsync(TargetingContext context)
     {
-      return Task.FromResult(allEnemies);
+      return Task.FromResult(context.Enemies);
     }
   }
 }

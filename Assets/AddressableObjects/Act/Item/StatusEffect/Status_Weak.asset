@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06ccb9b7439070a41b32a635f021f18e, type: 3}
+  m_Script: {fileID: 11500000, guid: 6cc8e2d06d683fb4ab84df881d942cfe, type: 3}
   m_Name: Status_Weak
   m_EditorClassIdentifier: 
   Name: "\uC57D\uD654"
   Icon: {fileID: 0}
-  Description: "\uC8FC\uB294 \uBAA8\uB4E0 \uD53C\uD574\uB7C9\uC774 25% \uAC10\uC18C\uD569\uB2C8\uB2E4.
-    (\uC9C0\uC18D\uC2DC\uAC04: N\uD134)"
+  Description: 
   Type: 1
+  Duration: 0
   IsStackable: 0

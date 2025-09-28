@@ -7,7 +7,7 @@ namespace Item
   [CreateAssetMenu(fileName = "CardEffect_GainEnergy", menuName = "MyMenu/CardEffect/GainEnergy")]
   public class GainEnergyEffectSO : ItemEffectSO
   {
-    public override void Execute(Unit user, Unit target)
+    public override void Execute(Unit user, Unit target, BattleManager manager)
     {
 
     }
