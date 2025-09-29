@@ -56,6 +56,17 @@ namespace GameSystems.Scene.Battle
       Hand.Clear();
     }
 
+    public void TurnStartDiscardHand()
+    {
+      for (int cardIndex = Hand.Count - 1; cardIndex >= 0; cardIndex--)
+      {
+        if (Hand[cardIndex].Retain == false)
+        {
+          Discard(Hand[cardIndex]);
+        }
+      }
+    }
+
     public void DiscardRandom(int amount)
     {
       for (int i = 0; i < amount && Hand.Count > 0; i++)

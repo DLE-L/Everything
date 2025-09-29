@@ -1,5 +1,3 @@
-using System;
-using Units;
 using UnityEngine;
 
 namespace Item
@@ -7,28 +5,14 @@ namespace Item
   [CreateAssetMenu(fileName = "NewStatus", menuName = "MyMenu/StatusEffect/Weak")]
   public class StatusWeak : StatusEffectSO
   {
-    public override void OnApply(Unit user, Unit target)
+    public override int OnBeforeDealDamage(int originalDamage)
     {
-      target.StatusEffect.Add(this, this.Duration);
-      Debug.Log($"[Weak Debuff][{target.name} get Weak Debuff]");
+      return Mathf.FloorToInt(originalDamage * 0.75f);
     }
-    
-    public override int OnCalculateValue(Unit target, int originalValue)
+    public override void OnReapply(ref ActiveStatusData data, int newDuration, int newValue)
     {
-      return Mathf.FloorToInt(originalValue * 0.75f);
-    }
-
-    public override void OnRemove(Unit user, Unit target)
-    {
-      target.StatusEffect[this]--;
-      if (target.StatusEffect[this] <= 0)
-      {
-        target.StatusEffect.Remove(this);
-        Debug.Log($"[Weak Debuff][{target.name} remove Weak Debuff]");  
-        return;
-      }
-      Debug.Log($"[Weak Debuff][{target.name} remain {Duration} turn]");
-    }
+      data.duration = Mathf.Max(data.duration, newDuration);
+    }  
   }
 }
 // 약화 : 최종 피해량이 25% 감소

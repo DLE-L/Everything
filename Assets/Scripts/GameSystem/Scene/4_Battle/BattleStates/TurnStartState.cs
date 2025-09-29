@@ -1,6 +1,3 @@
-using Units;
-using Units.Player;
-using Units.Enemy;
 using Utils;
 
 namespace GameSystems.Scene.Battle
@@ -10,9 +7,9 @@ namespace GameSystems.Scene.Battle
     private BattleManager _manager;
     private BattleFSM _fsm;
 
-    private Unit _turnOwner;
+    private TurnOwner _turnOwner;
 
-    public TurnStartState(BattleManager manager, BattleFSM fsm, Unit owner)
+    public TurnStartState(BattleManager manager, BattleFSM fsm, TurnOwner owner)
     {
       _manager = manager;
       _fsm = fsm;
@@ -21,14 +18,19 @@ namespace GameSystems.Scene.Battle
 
     public void Enter()
     {
-      UnityEngine.Debug.Log($"--- {_turnOwner.name}의 턴 시작! ---");
-      BattleEvent.RaiseTurnStart(_turnOwner);
+      UnityEngine.Debug.Log($"--- {_turnOwner}의 턴 시작! ---");
+      var team = _turnOwner == TurnOwner.Player ? _manager.PlayerTeam : _manager.EnemyTeam;
+      BattleEvent.RaiseTurnStart(team);
+      foreach (var unit in team)
+      {
+        unit.ResetBlock();
+      }
 
-      if (_turnOwner is Player)
+      if (_turnOwner == TurnOwner.Player)
       {
         _fsm.ChangeState(new TurnPlayerState(_manager, _fsm));
       }
-      else if (_turnOwner is EnemyController)
+      else if (_turnOwner == TurnOwner.Enemy)
       {
         _fsm.ChangeState(new TurnEnemyState(_manager, _fsm));
       }

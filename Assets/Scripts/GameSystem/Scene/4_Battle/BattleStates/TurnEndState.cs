@@ -8,9 +8,9 @@ namespace GameSystems.Scene.Battle
     private BattleManager _manager;
     private BattleFSM _fsm;
 
-    private Unit _turnOwner;
+    private TurnOwner _turnOwner;
 
-    public TurnEndState(BattleManager manager, BattleFSM fsm, Unit owner)
+    public TurnEndState(BattleManager manager, BattleFSM fsm, TurnOwner owner)
     {
       _manager = manager;
       _fsm = fsm;
@@ -19,8 +19,10 @@ namespace GameSystems.Scene.Battle
 
     public void Enter()
     {
-      UnityEngine.Debug.Log($"--- {_turnOwner.name}의 턴 종료! ---");
-      BattleEvent.RaiseTurnEnd(_turnOwner);
+      UnityEngine.Debug.Log($"--- {_turnOwner}의 턴 종료! ---");
+      var team = _turnOwner == TurnOwner.Player ? _manager.PlayerTeam : _manager.EnemyTeam;
+      BattleEvent.RaiseTurnEnd(team);
+
       _fsm.ChangeState(new TurnStartState(_manager, _fsm, _turnOwner));
     }
 

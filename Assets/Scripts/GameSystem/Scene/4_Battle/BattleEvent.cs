@@ -12,10 +12,10 @@ namespace GameSystems.Scene.Battle
     public static void RaiseCombatStart() => OnCombatStart?.Invoke();
     public static event Action OnCombatEnd;
     public static void RaiseCombatEnd() => OnCombatEnd?.Invoke();
-    public static event Action<Unit> OnTurnStart;
-    public static void RaiseTurnStart(Unit owner) => OnTurnStart?.Invoke(owner);
-    public static event Action<Unit> OnTurnEnd;
-    public static void RaiseTurnEnd(Unit owner) => OnTurnEnd?.Invoke(owner);
+    public static event Action<List<Unit>> OnTurnStart;
+    public static void RaiseTurnStart(List<Unit> team) => OnTurnStart?.Invoke(team);
+    public static event Action<List<Unit>> OnTurnEnd;
+    public static void RaiseTurnEnd(List<Unit> team) => OnTurnEnd?.Invoke(team);
     #endregion
 
     #region Card Event

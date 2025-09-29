@@ -14,6 +14,7 @@ namespace Item
     public CardRarity Rarity;
     public int Cost;
     public string Description;
+    public bool Retain;
     public List<CardEffect> Effects;
   }
 

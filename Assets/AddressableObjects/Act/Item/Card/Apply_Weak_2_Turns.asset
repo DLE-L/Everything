@@ -9,10 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee9df5ffe1bd3144481d2b84183dfa85, type: 3}
-  m_Name: NewNarrative
+  m_Script: {fileID: 11500000, guid: 4d4a0ce96a539aa4985abf60d2e6e5a5, type: 3}
+  m_Name: Apply_Weak_2_Turns
   m_EditorClassIdentifier: 
-  Name: 
-  Icon: {fileID: 0}
-  Color: {r: 0, g: 0, b: 0, a: 0}
-  Description: 
+  StatusEffectToApply: {fileID: 11400000, guid: a7ee3475f0e6a854099a90f639dc3622, type: 2}
+  Duration: 2
+  Value: 0

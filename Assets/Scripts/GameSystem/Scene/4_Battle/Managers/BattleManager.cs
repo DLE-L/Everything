@@ -19,8 +19,8 @@ namespace GameSystems.Scene.Battle
 
     public List<Unit> PlayerTeam { get; private set; } = new();
     public List<Unit> EnemyTeam { get; private set; } = new();
-    private BattleFSM _FSM = new();
-    public CardManager CardManager { get; private set; }    
+    public BattleFSM FSM { get; private set; } = new();
+    public CardManager CardManager { get; private set; }
 
     public System.Random random = new();
 
@@ -41,7 +41,7 @@ namespace GameSystems.Scene.Battle
 
     private void Start()
     {
-      _FSM = new();
+      FSM = new();
       List<CardSO> deck = Player.RunData.Deck
                           .SelectMany(pair => Enumerable.Repeat(CardDatabase.AllCards[pair.Key], pair.Value))
                           .ToList();
@@ -49,12 +49,13 @@ namespace GameSystems.Scene.Battle
 
 
 
+      FSM.ChangeState(new SetupBattle(this, FSM, TurnOwner.Player));
 
       // 1. 배틀 입장 - 게임 씬에서 적 정보 획득 및 생성
       BattleEncounter();
 
       // 2. 배틀 첫 상태 시작
-      _FSM.ChangeState(new SetupBattle(this, _FSM, Player));
+
 
       // 3. 플레이어 & 적 이벤트 등록
       Player.OnDeath += OnUnitDied;
@@ -65,11 +66,14 @@ namespace GameSystems.Scene.Battle
 
 
       EnemyNextCard();
+      
+
+      
     }
 
     public void Update()
     {
-      _FSM.Execute();
+      FSM.Execute();
 
       HandlePlayerClick();
     }
@@ -222,6 +226,12 @@ namespace GameSystems.Scene.Battle
         GameSystem.Instance.UnregisterBattleManager();
       }
     }
+  }
+
+  public enum TurnOwner
+  {
+    Player,
+    Enemy
   }
 }
 

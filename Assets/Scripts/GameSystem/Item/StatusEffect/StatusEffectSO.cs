@@ -9,12 +9,20 @@ namespace Item
     public Sprite Icon;
     public string Description;
     public StatusType Type;
-    public int Duration;
     public bool IsStackable;
-    public abstract void OnApply(Unit user, Unit target);
-    public virtual void ProcessTurnStartEffects(Unit self) { }
-    public virtual void OnRemove(Unit user, Unit target) { }
-    public virtual int OnCalculateValue(Unit target, int originalValue) { return originalValue; }
+    public virtual void OnRemove(Unit owner) { }
+    public virtual void OnApply(Unit target, ref ActiveStatusData data) { }    
+    public virtual void OnReapply(ref ActiveStatusData data, int newDuration, int newValue) { }    
+    public virtual void OnTurnStart(Unit owner, ref ActiveStatusData data) { }    
+    public virtual int OnBeforeDealDamage(int originalDamage) => originalDamage;
+    public virtual int OnBeforeTakeDamage(int originalDamage) => originalDamage;
+  }
+
+  [SerializeField]
+  public struct ActiveStatusData
+  {
+    public int duration;
+    public int value;
   }
 
   public enum StatusType

@@ -21,9 +21,14 @@ namespace GameSystems.Scene.Battle
     }
 
     public void Enter()
-    {      
+    {
+      Debug.Log($"[Player Turn State]");
+      _manager.CardManager.TurnStartDiscardHand();
+
       _manager.CardManager.Draw(5);
       _manager.ResetEnergy(_manager.Player);
+      
+      // 외부에서 턴 넘김
     }
 
     public void Execute()

@@ -10,6 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4d4a0ce96a539aa4985abf60d2e6e5a5, type: 3}
-  m_Name: ApplyStatus_Weak
+  m_Name: Apply_Poison_3_Value
   m_EditorClassIdentifier: 
-  StatusEffect: {fileID: 11400000, guid: a7ee3475f0e6a854099a90f639dc3622, type: 2}
+  StatusEffectToApply: {fileID: 11400000, guid: b1709347e173d0546808fea60c65ab08, type: 2}
+  Duration: 0
+  Value: 3

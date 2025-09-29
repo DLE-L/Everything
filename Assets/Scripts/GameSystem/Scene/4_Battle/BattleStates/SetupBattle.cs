@@ -7,19 +7,19 @@ namespace GameSystems.Scene.Battle
   {
     private BattleManager _manager;
     private BattleFSM _fsm;
-    private Unit _player;
+    private TurnOwner _turnOwner;
 
-    public SetupBattle(BattleManager manager, BattleFSM fsm, Unit player)
+    public SetupBattle(BattleManager manager, BattleFSM fsm, TurnOwner owner)
     {
       _manager = manager;
       _fsm = fsm;
-      _player = player;
+      _turnOwner = owner;
     }
 
     public void Enter()
     {
       BattleEvent.RaiseCombatStart();
-      _fsm.ChangeState(new TurnStartState(_manager, _fsm, _player));
+      _fsm.ChangeState(new TurnStartState(_manager, _fsm, _turnOwner));
     }
 
     public void Execute()

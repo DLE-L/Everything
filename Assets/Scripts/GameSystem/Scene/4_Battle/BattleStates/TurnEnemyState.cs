@@ -2,6 +2,7 @@ using Units;
 using Units.Enemy;
 using Utils;
 using Item;
+using UnityEngine;
 
 namespace GameSystems.Scene.Battle
 {
@@ -17,7 +18,14 @@ namespace GameSystems.Scene.Battle
     }
     public void Enter()
     {
-      
+      Debug.Log($"[Enemy Turn State]");
+
+      foreach (var unit in _manager.EnemyTeam)
+      {
+        // 카드 사용 로직
+      }
+
+      _fsm.ChangeState(new TurnEndState(_manager, _fsm, TurnOwner.Player));
     }
 
     public void Execute()
@@ -26,28 +34,13 @@ namespace GameSystems.Scene.Battle
       // 3. 플레이어 턴으로 변경
       // _battleManager.ChangePlayerTurnState();
     }
+
     public void Exit()
     {
       EnemyNextCard();
       _manager.ResetBlock(_manager.Player);
     }
 
-    private void EnemyUserCard(EnemyController user, Unit target)
-    {
-      int rand = _manager.random.Next(0, user.EnemyData.AbilityCards.Count);
-      CardSO card = user.EnemyData.AbilityCards[rand];
-      UseCard(card);
-    }
-
-    public void UseCard(CardSO card)
-    {
-      BattleEvent.RaiseCardPlay(card);
-      foreach (var effect in card.Effects)
-      {
-
-      }
-    }
-    
     public void EnemyNextCard()
     {
       for (int i = 0; i < _manager.EnemyTeam.Count; i++)
