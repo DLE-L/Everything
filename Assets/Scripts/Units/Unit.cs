@@ -11,6 +11,7 @@ namespace Units
     public virtual StatData Stat { get; set; }    
     public event Action<Unit> OnDeath;
     public Dictionary<StatusEffectSO, int> StatusEffect = new();
+    
     public void Damaged(int damage)
     {
       int finalDamage = damage;

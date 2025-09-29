@@ -21,13 +21,9 @@ namespace GameSystems.Scene.Battle
 
     public void Enter()
     {
-      // Status Effect 처리      
-      foreach(var user in _turnOwner.StatusEffect)
-      {
-        user.Key.ProcessTurnStartEffects();
-      }
-
       UnityEngine.Debug.Log($"--- {_turnOwner.name}의 턴 시작! ---");
+      BattleEvent.RaiseTurnStart(_turnOwner);
+
       if (_turnOwner is Player)
       {
         _fsm.ChangeState(new TurnPlayerState(_manager, _fsm));

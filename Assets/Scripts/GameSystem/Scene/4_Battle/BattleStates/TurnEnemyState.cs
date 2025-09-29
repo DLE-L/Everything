@@ -17,14 +17,7 @@ namespace GameSystems.Scene.Battle
     }
     public void Enter()
     {
-      _manager.ResetEnergy(_manager.Enemies);
-
-      for (int i = 0; i < _manager.Enemies.Count; i++)
-      {
-        EnemyUserCard(_manager.Enemies[i], _manager.CurrentTarget);
-      }
-
-      _manager.ChangePlayerTurnState();
+      
     }
 
     public void Execute()
@@ -35,7 +28,7 @@ namespace GameSystems.Scene.Battle
     }
     public void Exit()
     {
-      _manager.EnemyNextCard();
+      EnemyNextCard();
       _manager.ResetBlock(_manager.Player);
     }
 
@@ -43,7 +36,29 @@ namespace GameSystems.Scene.Battle
     {
       int rand = _manager.random.Next(0, user.EnemyData.AbilityCards.Count);
       CardSO card = user.EnemyData.AbilityCards[rand];
-      _manager.UseCard(card, user, target);
+      UseCard(card);
+    }
+
+    public void UseCard(CardSO card)
+    {
+      BattleEvent.RaiseCardPlay(card);
+      foreach (var effect in card.Effects)
+      {
+
+      }
+    }
+    
+    public void EnemyNextCard()
+    {
+      for (int i = 0; i < _manager.EnemyTeam.Count; i++)
+      {
+        var random = new System.Random();
+
+        EnemyController enmey = _manager.EnemyTeam[i] as EnemyController;
+        int rand = random.Next(0, enmey.EnemyData.AbilityCards.Count);
+        CardSO card = enmey.EnemyData.AbilityCards[rand];
+        UnityEngine.Debug.Log($"[{enmey.name}_Next Card]:{card.name}");
+      }
     }
   }
 }

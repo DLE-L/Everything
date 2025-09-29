@@ -10,7 +10,7 @@ namespace Item
 {
    public static class CardDatabase
   {
-    public static Dictionary<string, CardSO> cardDatabase = new(); // Dictionary<CardId, CardData>      
+    public static Dictionary<string, CardSO> AllCards { get; private set; } = new(); // Dictionary<CardId, CardSO>      
     private static HashSet<string> _defaultCardIDs = new()
     {
       "Attack_Strike",
@@ -19,28 +19,19 @@ namespace Item
       "Skill_Survivor"
     };
 
-    public async static Task LoadCardData()
+    public async static Task InitializeAsync()
     {
       var cardList = await AssetLoader.LoadAssetLabelAsync<CardSO>("Card");
       foreach (var card in cardList)
       {
-        // cardDatabase.TryAdd(card.CardId, card);
+        AllCards.TryAdd(card.name, card);
       }
       return;
     }
 
-    public static CardSO GetCardData(string cardId)
+    public static bool IsDefaultCard(string cardID)
     {
-      if (cardDatabase.ContainsKey(cardId))
-      {
-        return cardDatabase[cardId];
-      }
-      return null;
-    }
-
-    public static bool IsDefaultCard(string cardId)
-    {
-      return _defaultCardIDs.Contains(cardId);
+      return _defaultCardIDs.Contains(cardID);
     }
   }
 
@@ -52,7 +43,7 @@ namespace Item
 
     public BattleCardData(string cardObjectID, string cardId)
     {
-      CardSO = CardDatabase.GetCardData(cardObjectID);
+      CardSO = CardDatabase.AllCards[cardObjectID];
       BattleCardID = cardId;
     }
   }

@@ -3,11 +3,20 @@ using UnityEngine;
 
 namespace GameSystems.Scene.Loading
 {
-  public class LoadingManager
+  public class LoadingManager : MonoBehaviour
   {
-    public void Init()
+    void Awake()
+    {      
+      //GameSystem.Instance.RegisterLobbyManager(this);
+    }
+
+    void OnDestroy()
     {
-      
+
+      if (GameSystem.Instance != null)
+      {
+        //GameSystem.Instance.UnregisterLobbyManager();
+      }
     }
   }
 }

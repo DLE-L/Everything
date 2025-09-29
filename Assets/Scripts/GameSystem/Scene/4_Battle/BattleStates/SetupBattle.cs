@@ -7,19 +7,19 @@ namespace GameSystems.Scene.Battle
   {
     private BattleManager _manager;
     private BattleFSM _fsm;
+    private Unit _player;
 
-    public SetupBattle(BattleManager manager, BattleFSM fsm)
+    public SetupBattle(BattleManager manager, BattleFSM fsm, Unit player)
     {
       _manager = manager;
       _fsm = fsm;
+      _player = player;
     }
 
     public void Enter()
     {
-      // 1. 플레이어 덱 로드
-      _manager.GetPlayerDeck();
-      // 3. Setup 상태 종료(플레이어 턴 상태로 변경)
-      _fsm.ChangeState(new TurnPlayerState(_manager, _fsm));
+      BattleEvent.RaiseCombatStart();
+      _fsm.ChangeState(new TurnStartState(_manager, _fsm, _player));
     }
 
     public void Execute()

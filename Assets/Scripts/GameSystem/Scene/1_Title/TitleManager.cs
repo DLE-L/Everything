@@ -4,11 +4,19 @@ using Utils;
 
 namespace GameSystems.Scene.Title
 {
-  public class TitleManager
+  public class TitleManager : MonoBehaviour
   {
-    public void Init()
+    void Awake()
     {
+      GameSystem.Instance.RegisterTitleManager(this);
+    }
 
+    void OnDestroy()
+    {
+      if (GameSystem.Instance != null)
+      {
+        GameSystem.Instance.UnregisterTitleManager();
+      }
     }
   }
 }

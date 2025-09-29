@@ -13,7 +13,7 @@ namespace Item.CardEffects
     {
       if (user != null && user.CompareTag("Player"))
       {
-        manager.DiscardHandCardRandom(amount);
+        manager.CardManager.DiscardRandom(amount);
         Debug.Log($"[Discard Effect][{user.name} is Discard {amount}]");
       }
       else

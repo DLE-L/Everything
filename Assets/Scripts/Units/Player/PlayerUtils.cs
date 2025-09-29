@@ -24,7 +24,6 @@ namespace Units.Player
       Stat.Energy = 3;
       Stat.Block = 0;
     }
-
   }
   public class PlayerAccountData
   {

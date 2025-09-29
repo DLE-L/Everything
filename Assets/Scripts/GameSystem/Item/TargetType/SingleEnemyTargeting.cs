@@ -10,7 +10,7 @@ namespace Item
   {
     public override Task<List<Unit>> FindTargetsAsync(TargetingContext context)
     {
-      return Task.FromResult(new List<Unit>() { user });
+      return Task.FromResult(new List<Unit>() {  });
     }
   }
 }

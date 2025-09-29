@@ -1,16 +1,23 @@
-using System.Threading.Tasks;
+using UnityEngine;
 using Units.Player;
 using Utils;
 
-
 namespace GameSystems.Scene.Lobby
 {
-  public class LobbyManager
+  public class LobbyManager : MonoBehaviour
   {
-    public void Init()
-    {
-      
+    void Awake()
+    {      
+      GameSystem.Instance.RegisterLobbyManager(this);
     }
+
+    void OnDestroy()
+    {
+      if (GameSystem.Instance != null)
+      {
+        GameSystem.Instance.UnregisterLobbyManager();
+      }
+    }  
 
     public void ContinueGame()
     {

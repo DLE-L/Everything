@@ -14,20 +14,15 @@ namespace GameSystems.Scene.Battle
 {
   public class BattleManager : MonoBehaviour
   {
-    public List<BattleCardData> DrawPile = new();
-    public List<BattleCardData> DiscardPile = new();
-    public List<BattleCardData> Hand = new();
-
     public Player Player => GameSystem.Instance.Player;
     public StatData PlayerStat => Player.Stat;
 
     public List<Unit> PlayerTeam { get; private set; } = new();
     public List<Unit> EnemyTeam { get; private set; } = new();
     private BattleFSM _FSM = new();
+    public CardManager CardManager { get; private set; }    
 
     public System.Random random = new();
-    public UI_Card_Battle[] battleCards;
-    public List<UI_Card_Battle> HandCardObjects = new();
 
     [SerializeField] private GameObject enemyGameObject;
     [SerializeField] private Transform enemyTransform;
@@ -38,17 +33,28 @@ namespace GameSystems.Scene.Battle
 
     private void Awake()
     {
+      GameSystem.Instance.RegisterBattleManager(this);
+
       PlayerTeam = GameObject.FindGameObjectsWithTag("Player").Select(x => x.GetComponent<Player>() as Unit).ToList();
       //EnemyTeam = GameObject.FindGameObjectsWithTag("Enemy").Select(x => x.GetComponent<EnemyController>() as Unit).ToList();
     }
 
     private void Start()
     {
+      _FSM = new();
+      List<CardSO> deck = Player.RunData.Deck
+                          .SelectMany(pair => Enumerable.Repeat(CardDatabase.AllCards[pair.Key], pair.Value))
+                          .ToList();
+      CardManager = new CardManager(deck);
+
+
+
+
       // 1. 배틀 입장 - 게임 씬에서 적 정보 획득 및 생성
       BattleEncounter();
 
       // 2. 배틀 첫 상태 시작
-      _FSM.ChangeState(new SetupBattle(this, _FSM));
+      _FSM.ChangeState(new SetupBattle(this, _FSM, Player));
 
       // 3. 플레이어 & 적 이벤트 등록
       Player.OnDeath += OnUnitDied;
@@ -57,22 +63,6 @@ namespace GameSystems.Scene.Battle
         enemy.OnDeath += OnUnitDied;
       }
 
-      // 4. 카드 이벤트 등록
-      foreach (UI_Card_Battle battleCard in battleCards)
-      {
-        battleCard.OnCardClicked += (card) =>
-        {
-          if (UseEnergy(card.CardSO.Cost) == false)
-          {
-            // TODO: 에너지 부족 경고 문구 UI추가
-            Debug.Log("에너지 부족");
-            return;
-          }
-          DiscardHandCard(card);
-          CardUIUpdate(battleCard, false);
-          // OnUseCard?.Invoke(battleCard);
-        };
-      }
 
       EnemyNextCard();
     }
@@ -83,17 +73,6 @@ namespace GameSystems.Scene.Battle
 
       HandlePlayerClick();
     }
-
-    public List<Unit> GetPlayerTeam()
-    {
-      return PlayerTeam;
-    }
-
-    public List<Unit> GetEnemyTeam()
-    {
-      return EnemyTeam;
-    }
-
 
     public void BattleEncounter()
     {
@@ -129,19 +108,19 @@ namespace GameSystems.Scene.Battle
       if (unit is EnemyController)
       {
         EnemyTeam.Remove(unit);
-        if (EnemyTeam.Count > 0)
-        {
-          Debug.Log($"[Death Enemy: {unit.name}]");
-        }
-
         if (EnemyTeam.Count == 0)
         {
           Debug.Log("[플레이어 승리]");
           // ChangeState(new WinState(this, StateSystem));
         }
+        else if (EnemyTeam.Count > 0)
+        {
+          Debug.Log($"[Death Enemy: {unit.name}]");
+        }
       }
       else if (unit is Player)
       {
+        BattleEvent.RaiseCombatEnd();
         Debug.Log("[적 승리]");
         // ChangeState(new LoseState(this, StateSystem));        
       }
@@ -230,116 +209,19 @@ namespace GameSystems.Scene.Battle
       }
     }
 
-    public void DiscardHandCardRandom(int amount)
-    {
-      int cardsToDiscardCount = Mathf.Min(amount, Hand.Count);
-
-      var shuffledHand = Hand.OrderBy(card => random.Next()).ToList();
-      var cardsToDiscard = shuffledHand.Take(cardsToDiscardCount).ToList();
-
-      foreach (var cardData in cardsToDiscard)
-      {
-        DiscardHandCard(cardData);
-      }
-
-    }
-    public void DiscardHandCard(BattleCardData cardData)
-    {
-      if (Hand.Remove(cardData))
-      {
-        DiscardPile.Add(cardData);
-      }
-      // 데이터 변경이 일어났으므로 UI 업데이트 호출
-      //UpdateHandUI();
-    }
-    public void DiscardHandCardAll()
-    {
-      int handCount = Hand.Count;
-      for (int i = 0; i < handCount; i++)
-      {
-        DiscardPile.Add(Hand[0]);
-        Hand.RemoveAt(0);
-      }
-    }
     public void CardUIUpdate(UI_Card_Battle card, bool active)
     {
       card.UpdateUI();
       card.gameObject.SetActive(active);
     }
-    public void DrawCard(int amount)
+
+    void OnDestroy()
     {
-      for (int i = 0; i < amount; i++)
+      if (GameSystem.Instance != null)
       {
-        if (DrawPile.Count == 0)
-        {
-          if (DiscardPile.Count == 0)
-          {
-            Debug.Log("뽑을 카드가 더 이상 없습니다.");
-            break; // 버린 덱에도 카드가 없으면 종료
-          }
-          ReshuffleDiscardIntoDrawPile();
-        }
-
-        // 1. 데이터만 처리: 뽑을 덱 맨 위 카드를 손으로 옮김
-        BattleCardData drawnCardData = DrawPile[0];
-        DrawPile.RemoveAt(0);
-        Hand.Add(drawnCardData);
-      }
-
-      // 2. UI 업데이트는 별도의 메서드에 위임
-      //UpdateHandUI();
-    }
-
-    private void ReshuffleDiscardIntoDrawPile()
-    {
-      DrawPile.AddRange(DiscardPile);
-      DiscardPile.Clear();
-      Shuffle(DrawPile);
-      Debug.Log("버린 덱을 섞어 뽑을 덱을 만들었습니다.");
-    }
-
-    // --- UI 업데이트 ---
-    // 이 메서드가 현재 Hand 데이터 리스트를 보고 화면을 그려주는 모든 책임을 가집니다.
-    private void UpdateHandUI()
-    {
-      // 1. 현재 손에 있는 카드 수(Hand.Count)와 실제 UI 오브젝트 수(HandCardObjects.Count)를 맞춥니다.
-      // ... 카드가 많아졌으면 새로 Instantiate 하고, 적어졌으면 SetActive(false) 하거나 파괴하는 로직 ...
-
-      // 2. 각 UI 오브젝트에 올바른 카드 데이터를 연결합니다.
-      for (int i = 0; i < HandCardObjects.Count; i++)
-      {
-        if (i < Hand.Count)
-        {
-          //HandCardObjects[i].Setup(Hand[i]); // BattleCard의 Setup 메서드 호출
-          HandCardObjects[i].gameObject.SetActive(true);
-        }
-        else
-        {
-          HandCardObjects[i].gameObject.SetActive(false);
-        }
-      }
-      // ... 카드 위치를 예쁘게 재정렬하는 로직 ...
-    }
-
-    public void Shuffle<T>(List<T> deck)
-    {
-      for (int i = 0; i < deck.Count - 1; i++)
-      {
-        var randomIndex = random.Next(i, deck.Count);
-        (deck[i], deck[randomIndex]) = (deck[randomIndex], deck[i]);
+        GameSystem.Instance.UnregisterBattleManager();
       }
     }
-    public void GetPlayerDeck()
-    {
-      Dictionary<string, int> data = new(Player.RunData.Deck);
-      foreach (var cardInfo in data)
-      {
-        for (int i = 0; i < cardInfo.Value; i++)
-        {
-          DrawPile.Add(new BattleCardData(cardInfo.Key, $"{cardInfo.Key}_{i}"));
-        }
-      }
-    }    
   }
 }
 
