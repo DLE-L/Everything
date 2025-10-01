@@ -27,8 +27,8 @@ MonoBehaviour:
     m_SerializedLabels:
     - Enemy
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3d3d32ad4df768f4882488cbef9de11e
-    m_Address: Card_Skill_Common_Readjust
+  - m_GUID: 55b9878af7142ad4396498c01b79007e
+    m_Address: Card_Skill_Uncommon_Uplift
     m_ReadOnly: 0
     m_SerializedLabels:
     - Card
@@ -50,6 +50,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Card
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ba34e9df9cb12b443ab6dca9034184a0
+    m_Address: Deck_PlayerStart
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Deck
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bde4875621169844fa3470efc75b37b1
+    m_Address: Account_Default
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Account
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f19ae7b1eb729ab4e884b9a8a6d0e79e
     m_Address: Card_Attack_Common_Bash

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2db25640a68a79f4687a1d312ea376a2, type: 3}
+  m_Name: Account_Default
+  m_EditorClassIdentifier: 
+  Gold: 0
+  UnlockedCards:
+  - {fileID: 11400000, guid: f19ae7b1eb729ab4e884b9a8a6d0e79e, type: 2}
+  - {fileID: 11400000, guid: 7ec81474cdf67594c834a0822f6db8ce, type: 2}
+  - {fileID: 11400000, guid: aa0495037178cdc41b05766c38dcaf12, type: 2}
+  - {fileID: 11400000, guid: 55b9878af7142ad4396498c01b79007e, type: 2}
+  UnlockedRelics: []
+  Decks:
+  - {fileID: 11400000, guid: ba34e9df9cb12b443ab6dca9034184a0, type: 2}

@@ -3,6 +3,7 @@ using System;
 using Utils;
 using System.Threading.Tasks;
 using GameSystems.Act;
+using Item;
 
 
 namespace GameSystems.Scene.Game
@@ -17,7 +18,13 @@ namespace GameSystems.Scene.Game
 
     public void Awake()
     {
-      GameSystem.Instance.RegisterGameManager(this);
+      GameSystem.Instance.RegisterGameManager(this);      
+      SystemEvent.RaiseOnClickStartNewRun();
+    }
+
+    public async void Start()
+    {
+      await CardDatabase.InitializeAsync();
     }
 
     public void OnDestroy()

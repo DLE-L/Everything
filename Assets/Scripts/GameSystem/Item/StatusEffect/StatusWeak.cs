@@ -1,13 +1,15 @@
+using Units;
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Item
 {
-  [CreateAssetMenu(fileName = "NewStatus", menuName = "MyMenu/StatusEffect/Weak")]
+  [CreateAssetMenu(fileName = "Status_Weak_", menuName = "MyMenu/StatusEffect/Weak")]
   public class StatusWeak : StatusEffectSO
   {
-    public override int OnBeforeDealDamage(int originalDamage)
+    public override float GetOutgoingMultiplicativeModifier(Unit owner)
     {
-      return Mathf.FloorToInt(originalDamage * 0.75f);
+      return 0.75f;
     }
     public override void OnReapply(ref ActiveStatusData data, int newDuration, int newValue)
     {

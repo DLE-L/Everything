@@ -1,20 +1,23 @@
-using Utils;
-using UnityEngine;
-using Units.Player;
-using Item;
 using GameSystems.Scene.Loading;
 using GameSystems.Scene.Lobby;
 using GameSystems.Scene.Title;
 using GameSystems.Scene.Game;
 using GameSystems.Scene.Battle;
-using System.Collections;
+using Utils;
+using UnityEngine;
+using Units;
+using Item;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace GameSystems
 {
   public class GameSystem : MonoBehaviour
   {
     public static GameSystem Instance;
-    public Player Player;
+    public PlayerAccountData PlayerAccountData = new();
+    public RunPlayer Player;
+    public Dictionary<string, int> PlayerRunDeck { get; private set; }
 
     private SceneSystem _scene = new();
     public SceneSystem Scene => _scene;
@@ -38,52 +41,54 @@ namespace GameSystems
       {
         Destroy(gameObject);
       }
-      Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+
+      Player = GameObject.FindGameObjectWithTag("Player").GetComponent<RunPlayer>();
+      SystemEvent.RaiseGameSystemInit();
     }
 
     private async void Start()
     {
-      // _loading.Init();
-      // _title.Init();
-      // _lobby.Init();
-      // await _game.InitAsync();
-
       await CardDatabase.InitializeAsync();
+      PlayerAccountData = await PlayerDataManager.GetAccountDataAsync();
+      PlayerAccountData ??= await PlayerDataManager.NewAccountDataAsync();
 
       // _scene.Init(); // TODO: 추후 다시 주석 해제
-      NewGameStartAsync(); // TODO: 추후 다시 삭제 테스트용
     }
 
-    public async void NewGameStartAsync() // TODO: 추후 다시 삭제 테스트용
+    public void OnStartNewRun()
     {
-      PlayerAccountData accountData = new();
-      accountData.DefaultCardDeck();
-      await JsonData.SavePlayerDataAsync(accountData);
-      Player?.Init(accountData);
+      
     }
 
-    public async void SavePlayerDataAsync()
+    public void PlayerRundDeckInitialize(Dictionary<string, int> deck)
     {
-      await JsonData.SavePlayerDataAsync(Player.AccountData);
+      PlayerRunDeck = deck;
     }
 
-    public void RegisterLobbyManager(LobbyManager manager) => Lobby = manager;
-    public void UnregisterLobbyManager() => Lobby = null;
     public void RegisterTitleManager(TitleManager manager) => Title = manager;
     public void UnregisterTitleManager() => Title = null;
+    public void RegisterLobbyManager(LobbyManager manager) => Lobby = manager;
+    public void UnregisterLobbyManager() => Lobby = null;
     public void RegisterGameManager(GameManager manager) => Game = manager;
     public void UnregisterGameManager() => Game = null;
     public void RegisterBattleManager(BattleManager manager) => Battle = manager;
     public void UnregisterBattleManager() => Battle = null;
 
-    public void LoadLobbyScene() => Scene.LoadSceneLobby();
-    public void LoadGameScene() => Scene.LoadSceneGame();
-    public void LoadBattleScene() => Scene.LoadSceneBattle();
-    public void LoadTitleScene() => Scene.LoadSceneTitle();
+    void OnEnable()
+    {
+      SystemEvent.OnSceneLoadStart += Scene.LoadScene;
+      SystemEvent.OnClickNewRun += OnStartNewRun;
+    }
 
+    void OnDisable()
+    {
+      SystemEvent.OnSceneLoadStart -= Scene.LoadScene;
+      SystemEvent.OnClickNewRun -= OnStartNewRun;
+    }
 
     void OnDestroy()
     {
+      SystemEvent.RaiseGameSystemExit();
       AssetLoader.ReleaseAllAsset();
     }
   }

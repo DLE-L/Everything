@@ -1,5 +1,4 @@
 using Units;
-using Units.Enemy;
 using Utils;
 using Item;
 using UnityEngine;
@@ -37,11 +36,11 @@ namespace GameSystems.Scene.Battle
 
     public void Exit()
     {
-      EnemyNextCard();
+      EnemyNextIntent();
       _manager.ResetBlock(_manager.Player);
     }
 
-    public void EnemyNextCard()
+    public void EnemyNextIntent()
     {
       for (int i = 0; i < _manager.EnemyTeam.Count; i++)
       {
@@ -50,7 +49,7 @@ namespace GameSystems.Scene.Battle
         EnemyController enmey = _manager.EnemyTeam[i] as EnemyController;
         int rand = random.Next(0, enmey.EnemyData.AbilityCards.Count);
         CardSO card = enmey.EnemyData.AbilityCards[rand];
-        UnityEngine.Debug.Log($"[{enmey.name}_Next Card]:{card.name}");
+        UnityEngine.Debug.Log($"[{enmey.name}_Next Intent]:{card.name}");
       }
     }
   }

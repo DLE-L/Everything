@@ -12,11 +12,6 @@ namespace Utils
     private static Dictionary<string, AsyncOperationHandle> _handles = new(); // 딕셔너리<에셋 주소, 핸들>
     private static Dictionary<string, int> _refCounts = new(); // 딕셔너리<에셋 주소, 참조 카운트>
 
-    public static void Init()
-    {
-
-    }
-
     public static async Task<IList<T>> LoadAssetLabelAsync<T>(string label) where T : Object
     {
       if (_handles.TryGetValue(label, out var handle))
@@ -77,7 +72,7 @@ namespace Utils
         return;
       }
 
-      _refCounts[assetAddress]--;      
+      _refCounts[assetAddress]--;
       if (_refCounts[assetAddress] <= 0)
       {
         var handle = _handles[assetAddress];
@@ -85,7 +80,8 @@ namespace Utils
 
         _handles.Remove(assetAddress);
         _refCounts.Remove(assetAddress);
-      }      
+        Debug.Log($"[{assetAddress} Asset Released]");
+      }
     }
 
     public static void ReleaseAllAsset()

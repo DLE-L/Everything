@@ -11,7 +11,7 @@ namespace GameSystems.Scene.Battle
   {
     public List<CardSO> DrawPile;
     public List<CardSO> DiscardPile;
-    public List<CardSO> Hand;
+    public List<CardSO> Hand;    
 
     private System.Random _random = new();
 

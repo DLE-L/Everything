@@ -17,7 +17,8 @@ MonoBehaviour:
   Type: 0
   Rarity: 0
   Cost: 1
-  Description: "\uC801\uC5D0\uAC8C 6\uC758 \uD53C\uD574\uB97C \uC90D\uB2C8\uB2E4"
+  Description: "\uC801 1\uBA85\uC5D0\uAC8C 6\uC758 \uD53C\uD574\uB97C \uC90D\uB2C8\uB2E4."
+  Retain: 0
   Effects:
   - EffectType: {fileID: 11400000, guid: 142eb6e9bb53ca946987ebf49ac8cdff, type: 2}
     Target: {fileID: 11400000, guid: df5f9e32a05b2dc459856d247e68e0ed, type: 2}

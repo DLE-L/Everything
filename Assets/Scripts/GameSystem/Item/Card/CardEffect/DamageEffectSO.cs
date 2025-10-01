@@ -12,7 +12,7 @@ namespace Item.CardEffects
     {
       if (target != null)
       {
-        target.Damaged(Amount);
+        target.TakeDamage(user, Amount);
         Debug.Log($"[Damage Effect][{target.name} is Damaged {user.name}]");
       }
       else

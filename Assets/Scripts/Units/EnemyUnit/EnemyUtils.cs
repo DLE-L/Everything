@@ -2,7 +2,7 @@ using Item;
 using Utils;
 using System.Collections.Generic;
 
-namespace Units.Enemy
+namespace Units
 {
   public class BattleEnemyData
   {    

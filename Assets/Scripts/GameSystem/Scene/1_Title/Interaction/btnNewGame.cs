@@ -1,35 +1,24 @@
-
-using UnityEngine.EventSystems;
 using UnityEngine;
 using Utils;
-using System;
+using UnityEngine.EventSystems;
 
 namespace GameSystems.Scene.Title
 {
   public class btnNewGame : MonoBehaviour
   {
-    public event Action OnClickNewGame;
-
-    public void OnClickNew()
+    public void OnClickNew(PointerEventData data)
     {
-      GameSystem gameSystem = GameSystem.Instance;
-      gameSystem.LoadLobbyScene();
-      gameSystem.NewGameStartAsync();
+      SystemEvent.RaiseSceneLoadStart("2_Lobby");
     }
 
     void OnEnable()
     {
-      UI_EventHandler.Get(gameObject).OnClickAction += (eventData) =>
-      {
-        OnClickNewGame?.Invoke();
-      };
-
-      OnClickNewGame += OnClickNew;
+      UI_EventHandler.Get(gameObject).OnClickAction += OnClickNew;
     }
-    
+
     void OnDisable()
     {
-      OnClickNewGame -= OnClickNew;
+      UI_EventHandler.Get(gameObject).OnClickAction -= OnClickNew;
     }
   }
 }

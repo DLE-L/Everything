@@ -1,14 +1,18 @@
 using UnityEngine;
-using Units.Player;
-using Utils;
 
 namespace GameSystems.Scene.Lobby
 {
   public class LobbyManager : MonoBehaviour
   {
+
     void Awake()
-    {      
+    {
       GameSystem.Instance.RegisterLobbyManager(this);
+    }
+
+    public void OnPlayerRunDeck()
+    {
+      // GameSystem.Instance.PlayerRundDeckInitialize( TODO: 선택한 덱 할당 );
     }
 
     void OnDestroy()
@@ -17,29 +21,14 @@ namespace GameSystems.Scene.Lobby
       {
         GameSystem.Instance.UnregisterLobbyManager();
       }
-    }  
-
-    public void ContinueGame()
-    {
-
     }
-
-    public void NewGame()
+    void OnEnable()
     {
-
+      SystemEvent.OnClickNewRun += OnPlayerRunDeck;
     }
-
-    public async void NewGameStartAsync()
+    void OnDisable()
     {
-      PlayerAccountData accountData = new();
-      accountData.DefaultCardDeck();
-      await JsonData.SavePlayerDataAsync(accountData);
-      GameSystem.Instance.Player.Init(accountData);
-    }
-
-    public async void ContinueGameStartAsync()
-    {
-      GameSystem.Instance.Player.Init(await JsonData.LoadPlayerData());
+      SystemEvent.OnClickNewRun -= OnPlayerRunDeck;
     }
   }
 }

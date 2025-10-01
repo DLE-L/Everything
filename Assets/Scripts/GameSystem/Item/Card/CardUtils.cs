@@ -13,10 +13,10 @@ namespace Item
     public static Dictionary<string, CardSO> AllCards { get; private set; } = new(); // Dictionary<CardId, CardSO>      
     private static HashSet<string> _defaultCardIDs = new()
     {
-      "Attack_Strike",
-      "Deffence_Defend",
-      "Attack_Bash",
-      "Skill_Survivor"
+      "Card_Attack_Common_Strike",
+      "Card_Skill_Common_Defend",
+      "Card_Attack_Common_Bash",
+      "Card_Skill_Uncommon_Uplift"
     };
 
     public async static Task InitializeAsync()
@@ -24,6 +24,7 @@ namespace Item
       var cardList = await AssetLoader.LoadAssetLabelAsync<CardSO>("Card");
       foreach (var card in cardList)
       {
+        
         AllCards.TryAdd(card.name, card);
       }
       return;

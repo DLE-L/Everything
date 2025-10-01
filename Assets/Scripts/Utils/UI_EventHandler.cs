@@ -18,8 +18,7 @@ namespace Utils
     public static UI_EventHandler Get(GameObject go)
     {
       UI_EventHandler handler = go.GetComponent<UI_EventHandler>();
-      if (handler == null)
-        handler = go.AddComponent<UI_EventHandler>();
+      handler ??= go.AddComponent<UI_EventHandler>();
       return handler;
     }
 

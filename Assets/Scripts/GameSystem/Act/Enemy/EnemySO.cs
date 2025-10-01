@@ -1,10 +1,9 @@
-using Utils;
 using UnityEngine;
 using System.Collections.Generic;
 using Item;
 
 
-namespace Units.Enemy
+namespace Units
 {
   [CreateAssetMenu(fileName = "Enemy", menuName = "MyMenu/Unit/Enemy")]
   public class EnemySO : ScriptableObject

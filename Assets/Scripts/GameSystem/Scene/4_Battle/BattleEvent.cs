@@ -36,8 +36,8 @@ namespace GameSystems.Scene.Battle
     public static void RaiseDealDamage(Unit owner, Unit target, int damage) => OnDealDamage?.Invoke(owner, target, damage);
     public static event Action<Unit, Unit, int> OnTakeDamage;
     public static void RaiseTakeDamage(Unit owner, Unit target, int damage) => OnTakeDamage?.Invoke(owner, target, damage);
-    public static event Action<Unit, Unit, int> OnGainBlock;
-    public static void RaiseGainBlock(Unit owner, Unit target, int block) => OnGainBlock?.Invoke(owner, target, block);
+    public static event Action<Unit, int> OnGainBlock;
+    public static void RaiseGainBlock(Unit owner, int block) => OnGainBlock?.Invoke(owner, block);
     public static event Action<Unit, int> OnHeal;
     public static void RaiseHeal(Unit owner, int heal) => OnHeal?.Invoke(owner, heal);
     public static event Action<Unit, Unit, int> OnApplyDebuff;

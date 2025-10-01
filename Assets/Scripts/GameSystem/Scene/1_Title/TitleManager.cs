@@ -1,5 +1,5 @@
 using UnityEngine;
-using Units.Player;
+using Units;
 using Utils;
 
 namespace GameSystems.Scene.Title

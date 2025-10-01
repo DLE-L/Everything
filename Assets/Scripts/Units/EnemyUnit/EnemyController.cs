@@ -4,7 +4,7 @@ using UnityEngine;
 using Utils;
 
 
-namespace Units.Enemy
+namespace Units
 {
   public class EnemyController : Unit
   {

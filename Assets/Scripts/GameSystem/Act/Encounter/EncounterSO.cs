@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-using Units.Enemy;
+using Units;
 using Item;
 
 namespace GameSystems.Act.Encounter

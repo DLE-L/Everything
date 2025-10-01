@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Utils;
 
-namespace Units.Enemy
+namespace Units
 {
   public static class EnemyDatabase
   {

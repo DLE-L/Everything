@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using System;
 using Utils;
-using Units.Player;
+using Units;
 
 namespace GameSystems.Scene.Game
 {
@@ -20,8 +20,7 @@ namespace GameSystems.Scene.Game
     }
 
     public void OnClick()
-    {
-      PlayerAction player = GameSystem.Instance.Player.Action;
+    {      
 
     }
 

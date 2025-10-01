@@ -4,8 +4,6 @@ using GameSystems.Scene.Game;
 using Utils;
 using Item;
 using System.Linq;
-using Units.Player;
-using Units.Enemy;
 using Units;
 using System;
 using System.Threading.Tasks;
@@ -14,11 +12,12 @@ namespace GameSystems.Scene.Battle
 {
   public class BattleManager : MonoBehaviour
   {
-    public Player Player => GameSystem.Instance.Player;
+    public RunPlayer Player => GameSystem.Instance.Player;
     public StatData PlayerStat => Player.Stat;
 
     public List<Unit> PlayerTeam { get; private set; } = new();
     public List<Unit> EnemyTeam { get; private set; } = new();
+    public DeckSO PlayerStartDeck;
     public BattleFSM FSM { get; private set; } = new();
     public CardManager CardManager { get; private set; }
 
@@ -35,19 +34,19 @@ namespace GameSystems.Scene.Battle
     {
       GameSystem.Instance.RegisterBattleManager(this);
 
-      PlayerTeam = GameObject.FindGameObjectsWithTag("Player").Select(x => x.GetComponent<Player>() as Unit).ToList();
-      //EnemyTeam = GameObject.FindGameObjectsWithTag("Enemy").Select(x => x.GetComponent<EnemyController>() as Unit).ToList();
+      PlayerTeam = GameObject.FindGameObjectsWithTag("Player").Select(x => x.GetComponent<RunPlayer>() as Unit).ToList();      
     }
 
     private void Start()
-    {
-      FSM = new();
-      List<CardSO> deck = Player.RunData.Deck
-                          .SelectMany(pair => Enumerable.Repeat(CardDatabase.AllCards[pair.Key], pair.Value))
-                          .ToList();
-      CardManager = new CardManager(deck);
+    {     
+      List<CardSO> DeckList = PlayerStartDeck.Cards
+                              .SelectMany(cardCount => Enumerable.Repeat(cardCount.Card, cardCount.Count))
+                              .ToList();
+      CardManager = new CardManager(DeckList);
 
 
+
+      
 
       FSM.ChangeState(new SetupBattle(this, FSM, TurnOwner.Player));
 
@@ -55,8 +54,6 @@ namespace GameSystems.Scene.Battle
       BattleEncounter();
 
       // 2. 배틀 첫 상태 시작
-
-
       // 3. 플레이어 & 적 이벤트 등록
       Player.OnDeath += OnUnitDied;
       foreach (EnemyController enemy in EnemyTeam)
@@ -66,7 +63,6 @@ namespace GameSystems.Scene.Battle
 
 
       EnemyNextCard();
-      
 
       
     }
@@ -122,7 +118,7 @@ namespace GameSystems.Scene.Battle
           Debug.Log($"[Death Enemy: {unit.name}]");
         }
       }
-      else if (unit is Player)
+      else if (unit is RunPlayer)
       {
         BattleEvent.RaiseCombatEnd();
         Debug.Log("[적 승리]");
@@ -186,7 +182,7 @@ namespace GameSystems.Scene.Battle
 
     public void ResetBlock(Unit unit)
     {
-      if (unit is Player)
+      if (unit is RunPlayer)
       {
         PlayerStat.Block = 0;
       }
@@ -200,7 +196,7 @@ namespace GameSystems.Scene.Battle
     }
     public void ResetEnergy(Unit unit)
     {
-      if (unit is Player)
+      if (unit is RunPlayer)
       {
         PlayerStat.Energy = PlayerStat.MaxEnergy;
       }

@@ -2,30 +2,23 @@
 using UnityEngine;
 using Utils;
 using System;
+using UnityEngine.EventSystems;
 
 namespace GameSystems.Scene.Title
 {
   public class btnContinueGame : MonoBehaviour
   {
-    public event Action OnClickContinueGame;
-
-    public void OnClickContinue()
+    public void OnClickContinue(PointerEventData data)
     {
-      GameSystem gameSystem = GameSystem.Instance;
-      gameSystem.LoadLobbyScene();
+      SystemEvent.RaiseSceneLoadStart("2_Lobby");
     }
     void OnEnable()
     {
-      UI_EventHandler.Get(gameObject).OnClickAction += (eventData) =>
-            {
-              OnClickContinueGame?.Invoke();
-            };
-
-      OnClickContinueGame += OnClickContinue;
+      UI_EventHandler.Get(gameObject).OnClickAction += OnClickContinue;
     }
     void OnDisable()
     {
-      OnClickContinueGame -= OnClickContinue;
+      UI_EventHandler.Get(gameObject).OnClickAction -= OnClickContinue;
     }
   }
 }
