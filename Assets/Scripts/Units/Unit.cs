@@ -5,7 +5,6 @@ using Item;
 using System.Collections.Generic;
 using GameSystems.Scene.Battle;
 using System.Linq;
-using Unity.VisualScripting;
 
 namespace Units
 {
@@ -14,6 +13,22 @@ namespace Units
     public virtual StatData Stat { get; set; }
     public event Action<Unit> OnDeath;
     public Dictionary<StatusEffectSO, ActiveStatusData> StatusEffects = new();
+    public TurnOwner Team { get; private set; }
+
+    public void Initialize(TurnOwner team)
+    {
+      Team = team;
+    }
+
+    public virtual void HandleTurnStart(TurnOwner turnOwner)
+    {
+      if (turnOwner == Team)
+      {
+        ResetBlock();
+        ResetEnergy();
+        ProcessTurnStartEffects();
+      }
+    }
 
     public void ApplyStatusEffect(StatusEffectSO effect, int duration, int value)
     {
@@ -105,7 +120,7 @@ namespace Units
         effect.OnOwnerTakesDamage(this, ref data, damageAfterBlock);
         StatusEffects[effect] = data;
       }
-      
+
       // 6. 피격 이벤트 발생
       BattleEvent.RaiseTakeDamage(attacker, this, damageAfterBlock);
       Debug.Log($"[{attacker} attack {this}. Take Damage {damageAfterBlock}][Remain HP: {Stat.HP}]");
@@ -148,6 +163,12 @@ namespace Units
       Debug.Log($"[Return {name} Reset Block]");
     }
 
+    public void ResetEnergy()
+    {
+      Stat.Energy = Stat.MaxEnergy;
+      Debug.Log($"[Return {name} Reset Energy]");
+    }
+
     public virtual void Die()
     {
       OnDeath?.Invoke(this);
@@ -155,7 +176,12 @@ namespace Units
 
     void OnEnable()
     {
-
+      BattleEvent.OnTurnStart += HandleTurnStart;
+    }
+    void OnDisable()
+    {
+      BattleEvent.OnTurnStart -= HandleTurnStart;    
+      
     }
 
   }

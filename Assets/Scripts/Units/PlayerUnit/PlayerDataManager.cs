@@ -23,6 +23,7 @@ namespace Units
       PlayerAccountData data = await DefaultToAccountData();
       await JsonData.SavePlayerDataAsync(data);
       AssetLoader.ReleaseAsset("Account_Default");
+      Debug.Log($"[Account Data New]");
       return data;
     }
 

@@ -1,4 +1,5 @@
 using GameSystems;
+using GameSystems.Scene.Battle;
 using Item;
 using Utils;
 
@@ -11,7 +12,7 @@ namespace Units
 
     void Awake()
     {
-
+      Initialize(TurnOwner.PlayerTeam);
     }
 
     void OnEnable()

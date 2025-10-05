@@ -14,10 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: "\uBC29\uC5B4"
   Illustration: {fileID: 0}
-  Type: 1
   Rarity: 0
   Cost: 1
   Description: "5\uC758 \uBC29\uC5B4\uB3C4\uB97C \uC5BB\uC2B5\uB2C8\uB2E4"
+  Retain: 0
+  Exhaust: 0
+  Type: {fileID: 11400000, guid: f5f6cd722309e7b43892f667023d2ab0, type: 2}
   Effects:
-  - EffectType: {fileID: 11400000, guid: 5bbe4f06e63c1ea4482532d1772d1312, type: 2}
+  - Effect: {fileID: 11400000, guid: 5bbe4f06e63c1ea4482532d1772d1312, type: 2}
     Target: {fileID: 11400000, guid: dcf3c1dfcbf24964aa645789ec429ff5, type: 2}

@@ -24,7 +24,7 @@ namespace GameSystems.Scene.Battle
         // 카드 사용 로직
       }
 
-      _fsm.ChangeState(new TurnEndState(_manager, _fsm, TurnOwner.Player));
+      _fsm.ChangeState(new TurnEndState(_manager, _fsm, TurnOwner.PlayerTeam));
     }
 
     public void Execute()
@@ -37,7 +37,6 @@ namespace GameSystems.Scene.Battle
     public void Exit()
     {
       EnemyNextIntent();
-      _manager.ResetBlock(_manager.Player);
     }
 
     public void EnemyNextIntent()

@@ -8,8 +8,7 @@ namespace Item
     public string Name;
     public Sprite Icon;
     public string Description;
-    public StatusType Type;
-    public bool IsStackable;
+    public StatusType Type;    
     public virtual void OnRemove(Unit owner) { }
     public virtual void OnApply(Unit target, ref ActiveStatusData data) { }
     public virtual void OnReapply(ref ActiveStatusData data, int newDuration, int newValue) { }

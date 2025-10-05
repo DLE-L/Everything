@@ -6,19 +6,19 @@ namespace GameSystems.Scene.Title
 {
   public class btnNewGame : MonoBehaviour
   {
-    public void OnClickNew(PointerEventData data)
+    private void OnClick(PointerEventData data)
     {
       SystemEvent.RaiseSceneLoadStart("2_Lobby");
     }
 
     void OnEnable()
     {
-      UI_EventHandler.Get(gameObject).OnClickAction += OnClickNew;
+      UI_EventHandler.Get(gameObject).OnClickAction += OnClick;
     }
 
     void OnDisable()
     {
-      UI_EventHandler.Get(gameObject).OnClickAction -= OnClickNew;
+      UI_EventHandler.Get(gameObject).OnClickAction -= OnClick;
     }
   }
 }

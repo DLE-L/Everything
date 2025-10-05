@@ -12,7 +12,7 @@ namespace Item.CardEffects
     {
       if (user != null)
       {
-        target.Heal(Amount);
+        user.Heal(Amount);
         Debug.Log($"[Heal Effect][{user.name} is Healing {Amount}]");
       }
       else

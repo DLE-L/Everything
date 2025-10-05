@@ -1,4 +1,4 @@
-
+using UnityEditor;
 using UnityEngine.SceneManagement;
 
 namespace GameSystems
@@ -7,7 +7,7 @@ namespace GameSystems
   {
     public void Init()
     {
-      LoadSceneTitle();
+      LoadSceneTitle();      
     }
 
     public void LoadSceneTitle() => LoadScene("1_Title");
@@ -17,6 +17,7 @@ namespace GameSystems
 
     public void LoadScene(string sceneName, LoadSceneMode mode = LoadSceneMode.Single)
     {
+      //UnityEngine.Debug.Log($"{sceneName} Load");
       SceneManager.LoadSceneAsync(sceneName, mode);
     }    
   }

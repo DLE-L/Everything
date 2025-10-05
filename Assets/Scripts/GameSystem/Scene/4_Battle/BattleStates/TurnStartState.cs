@@ -18,19 +18,14 @@ namespace GameSystems.Scene.Battle
 
     public void Enter()
     {
-      UnityEngine.Debug.Log($"--- {_turnOwner}의 턴 시작! ---");
-      var team = _turnOwner == TurnOwner.Player ? _manager.PlayerTeam : _manager.EnemyTeam;
-      BattleEvent.RaiseTurnStart(team);
-      foreach (var unit in team)
-      {
-        unit.ResetBlock();
-      }
+      UnityEngine.Debug.Log($"--- {_turnOwner}의 턴 시작! ---");      
+      BattleEvent.RaiseTurnStart(_turnOwner);
 
-      if (_turnOwner == TurnOwner.Player)
+      if (_turnOwner == TurnOwner.PlayerTeam)
       {
         _fsm.ChangeState(new TurnPlayerState(_manager, _fsm));
       }
-      else if (_turnOwner == TurnOwner.Enemy)
+      else if (_turnOwner == TurnOwner.EnemyTeam)
       {
         _fsm.ChangeState(new TurnEnemyState(_manager, _fsm));
       }

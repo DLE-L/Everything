@@ -1,9 +1,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Item;
+using Units;
 using UnityEngine;
-using Utils;
-
 
 namespace GameSystems.Scene.Battle
 {
@@ -11,7 +10,8 @@ namespace GameSystems.Scene.Battle
   {
     public List<CardSO> DrawPile;
     public List<CardSO> DiscardPile;
-    public List<CardSO> Hand;    
+    public List<CardSO> Hand;
+    public List<CardSO> ExhaustPile;
 
     private System.Random _random = new();
 
@@ -22,6 +22,36 @@ namespace GameSystems.Scene.Battle
       DiscardPile = new List<CardSO>();
 
       Shuffle(DrawPile);
+    }
+
+    public async void PlayCard(CardSO card, Unit user, BattleManager manager)
+    {
+      if (manager.TryUseEnergy(card.Cost) == false)
+      {
+        Debug.Log($"[에너지 부족]");
+        return;
+      }
+
+      BattleEvent.RaiseCardPlay(card);
+
+      foreach (var cardEffect in card.Effects)
+      {
+        TargetingStrategySO targeting = cardEffect.Target;        
+        TargetingContext context = new TargetingContext(
+          user,
+          manager.PlayerTeam,
+          manager.EnemyTeam
+        );
+
+        List<Unit> targets = await targeting.FindTargetsAsync(context);
+
+        foreach (Unit target in targets)
+        {
+          cardEffect.Effect.Execute(user, target, manager);
+        }
+      }
+      card.Type.OnCardPlayed(card, this);
+      Debug.Log($"{card.name} is Play");
     }
 
     public void Draw(int amount)

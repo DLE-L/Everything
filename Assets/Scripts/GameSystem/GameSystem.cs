@@ -7,7 +7,6 @@ using Utils;
 using UnityEngine;
 using Units;
 using Item;
-using System.Threading.Tasks;
 using System.Collections.Generic;
 
 namespace GameSystems
@@ -42,17 +41,17 @@ namespace GameSystems
         Destroy(gameObject);
       }
 
-      Player = GameObject.FindGameObjectWithTag("Player").GetComponent<RunPlayer>();
       SystemEvent.RaiseGameSystemInit();
+      Debug.Log($"[GameSystem Initialized]");
     }
 
     private async void Start()
     {
-      await CardDatabase.InitializeAsync();
+      // await CardDatabase.InitializeAsync(); // TODO: Test용도
       PlayerAccountData = await PlayerDataManager.GetAccountDataAsync();
       PlayerAccountData ??= await PlayerDataManager.NewAccountDataAsync();
 
-      // _scene.Init(); // TODO: 추후 다시 주석 해제
+       _scene.Init();
     }
 
     public void OnStartNewRun()
@@ -63,6 +62,20 @@ namespace GameSystems
     public void PlayerRundDeckInitialize(Dictionary<string, int> deck)
     {
       PlayerRunDeck = deck;
+    }
+
+    public void RemoveCardFromDeckPermanently(CardSO cardToRemove)
+    {
+      var permanentDeck = PlayerRunDeck;      
+      if (permanentDeck.ContainsKey(cardToRemove.name))
+      {
+        permanentDeck.Remove(cardToRemove.name);
+        Debug.Log($"'{cardToRemove.Name}' card permanent deck remove");
+      }
+      else
+      {
+        Debug.LogError($"'{cardToRemove.Name}' card is null");
+      }
     }
 
     public void RegisterTitleManager(TitleManager manager) => Title = manager;
@@ -77,13 +90,13 @@ namespace GameSystems
     void OnEnable()
     {
       SystemEvent.OnSceneLoadStart += Scene.LoadScene;
-      SystemEvent.OnClickNewRun += OnStartNewRun;
+      SystemEvent.OnStartNewRun += OnStartNewRun;
     }
 
     void OnDisable()
     {
       SystemEvent.OnSceneLoadStart -= Scene.LoadScene;
-      SystemEvent.OnClickNewRun -= OnStartNewRun;
+      SystemEvent.OnStartNewRun -= OnStartNewRun;
     }
 
     void OnDestroy()

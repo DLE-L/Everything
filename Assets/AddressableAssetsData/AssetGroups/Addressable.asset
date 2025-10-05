@@ -21,6 +21,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - UI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 22021972a27ee8c4cabcec8a61df5f49
+    m_Address: Card_Skill_Common_Breathe
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Card
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2698e465291d393429fdaf9793f9b2b8
     m_Address: Enemy_Common_Goblin
     m_ReadOnly: 0
@@ -45,6 +51,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Card
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9ab455fba149bb9428d03e42fce6b08e
+    m_Address: Card_Power_Uncommon_BattleCry
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Card
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: aa0495037178cdc41b05766c38dcaf12
     m_Address: Card_Skill_Common_Defend
     m_ReadOnly: 0
@@ -52,7 +64,7 @@ MonoBehaviour:
     - Card
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ba34e9df9cb12b443ab6dca9034184a0
-    m_Address: Deck_PlayerStart
+    m_Address: Deck_Default
     m_ReadOnly: 0
     m_SerializedLabels:
     - Deck
@@ -63,8 +75,20 @@ MonoBehaviour:
     m_SerializedLabels:
     - Account
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e5576ba5312984f43ad41f11f9403e05
+    m_Address: GenerateMap_Data
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Map
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f19ae7b1eb729ab4e884b9a8a6d0e79e
     m_Address: Card_Attack_Common_Bash
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Card
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fc73c6ad8680d724aa315cd9bac6ae52
+    m_Address: Card_Skill_Rare_Adrenaline
     m_ReadOnly: 0
     m_SerializedLabels:
     - Card

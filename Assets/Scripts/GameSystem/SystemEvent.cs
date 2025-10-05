@@ -18,8 +18,6 @@ namespace GameSystems
     public static void RaiseOnClickNewGame() => OnClickNewGame?.Invoke();
     public static event Action OnClickContinueGame;
     public static void RaiseOnClickContinueGame() => OnClickContinueGame?.Invoke();
-    public static event Action OnClickNewRun;
-    public static void RaiseOnClickStartNewRun() => OnClickNewRun?.Invoke();
     public static event Action OnStartNewRun;
     public static void RaiseOnStartNewRun() => OnStartNewRun?.Invoke();
     #endregion

@@ -11,7 +11,7 @@ namespace Item.CardEffects
     public int amount;
     public override void Execute(Unit user, Unit target, BattleManager manager)
     {
-      if (user != null && user.CompareTag("Player"))
+      if (user != null)
       {
         manager.CardManager.DiscardRandom(amount);
         Debug.Log($"[Discard Effect][{user.name} is Discard {amount}]");

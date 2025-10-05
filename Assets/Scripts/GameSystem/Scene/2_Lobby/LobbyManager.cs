@@ -24,11 +24,11 @@ namespace GameSystems.Scene.Lobby
     }
     void OnEnable()
     {
-      SystemEvent.OnClickNewRun += OnPlayerRunDeck;
+      SystemEvent.OnStartNewRun += OnPlayerRunDeck;
     }
     void OnDisable()
     {
-      SystemEvent.OnClickNewRun -= OnPlayerRunDeck;
+      SystemEvent.OnStartNewRun -= OnPlayerRunDeck;
     }
   }
 }

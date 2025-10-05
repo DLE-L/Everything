@@ -10,23 +10,22 @@ namespace GameSystems.Scene.Game
   {
     void OnEnable()
     {
-      BattleEvent.OnTakeDamage += HandleTakeDamage;
-      BattleEvent.OnTurnStart += HandleTurnStart;
+      BattleEvent.OnTakeDamage += HandleTakeDamage;      
     }
 
     public void HandleTakeDamage(Unit owner, Unit target, int damage)
     {
 
     }
-    public void HandleTurnStart(List<Unit> owner)
-    {
+    // public void HandleTurnStart(List<Unit> owner)
+    // {
 
-    }
+    // }
 
     void OnDestroy()
     {
       BattleEvent.OnTakeDamage -= HandleTakeDamage;
-      BattleEvent.OnTurnStart -= HandleTurnStart;
+      //BattleEvent.OnTurnStart -= HandleTurnStart;
       // ...
       // GameEvent.OnShopEnter -= HandleShopEnter;
       // ...

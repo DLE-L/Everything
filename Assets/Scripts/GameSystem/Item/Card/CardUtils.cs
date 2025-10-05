@@ -23,10 +23,10 @@ namespace Item
     {
       var cardList = await AssetLoader.LoadAssetLabelAsync<CardSO>("Card");
       foreach (var card in cardList)
-      {
-        
+      {        
         AllCards.TryAdd(card.name, card);
       }
+      Debug.Log($"[CardDatabase] Initialized");
       return;
     }
 

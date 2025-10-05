@@ -2,24 +2,44 @@ using System;
 using GameSystems.Scene.Battle;
 using UnityEngine;
 using Utils;
+using Item;
 
 
 namespace Units
 {
   public class EnemyController : Unit
   {
-    public BattleManager battleManager;
-    public BattleEnemyData EnemyData;   
+    public BattleManager battleManager { get; private set; }
+    public BattleEnemyData EnemyData { get; private set; }
+    private System.Random random = new();
 
     void Awake()
     {
-
+      Initialize(TurnOwner.EnemyTeam);
     }
 
-    public void Init()
+    public void DataSetting(BattleEnemyData data, BattleManager manager)
     {
-      battleManager = GameObject.Find("BattleManager").GetComponent<BattleManager>();
-      Stat = EnemyData.Stat;
+      battleManager = manager;
+      EnemyData = data;
+      Stat = data.Stat;
+    }
+
+    public override void HandleTurnStart(TurnOwner turnOwner)
+    {
+      base.HandleTurnStart(turnOwner);
+      if (turnOwner == Team)
+      {
+        EnemyNextIntent();
+      }
+    }
+
+
+    public void EnemyNextIntent()
+    {
+      int rand = random.Next(0, EnemyData.AbilityCards.Count);
+      CardSO card = EnemyData.AbilityCards[rand];
+      Debug.Log($"[{name}_Next Card]:{card.name}");
     }
   }
 }

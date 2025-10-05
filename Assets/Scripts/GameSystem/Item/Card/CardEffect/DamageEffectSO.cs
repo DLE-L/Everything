@@ -10,14 +10,14 @@ namespace Item.CardEffects
     [SerializeField] private int Amount;
     public override void Execute(Unit user, Unit target, BattleManager manager)
     {
-      if (target != null)
+      if (user != null && target != null)
       {
-        target.TakeDamage(user, Amount);
-        Debug.Log($"[Damage Effect][{target.name} is Damaged {user.name}]");
+        user.DealDamage(target, Amount);        
+        Debug.Log($"[Damage Effect][{target.name} is Damaged {user.name}, {Amount}]");
       }
       else
       {
-        Debug.Log($"[Damage Effect][Target is null]");
+        Debug.Log($"[Damage Effect][User & Target is null]");
       }
     }
   }

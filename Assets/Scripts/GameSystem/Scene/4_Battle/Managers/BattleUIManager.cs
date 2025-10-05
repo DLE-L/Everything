@@ -6,14 +6,20 @@ namespace GameSystems.Scene.Battle
 {
   public class BattleUIManager : MonoBehaviour
   {
+
+    public void UpdateHandUI(List<CardSO> hand)
+    {
+
+    }
     void OnEnable()
     {
       BattleEvent.OnHandUpdated += UpdateHandUI;
     }
-
-    public void UpdateHandUI(List<CardSO> hand)
+    void OnDisable()
     {
-      
+      BattleEvent.OnHandUpdated -= UpdateHandUI;
     }
+
+    
   }
 }

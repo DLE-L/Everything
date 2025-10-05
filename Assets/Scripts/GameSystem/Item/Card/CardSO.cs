@@ -9,19 +9,20 @@ namespace Item
   public class CardSO : ScriptableObject
   {
     public string Name;
-    public Sprite Illustration;
-    public CardType Type;
+    public Sprite Illustration;    
     public CardRarity Rarity;
     public int Cost;
     public string Description;
     public bool Retain;
+    public bool Exhaust;
+    public CardTypeSO Type;
     public List<CardEffect> Effects;
   }
 
   [Serializable]
   public class CardEffect
   {
-    public ItemEffectSO EffectType;
+    public ItemEffectSO Effect;
     public TargetingStrategySO Target;
   }
 

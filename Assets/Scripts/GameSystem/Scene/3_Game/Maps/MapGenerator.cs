@@ -27,7 +27,7 @@ namespace GameSystems.Scene.Game
 
     }
 
-    public List<Node> GenerateMap(GameObject nodePrefab)
+    public List<Node> GenerateMap(GameObject nodePrefab, MapGenerateSO generateData)
     {
       GameManager gameManager = GameSystem.Instance.Game;
 

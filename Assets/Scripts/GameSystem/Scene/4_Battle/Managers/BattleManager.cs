@@ -48,7 +48,7 @@ namespace GameSystems.Scene.Battle
 
       
 
-      FSM.ChangeState(new SetupBattle(this, FSM, TurnOwner.Player));
+      FSM.ChangeState(new SetupBattle(this, FSM, TurnOwner.PlayerTeam));
 
       // 1. 배틀 입장 - 게임 씬에서 적 정보 획득 및 생성
       BattleEncounter();
@@ -60,10 +60,6 @@ namespace GameSystems.Scene.Battle
       {
         enemy.OnDeath += OnUnitDied;
       }
-
-
-      EnemyNextCard();
-
       
     }
 
@@ -84,22 +80,10 @@ namespace GameSystems.Scene.Battle
         enemyTransform.position += new Vector3(0, count, 0);
         GameObject go = Instantiate(enemyGameObject, enemyTransform);
         EnemyController controller = go.GetComponent<EnemyController>();
-        controller.EnemyData = new BattleEnemyData(enemy);
-        go.name = enemy.name + count;
-        controller.Init();
+        controller.DataSetting(new BattleEnemyData(enemy), this);
+        go.name = enemy.name + count;        
         EnemyTeam.Add(controller);
         count++;
-      }
-    }
-
-    public void EnemyNextCard()
-    {
-      for (int i = 0; i < EnemyTeam.Count; i++)
-      {
-        EnemyController enmey = EnemyTeam[i] as EnemyController;
-        int rand = random.Next(0, enmey.EnemyData.AbilityCards.Count);
-        CardSO card = enmey.EnemyData.AbilityCards[rand];
-        Debug.Log($"[{enmey.name}_Next Card]:{card.name}");
       }
     }
 
@@ -169,44 +153,15 @@ namespace GameSystems.Scene.Battle
       }
     }
 
-    public bool UseEnergy(int cost)
+    public bool TryUseEnergy(int cardCost)
     {
-      if (PlayerStat.Energy < cost)
+      if (PlayerStat.Energy < cardCost)
       {
         return false;
       }
-      PlayerStat.Energy -= cost;
+      PlayerStat.Energy -= cardCost;
       //Debug.Log($"남은 에너지: {PlayerStat.Energy}");
       return true;
-    }
-
-    public void ResetBlock(Unit unit)
-    {
-      if (unit is RunPlayer)
-      {
-        PlayerStat.Block = 0;
-      }
-      else if (unit is EnemyController)
-      {
-        foreach (EnemyController enemy in EnemyTeam)
-        {
-          enemy.Stat.Block = 0;
-        }
-      }
-    }
-    public void ResetEnergy(Unit unit)
-    {
-      if (unit is RunPlayer)
-      {
-        PlayerStat.Energy = PlayerStat.MaxEnergy;
-      }
-      else if (unit is EnemyController)
-      {
-        foreach (EnemyController enemy in EnemyTeam)
-        {
-          enemy.Stat.Energy = enemy.Stat.MaxEnergy;
-        }
-      }
     }
 
     public void CardUIUpdate(UI_Card_Battle card, bool active)
@@ -226,8 +181,8 @@ namespace GameSystems.Scene.Battle
 
   public enum TurnOwner
   {
-    Player,
-    Enemy
+    PlayerTeam,
+    EnemyTeam
   }
 }
 
