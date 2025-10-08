@@ -1,16 +1,13 @@
-
-using System;
 using UnityEngine;
 
 namespace GameSystems.Act
-{
-  [Serializable]
+{  
   public abstract class EncounterTypeSO : ScriptableObject
   {
     public string Name;
     public Sprite Icon;
-    public Color Color;
     public string Description;
+    public abstract void BeginEncounter();
   }
 }
 
@@ -18,8 +15,7 @@ namespace GameSystems.Act
   public enum EncounterType
   {
     Narrative,
-    Combat,
-    EliteCombat,    
+    Combat,    
     Shop,
     Rest,
     Boss,

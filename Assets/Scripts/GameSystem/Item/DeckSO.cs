@@ -7,7 +7,7 @@ namespace Item
   [CreateAssetMenu(fileName = "NewDeck", menuName = "MyMenu/Decks/Deck")]
   public class DeckSO : ScriptableObject
   {
-    public List<CardCount> Cards = new();
+    public List<CardCount> Cards = new();    
   }
 
   [Serializable]

@@ -11,11 +11,11 @@ namespace Units
     public StatData Stat;
     public int RunStateGold;
 
-    public HashSet<string> Relics = new();
+    public HashSet<RelicSO> Relics = new();
     public Dictionary<string, int> Items = new();
-    public Dictionary<string, int> Deck = new();
+    public Dictionary<CardSO, int> Deck = new();
 
-    public PlayerRunData(int maxHp, Dictionary<string, int> deck, int takeGold = 0)
+    public PlayerRunData(int maxHp, Dictionary<CardSO, int> deck, int takeGold = 0)
     {
       RunStateGold = 0;
       Deck = new(deck);

@@ -2,124 +2,149 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 using GameSystems.Act;
+using System.Threading.Tasks;
+using Utils;
+using System.Linq;
 
 namespace GameSystems.Scene.Game
 {
   public class MapGenerator
   {
-    // 맵 생성 관련
-    private const int ACT_FLOOR_COUNT = 15;
-    private const int NODE_BOSS_INDEX = 14;
-    private const int ACT_FINAL_ZONE_INDEX = 13;
-    private const int ACT_START_ZONE_END_INDEX = 3;
-    private const int NODE_MIN_DISTANCE = 2;
+    private System.Random _random = new System.Random();
+    private List<Node> _generatedNodes = new List<Node>();
+    private Dictionary<EncounterTypeSO, int> _typeCounts = new();
+    private Dictionary<EncounterTypeSO, int> _lastSpawnFloors = new();
+    private int _currentEliteCount = 0;
 
-    // 노드 배치 관련
-    private const int NODE_RANDOM_RANGE = 1;
-    private const int NODE_DISTANCE = 3;
-    private const int FLOOR_MAX_NODE = 3;
-    private const int FLOOR_MIN_NODE = 2;
-
-    private List<Node> _nodeList = new();
-    private System.Random _random = new();
-    public void Init()
+    public async Task<List<Node>> GenerateMap(Transform nodeParent, MapConfigSO mapConfig, int actNumbering)
     {
+      _generatedNodes.Clear();
+      _typeCounts.Clear();
+      _lastSpawnFloors.Clear();
+      _currentEliteCount = 0;
 
+      ActSO actData = await ActDatabase.GetNumberingActAsync(actNumbering);
+      GameObject nodePrefab = await AssetLoader.LoadAssetAsync<GameObject>("UI_Node");
+
+      for (int floorIndex = 0; floorIndex < mapConfig.Act_FloorCount; floorIndex++)
+      {        
+        int nodeCountOnFloor;
+        List<EncounterSO> encountersForThisFloor = new();
+
+        if (floorIndex == mapConfig.Node_BossIndex) // 보스 층
+        {
+          nodeCountOnFloor = 1;
+          encountersForThisFloor.Add(actData.BossEncounter);
+        }
+        else if (floorIndex == mapConfig.Act_FinalZoneIndex) // 보스 직전 층 (고정)
+        {
+          nodeCountOnFloor = 2;
+          var shopEncounter = actData.Encounters.FirstOrDefault(e => e.EncounterType == actData.ShopType);
+          var restEncounter = actData.Encounters.FirstOrDefault(e => e.EncounterType == actData.RestType);
+          if (shopEncounter != null) encountersForThisFloor.Add(shopEncounter);
+          if (restEncounter != null) encountersForThisFloor.Add(restEncounter);
+          encountersForThisFloor = encountersForThisFloor.OrderBy(e => _random.Next()).ToList();
+        }
+        else
+        {
+          nodeCountOnFloor = _random.Next(mapConfig.Floor_MinNode, mapConfig.Floor_MaxNode + 1);
+          for (int i = 0; i < nodeCountOnFloor; i++)
+          {
+            encountersForThisFloor.Add(SelectEncounterForFloor(floorIndex, mapConfig, actData));
+          }
+        }
+
+        for (int nodeIndex = 0; nodeIndex < encountersForThisFloor.Count; nodeIndex++)
+        {
+          EncounterSO selectedEncounter = encountersForThisFloor[nodeIndex];
+          if (selectedEncounter == null) continue;
+
+          GameObject nodeGO = UnityEngine.Object.Instantiate(nodePrefab, nodeParent);
+          RectTransform nodeRect = nodeGO.GetComponent<RectTransform>();
+
+          Vector2 position = SetNodePosition(floorIndex, nodeIndex, encountersForThisFloor.Count, mapConfig);
+          nodeRect.anchoredPosition = position;
+
+          Node mapNode = nodeGO.GetComponent<Node>();
+          mapNode.Setup(selectedEncounter);
+          mapNode.name = $"Node_{floorIndex}-{nodeIndex}_{selectedEncounter.name}";
+          _generatedNodes.Add(mapNode);
+
+          var type = selectedEncounter.EncounterType;
+          if (type != null) // 안전장치
+          {
+            _typeCounts[type] = _typeCounts.GetValueOrDefault(type, 0) + 1;
+            _lastSpawnFloors[type] = floorIndex; // [수정] ContainsKey 체크 없이 바로 할당
+          }
+          if (selectedEncounter is CombatEncounter ce && ce.Rarity == actData.EliteRarity)
+          {
+            _currentEliteCount++;
+          }
+        }
+      }
+
+      return _generatedNodes;
     }
 
-    public List<Node> GenerateMap(GameObject nodePrefab, MapGenerateSO generateData)
+    private Vector2 SetNodePosition(int floorIndex, int nodeIndex, int totalNodesOnFloor, MapConfigSO generateData)
     {
-      GameManager gameManager = GameSystem.Instance.Game;
+      float totalWidth = (totalNodesOnFloor - 1) * generateData.Node_Distance;
+      float startX = -totalWidth / 2f;
+      float xPos = startX + nodeIndex * generateData.Node_Distance;
 
-      // 마지막 구역 설정(Rest or Shop)
-      // NodeType finalZoneType = _random.Next(0, 2) == 0 ? NodeType.Rest : NodeType.Shop;
-      // _nodeTypeCountData[finalZoneType]--;
+      float GetRandomOffset() => ((float)_random.NextDouble() * 2 - 1.0f) * generateData.Node_RandomRange;
+      xPos += GetRandomOffset();
 
-      // for (int floorIndex = 0; floorIndex < ACT_FLOOR_COUNT; floorIndex++)
-      // {
-      //   // 한 층에 노드 개수 설정
-      //   int nodeCountOnFloor = (floorIndex == NODE_BOSS_INDEX) ? 1 : _random.Next(FLOOR_MIN_NODE, FLOOR_MAX_NODE + 1);
-
-      //   for (int nodeIndex = 0; nodeIndex < nodeCountOnFloor; nodeIndex++)
-      //   {
-      //     NodeType assignedType = SelectNodeTypeForFloor(floorIndex, nodeIndex, finalZoneType);
-
-      //     Vector2 position = SetNodePosition(floorIndex, nodeIndex, nodeCountOnFloor);
-      //     Node mapNode = UnityEngine.MonoBehaviour.Instantiate(nodePrefab, position, Quaternion.identity).GetComponent<Node>();
-      //     NodeInfo info = new(NodeInfoDataBase.GetNodeInfo(assignedType));
-      //     mapNode.name = (assignedType == NodeType.Boss) ? "Boss" : $"Node_{floorIndex}-{nodeIndex}_{assignedType}";
-      //     mapNode.SetNode(info);
-
-      //     _nodeList.Add(mapNode);
-      //     _nodeTypeCount[assignedType] = _nodeTypeCount.GetValueOrDefault(assignedType, 0) + 1;
-
-      //     if (_specialNodePos.ContainsKey(assignedType))
-      //     {
-      //       _specialNodePos[assignedType][0] = floorIndex;
-      //     }
-      //   }
-      // }
-
-      return _nodeList;
-    }
-
-    private Vector2 SetNodePosition(int floorIndex, int nodeIndex, int totalNodesOnFloor)
-    {
-      float GetRandomOffset() => ((float)_random.NextDouble() * 2 - 1.0f) * NODE_RANDOM_RANGE;
-
-      // TODO: 중앙 정렬 등 필요 시 nodeIndex와 totalNodesOnFloor를 사용해 x 시작점을 조절할 수 있습니다.
-      float xPos = nodeIndex * NODE_DISTANCE + GetRandomOffset();
-      float yPos = floorIndex * NODE_DISTANCE + GetRandomOffset();
+      float yPos = floorIndex * generateData.Node_Distance + GetRandomOffset();
 
       return new Vector2(xPos, yPos);
     }
 
-    /// <summary>
-    /// 노드 타입 결정
-    /// </summary>
-    /// <param name="floorIndex"></param>
-    /// <param name="nodeIndex"></param>
-    /// <param name="finalZoneType"></param>
-    /// <returns></returns>
-    // private NodeType SelectNodeTypeForFloor(int floorIndex, int nodeIndex, NodeType finalZoneType)
-    // {
-    //   if (floorIndex == NODE_BOSS_INDEX) return NodeType.Boss; // 보스 노드 제외
-    //   if (floorIndex == ACT_FINAL_ZONE_INDEX && nodeIndex == 0) return finalZoneType; // 보스 조우 직전 첫 노드 제외
+    private EncounterSO SelectEncounterForFloor(int floorIndex, MapConfigSO mapConfig, ActSO actData)
+    {
+      List<EncounterSO> candidatePool = new(actData.Encounters);
 
-    //   List<NodeType> nodeTypes = new(_randNodeTypes);
+      // 시작 구역 필터링
+      if (floorIndex <= mapConfig.Act_StartZoneEndIndex)
+      {
+        candidatePool.RemoveAll(e =>
+            e.EncounterType == actData.ShopType ||
+            e.EncounterType == actData.RestType ||
+            (e is CombatEncounter ce && ce.Rarity == actData.EliteRarity)
+        );
+      }
 
-    //   if (floorIndex <= ACT_START_ZONE_END_INDEX)
-    //   {
-    //     nodeTypes.Remove(NodeType.Elite);
-    //     nodeTypes.Remove(NodeType.Shop);
-    //     nodeTypes.Remove(NodeType.Rest);
-    //   }
+      // 최대 개수 필터링
+      candidatePool.RemoveAll(e => e.EncounterType != null && _typeCounts.GetValueOrDefault(e.EncounterType, 0) >= GetMaxCountForType(e.EncounterType, actData));
+      if (_currentEliteCount >= actData.MaxEliteCount)
+      {
+        candidatePool.RemoveAll(e => e is CombatEncounter ce && ce.Rarity == actData.EliteRarity);
+      }
 
-    //   while (nodeTypes.Count > 0)
-    //   {
-    //     NodeType randType = nodeTypes[_random.Next(0, nodeTypes.Count)];
+      if (candidatePool.Count == 0) return null;
 
-    //     int currentCount = _nodeTypeCount.GetValueOrDefault(randType, 0);
-    //     int maxCount = _nodeTypeCountData.GetValueOrDefault(randType, int.MaxValue);
+      // [수정] 가중치 기반 랜덤 선택 로직 복구
+      int totalWeight = candidatePool.Sum(e => e.weight);
+      if (totalWeight <= 0) return candidatePool.FirstOrDefault(); // 가중치가 모두 0인 경우 대비
 
-    //     if (currentCount >= maxCount)
-    //     {
-    //       nodeTypes.Remove(randType);
-    //       continue;
-    //     }
+      int randomValue = _random.Next(0, totalWeight);
+      foreach (var encounter in candidatePool)
+      {
+        if (randomValue < encounter.weight)
+        {
+          return encounter;
+        }
+        randomValue -= encounter.weight;
+      }
 
-    //     if (_specialNodePos.TryGetValue(randType, out int[] lastPos)
-    //     && Math.Abs(floorIndex - lastPos[0]) < NODE_MIN_DISTANCE)
-    //     {
-    //       nodeTypes.Remove(randType);
-    //       continue;
-    //     }
-
-    //     return randType;
-    //   }
-
-    //   return _random.Next(0, 2) == 0 ? NodeType.Battle : NodeType.Event;
-    // }
+      return candidatePool.LastOrDefault(); // 만약의 경우 마지막 후보 반환
+    }
+    private int GetMaxCountForType(EncounterTypeSO type, ActSO actData)
+    {
+      if (type == actData.ShopType) return actData.MaxShopCount;
+      if (type == actData.RestType) return actData.MaxRestCount;
+      return int.MaxValue;
+    }
   }
 }
 

@@ -3,12 +3,13 @@ using System.Linq;
 using System.Collections.Generic;
 using Utils;
 using UnityEngine;
+using Item;
 
 namespace Units
 {
   public static class PlayerDataManager
   {
-    public static PlayerRunData RundInitialize(int maxHP, Dictionary<string, int> deck, int takeGold = 0)
+    public static PlayerRunData RundInitialize(int maxHP, Dictionary<CardSO, int> deck, int takeGold = 0)
     {
       return new PlayerRunData(maxHP, deck, takeGold);
     }

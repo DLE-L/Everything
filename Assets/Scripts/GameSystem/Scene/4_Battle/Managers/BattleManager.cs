@@ -73,18 +73,18 @@ namespace GameSystems.Scene.Battle
     public void BattleEncounter()
     {
       // TODO: 인타운터 AssetReferenceT로 변경으로 인해 재구현 필요
-      var encounter = EncounterDatabase.CurrentEncounter;
+      
       int count = 0;
-      foreach (var enemy in encounter.Enemies)
-      {
-        enemyTransform.position += new Vector3(0, count, 0);
-        GameObject go = Instantiate(enemyGameObject, enemyTransform);
-        EnemyController controller = go.GetComponent<EnemyController>();
-        controller.DataSetting(new BattleEnemyData(enemy), this);
-        go.name = enemy.name + count;        
-        EnemyTeam.Add(controller);
-        count++;
-      }
+      // foreach (var enemy in encounter.Enemies)
+      // {
+      //   enemyTransform.position += new Vector3(0, count, 0);
+      //   GameObject go = Instantiate(enemyGameObject, enemyTransform);
+      //   EnemyController controller = go.GetComponent<EnemyController>();
+      //   controller.DataSetting(new BattleEnemyData(enemy), this);
+      //   go.name = enemy.name + count;        
+      //   EnemyTeam.Add(controller);
+      //   count++;
+      // }
     }
 
     public void OnUnitDied(Unit unit)

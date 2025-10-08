@@ -26,11 +26,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Card
+    - Common
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2698e465291d393429fdaf9793f9b2b8
     m_Address: Enemy_Common_Goblin
     m_ReadOnly: 0
     m_SerializedLabels:
+    - Common
     - Enemy
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 55b9878af7142ad4396498c01b79007e
@@ -38,6 +40,7 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Card
+    - Uncommon
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 61fea7d1e7841b747966f7bc7014b6fb
     m_Address: Act_1
@@ -50,18 +53,27 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Card
+    - Common
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9ab455fba149bb9428d03e42fce6b08e
     m_Address: Card_Power_Uncommon_BattleCry
     m_ReadOnly: 0
     m_SerializedLabels:
     - Card
+    - Uncommon
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: aa0495037178cdc41b05766c38dcaf12
     m_Address: Card_Skill_Common_Defend
     m_ReadOnly: 0
     m_SerializedLabels:
     - Card
+    - Common
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aad53bcc31d71fc4eb40824124cd1faa
+    m_Address: UI_Node
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ba34e9df9cb12b443ab6dca9034184a0
     m_Address: Deck_Default
@@ -86,12 +98,14 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Card
+    - Common
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fc73c6ad8680d724aa315cd9bac6ae52
     m_Address: Card_Skill_Rare_Adrenaline
     m_ReadOnly: 0
     m_SerializedLabels:
     - Card
+    - Rare
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: a55ce5090b944964093d12fd07965c07, type: 2}

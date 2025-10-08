@@ -1,31 +1,45 @@
 using System;
 using UnityEngine;
-using GameSystems.Scene.Game;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using Utils;
 
 namespace GameSystems.Act
 {
   public class Node : MonoBehaviour
   {
-    private GameManager _gameManager;
-    private NodeSO _nodeData;
+    public EncounterTypeSO EncounterType { get; private set; }
+    public EncounterSO Encounter { get; private set; }
+    
+    private Image _icon;
 
     void Awake()
     {
-      _gameManager = GameSystem.Instance.Game;
+      _icon = GetComponent<Image>();
     }
 
-    public void Setup(NodeSO nodeData)
-    {
-      _nodeData = nodeData;
-      GetComponent<SpriteRenderer>().sprite = nodeData.EncounterType.Icon;
+    public void Setup(EncounterSO encounter)
+    {      
+      Encounter = encounter;
+      EncounterType = encounter.EncounterType;
+      //_icon.sprite = nodeData.Type.Icon;
+      //GetComponent<SpriteRenderer>().sprite = nodeData.EncounterType.Icon;
     }
 
-    public void OnClick()
+    private void OnClick(PointerEventData data)
     {
-      if (_nodeData != null)
-      {
-        _nodeData.ExecuteAction(this);
-      }
+      EncounterType.BeginEncounter();
+    }
+
+    void OnEnable()
+    {
+
+      UI_EventHandler.Get(gameObject).OnClickAction += OnClick;
+    }
+
+    void OnDisable()
+    {
+      UI_EventHandler.Get(gameObject).OnClickAction -= OnClick;
     }
   }
 }

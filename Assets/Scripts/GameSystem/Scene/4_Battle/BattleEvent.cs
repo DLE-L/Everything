@@ -47,15 +47,6 @@ namespace GameSystems.Scene.Battle
     public static event Action<Unit, Unit> OnEnemyKill;
     public static void RaiseEnemyKill(Unit owner, Unit target) => OnEnemyKill?.Invoke(owner, target);
     #endregion
-
-    #region Resource Event
-    public static event Action<Unit, int> OnGainGold;
-    public static void RaiseGainGold(Unit owner, int gold) => OnGainGold?.Invoke(owner, gold);
-    public static event Action<Unit> OnEnterShop;
-    public static void RaiseEnterShop(Unit owner) => OnEnterShop?.Invoke(owner);
-    public static event Action<Unit> OnRest;
-    public static void RaiseRest(Unit owner) => OnRest?.Invoke(owner);
-    #endregion
   }
 }
 
