@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: "\uACA9\uB824"
   Illustration: {fileID: 0}
-  Rarity: 1
+  Rarity: {fileID: 11400000, guid: 773a4956810fec149805bcbe162687ec, type: 2}
   Cost: 1
   Description: "\uD798 1\uC744 \uC5BB\uC2B5\uB2C8\uB2E4."
   Retain: 0

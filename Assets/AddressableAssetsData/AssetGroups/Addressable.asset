@@ -16,7 +16,7 @@ MonoBehaviour:
   m_GUID: b58ab4a15bc312c4cb1ebcded6bdd1e6
   m_SerializeEntries:
   - m_GUID: 038f6afb477e7b446a544e84b5ea06de
-    m_Address: UI_Event_Choice
+    m_Address: UI_Narrative_Choice
     m_ReadOnly: 0
     m_SerializedLabels:
     - UI
@@ -34,6 +34,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Common
     - Enemy
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52a7f58d49db11b4cbf3f62d23115489
+    m_Address: UI_Canvas_Shop
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 55b9878af7142ad4396498c01b79007e
     m_Address: Card_Skill_Uncommon_Uplift
@@ -54,6 +60,18 @@ MonoBehaviour:
     m_SerializedLabels:
     - Card
     - Common
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 813951ebcff89724180ab8f44db806f2
+    m_Address: UI_Canvas_Rest
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9339b041f680fc44eb9c3a129eb320c0
+    m_Address: UI_Canvas_Narrative
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9ab455fba149bb9428d03e42fce6b08e
     m_Address: Card_Power_Uncommon_BattleCry
