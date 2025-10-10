@@ -16,7 +16,7 @@ MonoBehaviour:
   m_GUID: b58ab4a15bc312c4cb1ebcded6bdd1e6
   m_SerializeEntries:
   - m_GUID: 038f6afb477e7b446a544e84b5ea06de
-    m_Address: UI_Narrative_Choice
+    m_Address: UI_Button_Narrative_Choice
     m_ReadOnly: 0
     m_SerializedLabels:
     - UI
@@ -53,6 +53,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Act
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6823351aa79171e4d969c6d33a90071b
+    m_Address: UI_Enemy
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Enemy
+    - UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7ec81474cdf67594c834a0822f6db8ce
     m_Address: Card_Attack_Common_Strike
@@ -100,15 +107,16 @@ MonoBehaviour:
     - Deck
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bde4875621169844fa3470efc75b37b1
-    m_Address: Account_Default
+    m_Address: Deck_Account_Default
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Account
+    - Deck
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e5576ba5312984f43ad41f11f9403e05
-    m_Address: GenerateMap_Data
+    m_Address: Data_GenerateMap
     m_ReadOnly: 0
     m_SerializedLabels:
+    - Data
     - Map
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f19ae7b1eb729ab4e884b9a8a6d0e79e

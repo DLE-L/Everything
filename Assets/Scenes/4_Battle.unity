@@ -4022,8 +4022,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerStartDeck: {fileID: 11400000, guid: ba34e9df9cb12b443ab6dca9034184a0, type: 2}
-  enemyGameObject: {fileID: 2904219502281615209, guid: 6823351aa79171e4d969c6d33a90071b, type: 3}
-  enemyTransform: {fileID: 1168891648}
+  _enemyGameObjectRef:
+    m_AssetGUID: 6823351aa79171e4d969c6d33a90071b
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  _enemyTransform: {fileID: 1168891648}
 --- !u!4 &2115878360
 Transform:
   m_ObjectHideFlags: 0
