@@ -1,18 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Threading.Tasks;
 using Data.Map;
 using Data.Reward;
+using GamePlay.Map;
+using UnityEngine.AddressableAssets;
 
 namespace Data.Act.Encounter
 {
   public abstract class EncounterSO : ScriptableObject
   {
-    public EncounterTypeSO EncounterType;
-    public List<RewardInfo> Reward;
+    public NodeVisualsSO Visuals;
+    public EncounterType Type;
+    public List<RewardInfo> RewardInfos;
     public int weight = 100;
 
-    public abstract void BeginEncounter();
+    public abstract Task BeginAsync(MapManager mapManager);
   }
   
   [Serializable]
@@ -20,5 +24,14 @@ namespace Data.Act.Encounter
   {
     public string Description;
     public RewardSO Reward;
+  }
+  public enum EncounterType
+  {
+    None,
+    Narrative,
+    Combat,    
+    Shop,
+    Rest,
+    Boss,
   }
 }

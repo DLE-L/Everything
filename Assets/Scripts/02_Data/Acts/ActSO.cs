@@ -12,17 +12,12 @@ namespace Data.Act
     public List<EncounterSO> Encounters;
     public EncounterSO BossEncounter;
     
-    
     [Space(10)]
     public int MaxShopCount = 2;
     public int MaxRestCount = 2;
     public int MaxEliteCount = 3;
 
     [Space(10)]    
-    public EncounterTypeSO CombatType;
-    public EncounterTypeSO ShopType;
-    public EncounterTypeSO RestType;
     public RaritySO EliteRarity;
-    
   }
 }

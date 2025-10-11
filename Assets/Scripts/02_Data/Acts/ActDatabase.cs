@@ -9,7 +9,7 @@ namespace Data.Act
   {
     public static Dictionary<string, ActSO> Acts = new();
 
-    public async static Task<ActSO> GetNumberingActAsync(int actNumbering)
+    public static async Task<ActSO> GetNumberingActAsync(int actNumbering)
     {
       StringBuilder sb = new();
       sb.Append($"Act_{actNumbering}");

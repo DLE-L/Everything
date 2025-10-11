@@ -7,8 +7,10 @@ using GamePlay.Map;
 using GamePlay.Title;
 using Data.Card;
 using Core.Event;
+using Data.Act.Encounter;
 using Data.Units;
 using GamePlay.Units;
+using UnityEngine.EventSystems;
 
 namespace Core
 {
@@ -17,6 +19,8 @@ namespace Core
     public static GameSystem Instance;
     public PlayerAccountData PlayerAccountData = new();
     public Player Player;
+    
+    public EncounterSO CurrentEncounter { get; set; }
     public Dictionary<string, int> PlayerRunDeck { get; private set; }
 
     private readonly SceneSystem _scene = new();
@@ -51,7 +55,7 @@ namespace Core
       PlayerAccountData = await PlayerDataManager.GetAccountDataAsync();
       PlayerAccountData ??= await PlayerDataManager.NewAccountDataAsync();
 
-       _scene.Init();
+      _scene.LoadSceneTitle();
     }
 
     public void OnStartNewRun()
@@ -67,14 +71,13 @@ namespace Core
     public void RemoveCardFromDeckPermanently(CardSO cardToRemove)
     {
       var permanentDeck = PlayerRunDeck;      
-      if (permanentDeck.ContainsKey(cardToRemove.name))
+      if (permanentDeck.Remove(cardToRemove.name))
       {
-        permanentDeck.Remove(cardToRemove.name);
         Debug.Log($"'{cardToRemove.Name}' card permanent deck remove");
       }
       else
       {
-        Debug.LogError($"'{cardToRemove.Name}' card is null");
+        Debug.LogError($"'{cardToRemove.Name}' card is not existing");
       }
     }
 
@@ -82,21 +85,23 @@ namespace Core
     public void UnregisterTitleManager() => Title = null;
     public void RegisterLobbyManager(LobbyManager manager) => Lobby = manager;
     public void UnregisterLobbyManager() => Lobby = null;
-    public void RegisterGameManager(MapManager manager) => Map = manager;
-    public void UnregisterGameManager() => Map = null;
+    public void RegisterMapManager(MapManager manager) => Map = manager;
+    public void UnregisterMapManager() => Map = null;
     public void RegisterBattleManager(BattleManager manager) => Battle = manager;
     public void UnregisterBattleManager() => Battle = null;
 
+    private void OnClickNode(Node node) => CurrentEncounter = node.Encounter;
+
     void OnEnable()
     {
-      SystemEvent.OnSceneLoadStart += Scene.LoadScene;
       SystemEvent.OnStartNewRun += OnStartNewRun;
+      SystemEvent.OnClickNode += OnClickNode;
     }
 
     void OnDisable()
     {
-      SystemEvent.OnSceneLoadStart -= Scene.LoadScene;
       SystemEvent.OnStartNewRun -= OnStartNewRun;
+      SystemEvent.OnClickNode -= OnClickNode;
     }
 
     void OnDestroy()

@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace GamePlay.Battle.State
 {
-  public class TurnEnemyState : IBattleState
+  public class StateTurnEnemy : IBattleState
   {
     private BattleManager _manager;
     private StateMachine _fsm;
 
-    public TurnEnemyState(BattleManager manager, StateMachine fsm)
+    public StateTurnEnemy(BattleManager manager, StateMachine fsm)
     {
       _manager = manager;
       _fsm = fsm;
@@ -24,7 +24,7 @@ namespace GamePlay.Battle.State
         // 카드 사용 로직
       }
 
-      _fsm.ChangeState(new TurnEndState(_manager, _fsm, TurnOwner.PlayerTeam));
+      _fsm.ChangeState(new StateTurnEnd(_manager, _fsm, TurnOwner.PlayerTeam));
     }
 
     public void Execute()

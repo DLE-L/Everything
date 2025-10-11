@@ -7,30 +7,29 @@ namespace UI.Map
   public class MapUIManager : MonoBehaviour
   {
     [SerializeField] private Canvas _cvGame;
-    [SerializeField] private Canvas _cvNarrative;
-    [SerializeField] private Canvas _cvShop;
-    [SerializeField] private Canvas _cvRest;
-    [SerializeField] private AssetReference _narrativeCanvasRef;
-    [SerializeField] private AssetReference _shopCanvasRef;
-    [SerializeField] private AssetReference _restCanvasRef;
-
-
+    public AssetReference narrativeCanvasRef;
+    public AssetReference shopCanvasRef;
+    public AssetReference restCanvasRef;
+    
+    private GameObject _currentCanvasObject;
+    
     public Canvas GameUI => _cvGame;
-    public Canvas NarrativeUI => _cvNarrative;
-    public Canvas ShopUI => _cvShop;
-    public Canvas RestUI => _cvRest;
 
     void Start()
     {
       _cvGame.enabled = true;
-      _cvNarrative.enabled = false;
-      _cvShop.enabled = false;
-      _cvRest.enabled = false;
     }
-
-    public void ShowNarrative()
+    
+    public async Task ShowEncounter(AssetReference encounterRef)
     {
-
+      _currentCanvasObject = await encounterRef.InstantiateAsync().Task;
+      Debug.Log($"Show EncounterRef: {_currentCanvasObject.name}");
+    }
+    
+    private void CloseCurrentCanvas()
+    {
+      Addressables.ReleaseInstance(_currentCanvasObject);
+      Debug.Log($"Close EncounterRef: {_currentCanvasObject.name}");
     }
   }
 }

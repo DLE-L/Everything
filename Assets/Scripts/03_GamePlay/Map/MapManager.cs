@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
 using Core;
 using Core.Event;
-using Data.Act;
+using Data.Act.Encounter;
 using Data.Card;
 using Data.Units;
 using GamePlay.Units;
@@ -17,25 +18,34 @@ namespace GamePlay.Map
     private MapGenerator _generator;
     private MapConfigSO _mapGenerateData;
     private Narrative_UI _narrative_UI;
-    [SerializeField] private Transform _nodeParent;    
-    [SerializeField] private MapUIManager _uiManager;
+    [SerializeField] private Transform _nodeParent;
+    public MapUIManager UIManager;
     public void Awake()
     {
-      GameSystem.Instance.RegisterGameManager(this);
+      GameSystem.Instance.RegisterMapManager(this);
+      UIManager = GameObject.FindFirstObjectByType<MapUIManager>();
+      
       SystemEvent.RaiseOnStartNewRun();
       Debug.Log($"[New Run Start]");
     }
 
     public async void Start()
     {
-      await CardDatabase.InitializeAsync();            
-      _mapGenerateData = await AssetLoader.LoadAssetAsync<MapConfigSO>("GenerateMap_Data");
+      try
+      {
+        await CardDatabase.InitializeAsync();            
+        _mapGenerateData = await AssetLoader.LoadAssetAsync<MapConfigSO>("Data_GenerateMap");
 
-      _generator = new();
-      await _generator.GenerateMap(_nodeParent, _mapGenerateData, 1);
+        _generator = new();
+        await _generator.GenerateMap(_nodeParent, _mapGenerateData, 1);
 
-      //_narrative_UI = _uiManager.GetComponentInChildren<Narrative_UI>();
-      await _narrative_UI.Init();
+        //_narrative_UI = _uiManager.GetComponentInChildren<Narrative_UI>();
+        _narrative_UI.Init();
+      }
+      catch (Exception e)
+      {
+        Debug.Log($"[MapManager 'Start' Exception: {e.Message}]");
+      }
     }
 
     public void GetReward(RewardSO reward)
@@ -53,6 +63,11 @@ namespace GamePlay.Map
       // }
     }
 
+    public void OnClickCombat(EncounterSO encounter)
+    {
+      GameSystem.Instance.CurrentEncounter = encounter;
+    }
+
     void OnEnable()
     {
       SystemEvent.OnChoiceReward += GetReward;
@@ -66,7 +81,7 @@ namespace GamePlay.Map
     {
       if (GameSystem.Instance != null)
       {
-        GameSystem.Instance.UnregisterGameManager();
+        GameSystem.Instance.UnregisterMapManager();
       }
     }
   }

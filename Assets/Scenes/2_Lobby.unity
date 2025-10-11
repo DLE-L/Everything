@@ -285,7 +285,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 133977562}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 770d39ea80ecc1541983c256561aff91, type: 3}
+  m_Script: {fileID: 11500000, guid: d68d77d59c504a95a8018fc029f2707b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &160304287
@@ -723,7 +723,6 @@ GameObject:
   - component: {fileID: 449530949}
   - component: {fileID: 449530952}
   - component: {fileID: 449530951}
-  - component: {fileID: 449530953}
   m_Layer: 5
   m_Name: btnJoinRoom
   m_TagString: Untagged
@@ -790,19 +789,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 449530948}
   m_CullTransparentMesh: 1
---- !u!114 &449530953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 449530948}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aff7650ce54df2f42bb694238bd9d07f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  roomId: {fileID: 1593370723}
 --- !u!1 &632749619
 GameObject:
   m_ObjectHideFlags: 0
@@ -1086,7 +1072,6 @@ GameObject:
   - component: {fileID: 945500254}
   - component: {fileID: 945500257}
   - component: {fileID: 945500256}
-  - component: {fileID: 945500258}
   m_Layer: 5
   m_Name: btnCreateRoom
   m_TagString: Untagged
@@ -1152,18 +1137,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 945500253}
   m_CullTransparentMesh: 1
---- !u!114 &945500258
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 945500253}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bc448a06e47c239498e3a80994564683, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &971298411
 GameObject:
   m_ObjectHideFlags: 0

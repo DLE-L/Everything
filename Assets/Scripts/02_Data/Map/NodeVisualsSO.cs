@@ -1,13 +1,12 @@
+using System.Threading.Tasks;
+using GamePlay.Map;
 using UnityEngine;
 
 namespace Data.Map
 {  
-  public abstract class EncounterTypeSO : ScriptableObject
+  public abstract class NodeVisualsSO : ScriptableObject
   {
-    public string Name;
     public Sprite Icon;
-    public string Description;
-    public abstract void BeginEncounter();
   }
 }
 

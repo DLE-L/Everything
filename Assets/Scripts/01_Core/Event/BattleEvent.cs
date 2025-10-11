@@ -30,6 +30,11 @@ namespace Core.Event
     public static void RaiseCardDiscard(CardSO card) => OnCardDiscard?.Invoke(card);
     public static event Action<CardSO> OnCardExhaust;
     public static void RaiseCardExhaust(CardSO card) => OnCardExhaust?.Invoke(card);
+    public static event Action OnPlayerWin;
+    public static void RaisePlayerWin() => OnPlayerWin?.Invoke();
+    public static event Action OnPlayerLose;
+    public static void RaisePlayerLose() => OnPlayerLose?.Invoke();
+    
     #endregion
 
     #region Battle Effect Event

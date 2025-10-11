@@ -1,4 +1,5 @@
 using System;
+using Data.Act.Encounter;
 using GamePlay.Map;
 using GamePlay.Units;
 using UnityEngine.SceneManagement;
@@ -24,19 +25,10 @@ namespace Core.Event
     public static void RaiseOnStartNewRun() => OnStartNewRun?.Invoke();
     public static event Action<Node> OnClickNode;
     public static void RaiseOnClickNode(Node node) => OnClickNode?.Invoke(node);
+    public static event Action<EncounterSO> OnEnterEncounter;
+    public static void RaiseOnEnterEncounter(EncounterSO encounter) => OnEnterEncounter?.Invoke(encounter);
     public static event Action<RewardSO> OnChoiceReward;
     public static void RaiseOnChoiceReward(RewardSO reward) => OnChoiceReward?.Invoke(reward);
-    #endregion
-
-    #region Data Event
-    public static event Action OnSaveDataStarted;
-    public static void RaiseSaveDataStarted() => OnSaveDataStarted?.Invoke();
-    public static event Action<bool> OnSaveDataCompleted;
-    public static void RaiseSaveDataCompleted(bool success) => OnSaveDataCompleted?.Invoke(success);
-    public static event Action OnLoadDataStarted;
-    public static void RaiseLoadDataStarted() => OnLoadDataStarted?.Invoke();
-    public static event Action<bool> OnLoadDataCompleted;
-    public static void RaiseLoadDataCompleted(bool success) => OnLoadDataCompleted?.Invoke(success);
     #endregion
 
     #region Scene Event

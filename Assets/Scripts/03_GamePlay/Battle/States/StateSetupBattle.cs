@@ -3,13 +3,13 @@ using Core.Event;
 
 namespace GamePlay.Battle.State
 {
-  public class SetupBattle : IBattleState
+  public class StateSetupBattle : IBattleState
   {
     private BattleManager _manager;
     private StateMachine _fsm;
     private TurnOwner _turnOwner;
 
-    public SetupBattle(BattleManager manager, StateMachine fsm, TurnOwner owner)
+    public StateSetupBattle(BattleManager manager, StateMachine fsm, TurnOwner owner)
     {
       _manager = manager;
       _fsm = fsm;
@@ -19,7 +19,7 @@ namespace GamePlay.Battle.State
     public void Enter()
     {
       BattleEvent.RaiseCombatStart();
-      _fsm.ChangeState(new TurnStartState(_manager, _fsm, _turnOwner));
+      _fsm.ChangeState(new StateTurnStart(_manager, _fsm, _turnOwner));
     }
 
     public void Execute()

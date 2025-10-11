@@ -3,14 +3,14 @@ using Core.Event;
 
 namespace GamePlay.Battle.State
 {
-  public class TurnStartState : IBattleState
+  public class StateTurnStart : IBattleState
   {
     private BattleManager _manager;
     private StateMachine _fsm;
 
     private TurnOwner _turnOwner;
 
-    public TurnStartState(BattleManager manager, StateMachine fsm, TurnOwner owner)
+    public StateTurnStart(BattleManager manager, StateMachine fsm, TurnOwner owner)
     {
       _manager = manager;
       _fsm = fsm;
@@ -24,11 +24,11 @@ namespace GamePlay.Battle.State
 
       if (_turnOwner == TurnOwner.PlayerTeam)
       {
-        _fsm.ChangeState(new TurnPlayerState(_manager, _fsm));
+        _fsm.ChangeState(new StateTurnPlayer(_manager, _fsm));
       }
       else if (_turnOwner == TurnOwner.EnemyTeam)
       {
-        _fsm.ChangeState(new TurnEnemyState(_manager, _fsm));
+        _fsm.ChangeState(new StateTurnEnemy(_manager, _fsm));
       }
     }
 

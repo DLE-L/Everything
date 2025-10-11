@@ -12,12 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d25fd945a796c0f48aec0c1a98afa320, type: 3}
   m_Name: Act_1
   m_EditorClassIdentifier: 
-  Encounters: []
+  Encounters:
+  - {fileID: 11400000, guid: 2146ea9af27b6954db42e1711d1f9d49, type: 2}
   BossEncounter: {fileID: 11400000, guid: 5c0d4c3a5d79b53488fe6cb62a8c635d, type: 2}
   MaxShopCount: 2
   MaxRestCount: 2
   MaxEliteCount: 3
-  CombatType: {fileID: 11400000, guid: ee9a252060eba0348848c7b678c84751, type: 2}
-  ShopType: {fileID: 11400000, guid: 1ad62eb06e8e6d1438843fc9f9a0ec42, type: 2}
-  RestType: {fileID: 11400000, guid: 65af97179081a114bb25b633eb507064, type: 2}
   EliteRarity: {fileID: 11400000, guid: 06c97e636db9a3846a9ce70fe9df4f11, type: 2}

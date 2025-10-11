@@ -12,10 +12,10 @@ namespace UI.Map
 {
   public class MapGenerator
   {
-    private System.Random _random = new System.Random();
-    private List<Node> _generatedNodes = new List<Node>();
-    private Dictionary<EncounterTypeSO, int> _typeCounts = new();
-    private Dictionary<EncounterTypeSO, int> _lastSpawnFloors = new();
+    private readonly System.Random _random = new();
+    private readonly List<Node> _generatedNodes = new();
+    private readonly Dictionary<EncounterType, int> _typeCounts = new();
+    private readonly Dictionary<EncounterType, int> _lastSpawnFloors = new();
     private int _currentEliteCount = 0;
 
     public async Task<List<Node>> GenerateMap(Transform nodeParent, MapConfigSO mapConfig, int actNumbering)
@@ -41,10 +41,10 @@ namespace UI.Map
         else if (floorIndex == mapConfig.Act_FinalZoneIndex) // 보스 직전 층 (고정)
         {
           nodeCountOnFloor = 2;
-          EncounterSO shopEncounter = actData.Encounters.FirstOrDefault(e => e.EncounterType == actData.ShopType);
-          EncounterSO restEncounter = actData.Encounters.FirstOrDefault(e => e.EncounterType == actData.RestType);
-          if (shopEncounter != null) encountersForThisFloor.Add(shopEncounter);
-          if (restEncounter != null) encountersForThisFloor.Add(restEncounter);
+          EncounterSO shopEncounter = actData.Encounters.FirstOrDefault(e => e.Type == EncounterType.Shop);
+          EncounterSO restEncounter = actData.Encounters.FirstOrDefault(e => e.Type == EncounterType.Rest);
+          if (shopEncounter is not null) encountersForThisFloor.Add(shopEncounter);
+          if (restEncounter is not null) encountersForThisFloor.Add(restEncounter);
           encountersForThisFloor = encountersForThisFloor.OrderBy(e => _random.Next()).ToList();
         }
         else
@@ -59,7 +59,7 @@ namespace UI.Map
         for (int nodeIndex = 0; nodeIndex < encountersForThisFloor.Count; nodeIndex++)
         {
           EncounterSO selectedEncounter = encountersForThisFloor[nodeIndex];
-          if (selectedEncounter == null) continue;
+          if (selectedEncounter is null) continue;
 
           GameObject nodeGO = UnityEngine.Object.Instantiate(nodePrefab, nodeParent);
           RectTransform nodeRect = nodeGO.GetComponent<RectTransform>();
@@ -72,8 +72,8 @@ namespace UI.Map
           mapNode.name = $"Node_{floorIndex}-{nodeIndex}_{selectedEncounter.name}";
           _generatedNodes.Add(mapNode);
 
-          var type = selectedEncounter.EncounterType;
-          if (type != null) // 안전장치
+          EncounterType type = selectedEncounter.Type;
+          if (type is not EncounterType.None) // 안전장치
           {
             _typeCounts[type] = _typeCounts.GetValueOrDefault(type, 0) + 1;
             _lastSpawnFloors[type] = floorIndex; // [수정] ContainsKey 체크 없이 바로 할당
@@ -110,14 +110,14 @@ namespace UI.Map
       if (floorIndex <= mapConfig.Act_StartZoneEndIndex)
       {
         candidatePool.RemoveAll(e =>
-            e.EncounterType == actData.ShopType ||
-            e.EncounterType == actData.RestType ||
+            e.Type == EncounterType.Shop ||
+            e.Type == EncounterType.Rest ||
             (e is EncounterCombat ce && ce.Rarity == actData.EliteRarity)
         );
       }
 
       // 최대 개수 필터링
-      candidatePool.RemoveAll(e => e.EncounterType != null && _typeCounts.GetValueOrDefault(e.EncounterType, 0) >= GetMaxCountForType(e.EncounterType, actData));
+      candidatePool.RemoveAll(e => _typeCounts.GetValueOrDefault(e.Type, 0) >= GetMaxCountForType(e.Type, actData));
       if (_currentEliteCount >= actData.MaxEliteCount)
       {
         candidatePool.RemoveAll(e => e is EncounterCombat ce && ce.Rarity == actData.EliteRarity);
@@ -141,10 +141,10 @@ namespace UI.Map
 
       return candidatePool.LastOrDefault(); // 만약의 경우 마지막 후보 반환
     }
-    private int GetMaxCountForType(EncounterTypeSO type, ActSO actData)
+    private int GetMaxCountForType(EncounterType type, ActSO actData)
     {
-      if (type == actData.ShopType) return actData.MaxShopCount;
-      if (type == actData.RestType) return actData.MaxRestCount;
+      if (type == EncounterType.Shop) return actData.MaxShopCount;
+      if (type == EncounterType.Rest) return actData.MaxRestCount;
       return int.MaxValue;
     }
   }

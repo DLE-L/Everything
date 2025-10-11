@@ -1,15 +1,15 @@
-using Core;
+﻿using Core;
 using UI.Common;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace UI.Title
+namespace _04_UI.Lobby
 {
-  public class btnContinueGame : MonoBehaviour
+  public class btnStartRun : MonoBehaviour
   {
     private void OnClick(PointerEventData data)
     {
-      GameSystem.Instance.Scene.LoadSceneLobby();
+      GameSystem.Instance.Scene.LoadSceneMap();
     }
     void OnEnable()
     {

@@ -11,7 +11,7 @@ namespace Data.Card
    public static class CardDatabase
   {
     public static Dictionary<string, CardSO> AllCards { get; private set; } = new(); // Dictionary<CardId, CardSO>      
-    private static HashSet<string> _defaultCardIDs = new()
+    private static readonly HashSet<string> _defaultCardIDs = new()
     {
       "Card_Attack_Common_Strike",
       "Card_Skill_Common_Defend",
@@ -19,7 +19,7 @@ namespace Data.Card
       "Card_Skill_Uncommon_Uplift"
     };
 
-    public async static Task InitializeAsync()
+    public static async Task InitializeAsync()
     {
       var cardList = await AssetLoader.LoadAssetLabelAsync<CardSO>("Card");
       foreach (var card in cardList)
@@ -27,7 +27,6 @@ namespace Data.Card
         AllCards.TryAdd(card.name, card);
       }
       Debug.Log($"[CardDatabase] Initialized");
-      return;
     }
 
     public static bool IsDefaultCard(string cardID)

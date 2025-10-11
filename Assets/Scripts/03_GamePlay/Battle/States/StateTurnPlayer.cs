@@ -7,14 +7,14 @@ using GamePlay.Units;
 
 namespace GamePlay.Battle.State
 {
-  public class TurnPlayerState : IBattleState
+  public class StateTurnPlayer : IBattleState
   {
     private BattleManager _manager;
     private StateMachine _fsm;
     private Unit _playerUnit;
     private bool _isActionInProgress = false;
 
-    public TurnPlayerState(BattleManager manager, StateMachine fsm)
+    public StateTurnPlayer(BattleManager manager, StateMachine fsm)
     {
       _manager = manager;
       _fsm = fsm;

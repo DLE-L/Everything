@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9747529014db24647b20c2f947f1f3ea, type: 3}
-  m_Name: NewNarrative
+  m_Script: {fileID: 11500000, guid: 988e3fc7d54a5c0468c7fec68b214345, type: 3}
+  m_Name: NodeVisuals_Shop
   m_EditorClassIdentifier: 
-  EncounterType: {fileID: 0}
-  Reward: []
-  weight: 100
+  Name: 
+  Icon: {fileID: 0}
+  Description: 

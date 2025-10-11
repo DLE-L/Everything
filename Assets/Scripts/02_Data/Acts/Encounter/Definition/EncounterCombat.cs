@@ -1,7 +1,11 @@
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Core;
+using Core.Event;
 using UnityEngine;
 using Data.Units;
 using Data.Rarity;
+using GamePlay.Map;
 
 namespace Data.Act.Encounter
 {
@@ -10,10 +14,11 @@ namespace Data.Act.Encounter
   {
     public RaritySO Rarity;
     public List<EnemySO> Enemies;
-
-    public override void BeginEncounter()
+    
+    public override Task BeginAsync(MapManager mapManager)
     {
-      throw new System.NotImplementedException();
+      GameSystem.Instance.Scene.LoadSceneBattle();
+      return null;
     }
   }
 }

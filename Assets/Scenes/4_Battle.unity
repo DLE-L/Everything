@@ -4022,7 +4022,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerStartDeck: {fileID: 11400000, guid: ba34e9df9cb12b443ab6dca9034184a0, type: 2}
-  _enemyGameObjectRef:
+  _enemyPrefabRef:
     m_AssetGUID: 6823351aa79171e4d969c6d33a90071b
     m_SubObjectName: 
     m_SubObjectType: 

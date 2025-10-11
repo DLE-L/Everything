@@ -1,7 +1,6 @@
+using Core;
 using UnityEngine;
-using Utils;
 using UnityEngine.EventSystems;
-using Core.Event;
 using UI.Common;
 
 namespace UI.Title
@@ -10,7 +9,7 @@ namespace UI.Title
   {
     private void OnClick(PointerEventData data)
     {
-      SystemEvent.RaiseSceneLoadStart("2_Lobby");
+      GameSystem.Instance.Scene.LoadSceneLobby();
     }
 
     void OnEnable()

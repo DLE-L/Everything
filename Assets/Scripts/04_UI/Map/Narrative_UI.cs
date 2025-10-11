@@ -1,47 +1,50 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Utils;
 using System.Threading.Tasks;
 using GamePlay.Map;
 using Data.Act.Encounter;
 using Data.Map;
+using UnityEngine.AddressableAssets;
 
 namespace UI.Map
 {
   public class Narrative_UI : MonoBehaviour
   {
-    [SerializeField] private UI_Narrative_Choice _Event_UI_Choice;
+    [SerializeField] private AssetReference _uiNarrativeChoiceRef;
     [SerializeField] private TextMeshProUGUI _txtEncounterName;
     [SerializeField] private TextMeshProUGUI _txtEncounterDescription;
     [SerializeField] private Transform _choiceRoot;
 
     private Canvas _canvas;
-    public async Task Init()
+    public void Init()
     {
       _choiceRoot = GetComponentInChildren<HorizontalLayoutGroup>().transform;
-      GameObject go = await AssetLoader.LoadAssetAsync<GameObject>("UI_Event_Choice");
-      _Event_UI_Choice = Instantiate(go).GetComponent<UI_Narrative_Choice>();
     }
 
-    public void SettingUI(Node node)
+    public async Task SettingUI(Node node)
     {
-      if (node.Encounter is not EncounterNarrative) return;
-
-      EncounterTypeSO type = node.EncounterType;
-
-      _txtEncounterName.text = type.Name;
-      _txtEncounterDescription.text = type.Description;
-      // TODO: 선택지 생성 코드 구현
-      Debug.Log($"선택지 개수: {node.Encounter.Reward.Count}");
-      Debug.Break();
-      for (int i = 0; i < node.Encounter.Reward.Count; i++)
-      {
-        var choice = Instantiate(_Event_UI_Choice.gameObject);
-        choice.transform.SetParent(_choiceRoot);
-        var @event = choice.GetComponent<UI_Narrative_Choice>();
-        @event.SetChoice(node.Encounter.Reward[i]);
-      }
+      if (node.Encounter.Type is not EncounterType.Narrative) return;
+      
+      // var spawnTasks = new List<Task<GameObject>>();
+      // EncounterTypeSO type = node.EncounterType;
+      //
+      // // TODO: 선택지 생성 코드 구현
+      // Debug.Log($"선택지 개수: {node.Encounter.RewardInfos.Count}");
+      // Debug.Break();
+      // for (int i = 0; i < node.Encounter.RewardInfos.Count; i++)
+      // {
+      //   var spawnTask = _uiNarrativeChoiceRef.InstantiateAsync(_choiceRoot).Task;
+      //   spawnTasks.Add(spawnTask);
+      // }
+      //
+      // GameObject[] choiceInstance = await Task.WhenAll(spawnTasks);
+      //
+      // foreach (var choice in choiceInstance)
+      // {
+      //   choice.
+      // }
 
       _canvas.enabled = true;
     }

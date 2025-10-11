@@ -170,7 +170,7 @@ namespace GamePlay.Units
       Debug.Log($"[Return {name} Reset Energy]");
     }
 
-    public virtual void Die()
+    private void Die()
     {
       OnDeath?.Invoke(this);
     }

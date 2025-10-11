@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+using GamePlay.Map;
 using UnityEngine;
 
 namespace Data.Act.Encounter
@@ -5,10 +7,9 @@ namespace Data.Act.Encounter
   [CreateAssetMenu(fileName = "Encounter_Rest_", menuName = "MyMenu/Act/Encounter/Rest")]
   public class EncounterRest : EncounterSO
   {
-    
-    public override void BeginEncounter()
+    public override async Task BeginAsync(MapManager mapManager)
     {
-      throw new System.NotImplementedException();
+      await mapManager.UIManager.ShowEncounter(mapManager.UIManager.restCanvasRef);
     }
   }
 }
