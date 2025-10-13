@@ -7,8 +7,8 @@ namespace GamePlay.Battle.State
 {
   public class StateTurnEnemy : IBattleState
   {
-    private BattleManager _manager;
-    private StateMachine _fsm;
+    private readonly BattleManager _manager;
+    private readonly StateMachine _fsm;
 
     public StateTurnEnemy(BattleManager manager, StateMachine fsm)
     {
@@ -19,7 +19,7 @@ namespace GamePlay.Battle.State
     {
       Debug.Log($"[Enemy Turn State]");
 
-      foreach (var unit in _manager.EnemyTeam)
+      foreach (var unit in _manager.UnitManager.EnemyTeam)
       {
         // 카드 사용 로직
       }
@@ -41,14 +41,16 @@ namespace GamePlay.Battle.State
 
     public void EnemyNextIntent()
     {
-      for (int i = 0; i < _manager.EnemyTeam.Count; i++)
+      for (int i = 0; i < _manager.UnitManager.EnemyTeam.Count; i++)
       {
         var random = new System.Random();
 
-        EnemyController enmey = _manager.EnemyTeam[i] as EnemyController;
-        int rand = random.Next(0, enmey.EnemyData.AbilityCards.Count);
-        CardSO card = enmey.EnemyData.AbilityCards[rand];
-        UnityEngine.Debug.Log($"[{enmey.name}_Next Intent]:{card.name}");
+        EnemyController enemy = _manager.UnitManager.EnemyTeam[i] as EnemyController;
+        if (enemy is null) return;
+        
+        int rand = random.Next(0, enemy.EnemyData.AbilityCards.Count);
+        CardSO card = enemy.EnemyData.AbilityCards[rand];
+        UnityEngine.Debug.Log($"[{enemy.name}_Next Intent]:{card.name}");
       }
     }
   }

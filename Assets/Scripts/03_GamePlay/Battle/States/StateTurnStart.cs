@@ -5,10 +5,9 @@ namespace GamePlay.Battle.State
 {
   public class StateTurnStart : IBattleState
   {
-    private BattleManager _manager;
-    private StateMachine _fsm;
-
-    private TurnOwner _turnOwner;
+    private readonly BattleManager _manager;
+    private readonly StateMachine _fsm;
+    private readonly TurnOwner _turnOwner;
 
     public StateTurnStart(BattleManager manager, StateMachine fsm, TurnOwner owner)
     {

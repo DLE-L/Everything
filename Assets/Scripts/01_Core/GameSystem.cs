@@ -108,6 +108,7 @@ namespace Core
     {
       SystemEvent.RaiseGameSystemExit();
       AssetLoader.ReleaseAllAsset();
+      AssetLoader.ReleaseAllInstance();
     }
   }
 }

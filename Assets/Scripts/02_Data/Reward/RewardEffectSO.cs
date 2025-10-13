@@ -16,8 +16,8 @@ namespace Data.Reward
     {
       TargetingContext context = new(
         user,
-        manager.PlayerTeam,
-        manager.EnemyTeam
+        manager.UnitManager.PlayerTeam,
+        manager.UnitManager.EnemyTeam
         );
 
       List<Unit> targets = await Targeting.FindTargetsAsync(context);

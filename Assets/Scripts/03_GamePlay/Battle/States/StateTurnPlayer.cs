@@ -9,7 +9,7 @@ namespace GamePlay.Battle.State
 {
   public class StateTurnPlayer : IBattleState
   {
-    private BattleManager _manager;
+    private readonly BattleManager _manager;
     private StateMachine _fsm;
     private Unit _playerUnit;
     private bool _isActionInProgress = false;
@@ -47,7 +47,7 @@ namespace GamePlay.Battle.State
       _isActionInProgress = true; // 행동 시작, 다른 입력 잠금
 
       CardSO cardSO = battleCard.CardData;
-      Unit user = _manager.Player;
+      Unit user = _manager.UnitManager.Player;
 
       // 1. 타겟팅 전략에 따라 타겟을 결정 (플레이어 선택이 필요하면 여기서 대기)
       List<Unit> targets = new();//= await cardSO.Targeting.FindTargetsAsync(new TargetingContext());

@@ -1,6 +1,7 @@
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using Utils;
 
 namespace UI.Map
 {
@@ -22,14 +23,14 @@ namespace UI.Map
     
     public async Task ShowEncounter(AssetReference encounterRef)
     {
-      _currentCanvasObject = await encounterRef.InstantiateAsync().Task;
-      Debug.Log($"Show EncounterRef: {_currentCanvasObject.name}");
+      _currentCanvasObject = await AssetLoader.InstantiateAsync(encounterRef);
+      Debug.Log($"[Show EncounterRef: {_currentCanvasObject.name}]");
     }
     
     private void CloseCurrentCanvas()
     {
-      Addressables.ReleaseInstance(_currentCanvasObject);
-      Debug.Log($"Close EncounterRef: {_currentCanvasObject.name}");
+      AssetLoader.ReleaseInstance(_currentCanvasObject);
+      Debug.Log($"[Close EncounterRef: {_currentCanvasObject.name}]");
     }
   }
 }

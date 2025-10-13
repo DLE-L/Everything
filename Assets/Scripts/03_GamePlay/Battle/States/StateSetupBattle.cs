@@ -1,13 +1,15 @@
+using System;
 using Core;
 using Core.Event;
+using UnityEngine;
 
 namespace GamePlay.Battle.State
 {
   public class StateSetupBattle : IBattleState
   {
-    private BattleManager _manager;
-    private StateMachine _fsm;
-    private TurnOwner _turnOwner;
+    private readonly BattleManager _manager;
+    private readonly StateMachine _fsm;
+    private readonly TurnOwner _turnOwner;
 
     public StateSetupBattle(BattleManager manager, StateMachine fsm, TurnOwner owner)
     {
@@ -16,10 +18,18 @@ namespace GamePlay.Battle.State
       _turnOwner = owner;
     }
 
-    public void Enter()
+    public async void Enter()
     {
-      BattleEvent.RaiseCombatStart();
-      _fsm.ChangeState(new StateTurnStart(_manager, _fsm, _turnOwner));
+      try
+      {
+        BattleEvent.RaiseCombatStart();
+        await _manager.UnitManager.Init(_manager);
+        _fsm.ChangeState(new StateTurnStart(_manager, _fsm, _turnOwner));
+      }
+      catch (Exception e)
+      {
+        Debug.Log($"[SetupBattle Error: {e}]");
+      }
     }
 
     public void Execute()

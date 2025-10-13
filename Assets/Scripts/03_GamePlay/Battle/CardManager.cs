@@ -10,12 +10,12 @@ namespace GamePlay.Battle
 {
   public class CardManager
   {
-    public List<CardSO> DrawPile;
-    public List<CardSO> DiscardPile;
-    public List<CardSO> Hand;
+    public readonly List<CardSO> DrawPile;
+    public readonly List<CardSO> DiscardPile;
+    public readonly List<CardSO> Hand;
     public List<CardSO> ExhaustPile;
 
-    private System.Random _random = new();
+    private readonly System.Random _random = new();
 
     public CardManager(List<CardSO> startingDeck)
     {
@@ -39,10 +39,10 @@ namespace GamePlay.Battle
       foreach (var cardEffect in card.Effects)
       {
         TargetingStrategySO targeting = cardEffect.Target;        
-        TargetingContext context = new TargetingContext(
+        TargetingContext context = new (
           user,
-          manager.PlayerTeam,
-          manager.EnemyTeam
+          manager.UnitManager.PlayerTeam,
+          manager.UnitManager.EnemyTeam
         );
 
         List<Unit> targets = await targeting.FindTargetsAsync(context);
@@ -119,7 +119,7 @@ namespace GamePlay.Battle
 
     private void Shuffle(List<CardSO> list)
     {
-      list = list.OrderBy(x => _random.Next()).ToList();
+      var cardSoList = list.OrderBy(x => _random.Next()).ToList();
     }
   }
 }

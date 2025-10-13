@@ -39,7 +39,7 @@ namespace GamePlay.Map
       }
       catch (Exception e)
       {
-        Console.WriteLine(e);
+        Debug.Log($"[Node Error {e.Message}]");
       }
     }
 

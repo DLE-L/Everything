@@ -21,7 +21,7 @@ namespace Data.Card
 
     public static async Task InitializeAsync()
     {
-      var cardList = await AssetLoader.LoadAssetLabelAsync<CardSO>("Card");
+      var cardList = await AssetLoader.LoadAssetsByLabelAsync<CardSO>("Card");
       foreach (var card in cardList)
       {        
         AllCards.TryAdd(card.name, card);

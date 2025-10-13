@@ -14,7 +14,7 @@ namespace Data.Units
 
     public async static void LoadEnemyData()
     {
-      var enemyList = await AssetLoader.LoadAssetLabelAsync<EnemySO>("Enemy");
+      var enemyList = await AssetLoader.LoadAssetsByLabelAsync<EnemySO>("Enemy");
       foreach (var enemy in enemyList)
       {        
         enemyDatabase.Add(enemy.name, enemy);
