@@ -3,10 +3,12 @@ using UnityEngine;
 using System.Threading.Tasks;
 using Utils;
 using System.Linq;
+using System.Text;
 using GamePlay.Map;
 using Data.Map;
 using Data.Act;
 using Data.Act.Encounter;
+using UnityEngine.AddressableAssets;
 
 namespace UI.Map
 {
@@ -16,60 +18,65 @@ namespace UI.Map
     private readonly List<Node> _generatedNodes = new();
     private readonly Dictionary<EncounterType, int> _typeCounts = new();
     private readonly Dictionary<EncounterType, int> _lastSpawnFloors = new();
-    private int _currentEliteCount = 0;
+    private int _currentEliteCount;
 
-    public async Task<List<Node>> GenerateMap(Transform nodeParent, MapConfigSO mapConfig, int actNumbering)
+    public async Task<List<Node>> GenerateMap(AssetReference nodePrefabRef,Transform nodeParent, MapConfigSO mapConfig, int actNumbering)
     {
       _generatedNodes.Clear();
       _typeCounts.Clear();
       _lastSpawnFloors.Clear();
       _currentEliteCount = 0;
-
+      
       ActSO actData = await ActDatabase.GetNumberingActAsync(actNumbering);
-      GameObject nodePrefab = await AssetLoader.LoadAssetAsync<GameObject>("UI_Node");
-
+      Dictionary<(int, int), EncounterSO> encounterFixPoint = actData.EncounterPoints
+        .ToDictionary(key => (key.FloorIndex, key.NodeIndex), value => value.Encounter);
+      
       for (int floorIndex = 0; floorIndex < mapConfig.Act_FloorCount; floorIndex++)
       {        
-        int nodeCountOnFloor;
-        List<EncounterSO> encountersForThisFloor = new();
+        List<EncounterSO> encountersFloor = new();
+        StringBuilder sb = new();
 
         if (floorIndex == mapConfig.Node_BossIndex) // 보스 층
         {
-          nodeCountOnFloor = 1;
-          encountersForThisFloor.Add(actData.BossEncounter);
+          encountersFloor.Add(actData.BossEncounter);
         }
         else if (floorIndex == mapConfig.Act_FinalZoneIndex) // 보스 직전 층 (고정)
         {
-          nodeCountOnFloor = 2;
           EncounterSO shopEncounter = actData.Encounters.FirstOrDefault(e => e.Type == EncounterType.Shop);
           EncounterSO restEncounter = actData.Encounters.FirstOrDefault(e => e.Type == EncounterType.Rest);
-          if (shopEncounter is not null) encountersForThisFloor.Add(shopEncounter);
-          if (restEncounter is not null) encountersForThisFloor.Add(restEncounter);
-          encountersForThisFloor = encountersForThisFloor.OrderBy(e => _random.Next()).ToList();
+          if (shopEncounter is not null) encountersFloor.Add(shopEncounter);
+          if (restEncounter is not null) encountersFloor.Add(restEncounter);
+          encountersFloor = encountersFloor.OrderBy(e => _random.Next()).ToList();
         }
         else
         {
-          nodeCountOnFloor = _random.Next(mapConfig.Floor_MinNode, mapConfig.Floor_MaxNode + 1);
+          var nodeCountOnFloor = _random.Next(mapConfig.Floor_MinNode, mapConfig.Floor_MaxNode + 1);
+          
           for (int i = 0; i < nodeCountOnFloor; i++)
           {
-            encountersForThisFloor.Add(SelectEncounterForFloor(floorIndex, mapConfig, actData));
+            var isExistEncounter = encounterFixPoint.TryGetValue((floorIndex + 1, i + 1), out var encounter);
+            var encounterSo = isExistEncounter ? encounter : SelectEncounterForFloor(floorIndex, mapConfig, actData);
+            
+            encountersFloor.Add(encounterSo);
           }
         }
 
-        for (int nodeIndex = 0; nodeIndex < encountersForThisFloor.Count; nodeIndex++)
+        for (int nodeIndex = 0; nodeIndex < encountersFloor.Count; nodeIndex++)
         {
-          EncounterSO selectedEncounter = encountersForThisFloor[nodeIndex];
+          EncounterSO selectedEncounter = encountersFloor[nodeIndex];
           if (selectedEncounter is null) continue;
 
-          GameObject nodeGO = UnityEngine.Object.Instantiate(nodePrefab, nodeParent);
-          RectTransform nodeRect = nodeGO.GetComponent<RectTransform>();
+          var nodeGO = await AssetLoader.InstantiateAsync(nodePrefabRef, nodeParent);
+          var nodeRect = nodeGO.GetComponent<RectTransform>();
 
-          Vector2 position = SetNodePosition(floorIndex, nodeIndex, encountersForThisFloor.Count, mapConfig);
+          Vector2 position = SetNodePosition(floorIndex, nodeIndex, encountersFloor.Count, mapConfig);
           nodeRect.anchoredPosition = position;
 
           Node mapNode = nodeGO.GetComponent<Node>();
           mapNode.Setup(selectedEncounter);
-          mapNode.name = $"Node_{floorIndex}-{nodeIndex}_{selectedEncounter.name}";
+          
+          sb.Append($"Node_{floorIndex}-{nodeIndex}_{selectedEncounter.name}");
+          mapNode.name = sb.ToString();
           _generatedNodes.Add(mapNode);
 
           EncounterType type = selectedEncounter.Type;
@@ -141,11 +148,15 @@ namespace UI.Map
 
       return candidatePool.LastOrDefault(); // 만약의 경우 마지막 후보 반환
     }
+
     private int GetMaxCountForType(EncounterType type, ActSO actData)
     {
-      if (type == EncounterType.Shop) return actData.MaxShopCount;
-      if (type == EncounterType.Rest) return actData.MaxRestCount;
-      return int.MaxValue;
+      return type switch
+      {
+        EncounterType.Shop => actData.MaxShopCount,
+        EncounterType.Rest => actData.MaxRestCount,
+        _ => int.MaxValue
+      };
     }
   }
 }

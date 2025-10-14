@@ -1,16 +1,15 @@
+using System;
 using Utils;
 using UnityEngine;
-using System.Collections.Generic;
 using GamePlay.Battle;
 using GamePlay.Lobby;
 using GamePlay.Map;
 using GamePlay.Title;
-using Data.Card;
+using Data.Collectible.Card;
 using Core.Event;
 using Data.Act.Encounter;
 using Data.Units;
 using GamePlay.Units;
-using UnityEngine.EventSystems;
 
 namespace Core
 {
@@ -21,12 +20,10 @@ namespace Core
     public Player Player;
     
     public EncounterSO CurrentEncounter { get; set; }
-    public Dictionary<string, int> PlayerRunDeck { get; private set; }
 
+    #region Manager & System
     private readonly SceneSystem _scene = new();
     public SceneSystem Scene => _scene;
-
-    #region Manager
     public TitleManager Title { get; private set; }
     public LobbyManager Lobby { get; private set; }
     public MapManager Map { get; private set; }
@@ -35,7 +32,7 @@ namespace Core
 
     private void Awake()
     {
-      if (Instance == null)
+      if (Instance is null)
       {
         Instance = this;
         DontDestroyOnLoad(gameObject);
@@ -44,34 +41,26 @@ namespace Core
       {
         Destroy(gameObject);
       }
-
-      SystemEvent.RaiseGameSystemInit();
-      Debug.Log($"[GameSystem Initialized]");
+      
+      Debug.Log($"\\----GameSystem Initialized----//");
     }
 
     private async void Start()
     {
-      // await CardDatabase.InitializeAsync(); // TODO: Test용도
-      PlayerAccountData = await PlayerDataManager.GetAccountDataAsync();
-      PlayerAccountData ??= await PlayerDataManager.NewAccountDataAsync();
-
-      _scene.LoadSceneTitle();
-    }
-
-    public void OnStartNewRun()
-    {
-      
-    }
-
-    public void PlayerRunDeckInitialize(Dictionary<string, int> deck)
-    {
-      PlayerRunDeck = deck;
+      try
+      {
+        await _scene.LoadSceneTitleAsync();
+      }
+      catch (Exception e)
+      {
+        Debug.LogError($"GameSystem Start Error: {e.Message}");
+      }
     }
 
     public void RemoveCardFromDeckPermanently(CardSO cardToRemove)
     {
-      var permanentDeck = PlayerRunDeck;      
-      if (permanentDeck.Remove(cardToRemove.name))
+      var permanentDeck = Player.RunData.Deck;      
+      if (permanentDeck.Remove(cardToRemove))
       {
         Debug.Log($"'{cardToRemove.Name}' card permanent deck remove");
       }
@@ -94,19 +83,16 @@ namespace Core
 
     void OnEnable()
     {
-      SystemEvent.OnStartNewRun += OnStartNewRun;
       SystemEvent.OnClickNode += OnClickNode;
     }
 
     void OnDisable()
     {
-      SystemEvent.OnStartNewRun -= OnStartNewRun;
       SystemEvent.OnClickNode -= OnClickNode;
     }
 
     void OnDestroy()
     {
-      SystemEvent.RaiseGameSystemExit();
       AssetLoader.ReleaseAllAsset();
       AssetLoader.ReleaseAllInstance();
     }

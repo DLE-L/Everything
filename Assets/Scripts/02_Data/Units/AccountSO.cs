@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Data.Card;
-using Data.Relic;
+using Data.Collectible.Card;
+using Data.Collectible.Relic;
 
 
 namespace Data.Units

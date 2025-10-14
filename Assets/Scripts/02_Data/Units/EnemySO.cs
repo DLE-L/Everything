@@ -1,6 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
-using Data.Card;
+using Data.Collectible.Card;
 
 namespace Data.Units
 {

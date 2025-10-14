@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using System;
+using Data.Act.Encounter;
 using GamePlay.Battle;
 using GamePlay.Units;
-using Data.Card;
+using Data.Collectible.Card;
 
 namespace Core.Event
 {
@@ -30,11 +31,6 @@ namespace Core.Event
     public static void RaiseCardDiscard(CardSO card) => OnCardDiscard?.Invoke(card);
     public static event Action<CardSO> OnCardExhaust;
     public static void RaiseCardExhaust(CardSO card) => OnCardExhaust?.Invoke(card);
-    public static event Action OnPlayerWin;
-    public static void RaisePlayerWin() => OnPlayerWin?.Invoke();
-    public static event Action OnPlayerLose;
-    public static void RaisePlayerLose() => OnPlayerLose?.Invoke();
-    
     #endregion
 
     #region Battle Effect Event

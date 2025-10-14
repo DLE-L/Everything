@@ -1,14 +1,17 @@
-using GamePlay.Units;
+﻿using System;
+using System.Collections.Generic;
+using Data.Collectible;
+using Data.Collectible.Card;
+using Data.Collectible.Relic;
 using UnityEngine;
-using System.Threading.Tasks;
-using GamePlay.Battle;
 
 namespace Data.Reward
 {
-  public abstract class RewardSO : ScriptableObject
+  [CreateAssetMenu(fileName = "Reward_",  menuName = "MyMenu/Reward/Reward")]
+  public class RewardSO : ScriptableObject
   {
-    public string Description;
+    public List<CardSO> Cards;
+    public List<RelicSO> Relics;
     public int Gold;
-    public abstract Task GrantRewardAsync(Unit user, BattleManager manager);
   }
 }

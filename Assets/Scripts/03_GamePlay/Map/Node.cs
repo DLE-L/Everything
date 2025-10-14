@@ -15,7 +15,7 @@ namespace GamePlay.Map
   public class Node : MonoBehaviour
   {
     public EncounterSO Encounter { get; private set; }
-    public NodeVisualsSO NodeVisuals { get; private set; }
+    public EncounterNodeStyleSO EncounterNodeStyle { get; private set; }
     private Image _icon;
 
     void Awake()

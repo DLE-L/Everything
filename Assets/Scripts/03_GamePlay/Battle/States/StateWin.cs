@@ -15,7 +15,6 @@ namespace GamePlay.Battle.State
     
     public void Enter()
     {
-      BattleEvent.RaisePlayerWin();
       
     }
 

@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using Data.Card;
+using Data.Collectible.Card;
 using System;
 
 namespace Data.Units

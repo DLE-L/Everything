@@ -1,7 +1,7 @@
 using UnityEngine;
 using Core;
 using System.Collections.Generic;
-using Data.Card;
+using Data.Collectible.Card;
 using UI.Battle;
 using GamePlay.Units;
 

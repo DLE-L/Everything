@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Data.Target;
-using Data.Card;
+using Data.Collectible.Card;
 using GamePlay.Units;
 using Core.Event;
 

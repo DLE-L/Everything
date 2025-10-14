@@ -14,7 +14,7 @@ namespace GamePlay.Battle.State
     }
     public void Enter()
     {
-      BattleEvent.RaisePlayerLose();
+
     }
 
     public void Execute()

@@ -1,5 +1,5 @@
 using Core.Event;
-using Data.Card;
+using Data.Collectible.Card;
 using Data.Units;
 using GamePlay.Battle;
 
@@ -12,7 +12,12 @@ namespace GamePlay.Units
 
     void Awake()
     {
-      Initialize(TurnOwner.PlayerTeam);
+      Team = TurnOwner.PlayerTeam;
+    }
+
+    public void DataSetting(PlayerRunData runData)
+    {
+      RunData = runData;
     }
 
     void OnEnable()

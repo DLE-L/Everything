@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Core.Event;
-using Data.Card;
+using Data.Collectible.Card;
 using UnityEngine;
 
 namespace UI.Battle

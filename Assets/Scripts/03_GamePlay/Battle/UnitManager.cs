@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Core;
 using Data.Act.Encounter;
-using Data.Card;
+using Data.Collectible.Card;
 using Data.Units;
 using GamePlay.Battle.State;
 using GamePlay.Units;
@@ -30,9 +30,11 @@ namespace GamePlay.Battle
     public async Task Init(BattleManager manager)
     {
       _battleManager = manager;
-
-      await SpawnEnemiesAsync(GameSystem.Instance.CurrentEncounter);
+      _battleManager.currentBattleEncounter = GameSystem.Instance.CurrentEncounter;
+      await SpawnEnemiesAsync(_battleManager.currentBattleEncounter);
       SubscribeToUnitDeath();
+      
+      GameSystem.Instance.CurrentEncounter = null;
     }
 
     private void Start()
@@ -88,6 +90,7 @@ namespace GamePlay.Battle
       else if (deadUnit is Player)
       {
         UnsubscribeToUnitDeath();
+        
         _battleManager.Fsm.ChangeState(new StateLose(_battleManager, _battleManager.Fsm));
       }
     }

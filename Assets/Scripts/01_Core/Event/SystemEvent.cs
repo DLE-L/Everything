@@ -9,39 +9,12 @@ namespace Core.Event
 {
   public static class SystemEvent
   {
-    #region GameSystemEvent
-    public static event Action OnGameSystemInit;
-    public static void RaiseGameSystemInit() => OnGameSystemInit?.Invoke();
-    public static event Action OnGameSystemExit;
-    public static void RaiseGameSystemExit() => OnGameSystemExit?.Invoke();
-    #endregion
-
     #region Game Event
-    public static event Action OnClickNewGame;
-    public static void RaiseOnClickNewGame() => OnClickNewGame?.Invoke();
-    public static event Action OnClickContinueGame;
-    public static void RaiseOnClickContinueGame() => OnClickContinueGame?.Invoke();
     public static event Action OnStartNewRun;
     public static void RaiseOnStartNewRun() => OnStartNewRun?.Invoke();
     public static event Action<Node> OnClickNode;
     public static void RaiseOnClickNode(Node node) => OnClickNode?.Invoke(node);
-    public static event Action<EncounterSO> OnEnterEncounter;
-    public static void RaiseOnEnterEncounter(EncounterSO encounter) => OnEnterEncounter?.Invoke(encounter);
-    public static event Action<RewardSO> OnChoiceReward;
-    public static void RaiseOnChoiceReward(RewardSO reward) => OnChoiceReward?.Invoke(reward);
     #endregion
-
-    #region Scene Event
-    public enum GameState { MainMenu, Lobby, InGame, Paused }
-    public static event Action<GameState> OnGameStateChanged;
-    public static void RaiseGameStateChanged(GameState newState) => OnGameStateChanged?.Invoke(newState);
-
-    public static event Action<string, LoadSceneMode> OnSceneLoadStart;
-    public static void RaiseSceneLoadStart(string sceneName, LoadSceneMode mode = LoadSceneMode.Single) => OnSceneLoadStart?.Invoke(sceneName, mode);
-    public static event Action<string> OnSceneLoadEnd;
-    public static void RaiseSceneLoadEnd(string sceneName) => OnSceneLoadEnd?.Invoke(sceneName);
-    #endregion
-
 
     #region Resource Event
     public static event Action<Unit, int> OnGainGold;

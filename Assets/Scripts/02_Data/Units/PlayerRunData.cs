@@ -1,6 +1,6 @@
 using System.Collections.Generic;
-using Data.Card;
-using Data.Relic;
+using Data.Collectible.Card;
+using Data.Collectible.Relic;
 using System;
 using Utils;
 
@@ -20,11 +20,14 @@ namespace Data.Units
     {
       RunStateGold = 0;
       Deck = new(deck);
-      Stat.MaxHP = maxHp;
-      Stat.HP = maxHp;
-      Stat.MaxEnergy = 3;
-      Stat.Energy = 3;
-      Stat.Block = 0;
+      Stat = new()
+      {
+        MaxHP = maxHp,
+        HP = maxHp,
+        MaxEnergy = 3,
+        Energy = 3,
+        Block = 0
+      };
     }
   }
 }

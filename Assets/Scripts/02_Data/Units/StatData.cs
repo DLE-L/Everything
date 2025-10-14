@@ -9,7 +9,7 @@ namespace Data.Units
     public int MaxHP;
     public int Energy;
     public int MaxEnergy;
-    public int Block;
+    public int Block = 0;
 
     public StatData() { }
     public StatData(StatData stat)

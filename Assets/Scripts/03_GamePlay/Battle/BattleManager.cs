@@ -4,15 +4,10 @@ using System.Linq;
 using System;
 using System.Threading.Tasks;
 using Core;
-using Core.Event;
-using GamePlay.Units;
-using Data.Card;
+using Data.Collectible.Card;
 using Data.Act.Encounter;
-using Data.Units;
+using Data.Reward;
 using GamePlay.Battle.State;
-using Unity.VisualScripting;
-using UnityEngine.AddressableAssets;
-using Utils;
 using StateMachine = Core.StateMachine;
 using Unit = GamePlay.Units.Unit;
 
@@ -20,14 +15,16 @@ namespace GamePlay.Battle
 {
   public class BattleManager : MonoBehaviour
   {
+    private TaskCompletionSource<Unit> _currentTargetSelectionTask;
+    private RaycastHit2D _hit;
     public event Action<Unit> OnEnemyClicked;
+    public EncounterSO currentBattleEncounter;
     
     public StateMachine Fsm { get; private set; } = new();
     public CardManager CardManager { get; private set; }
     public UnitManager UnitManager;
 
-    private TaskCompletionSource<Unit> _currentTargetSelectionTask;
-    private RaycastHit2D _hit;
+    public RewardData RewardData;
 
     private void Awake()
     {

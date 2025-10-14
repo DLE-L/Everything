@@ -3,34 +3,35 @@ using System.Linq;
 using System.Collections.Generic;
 using Utils;
 using UnityEngine;
-using Data.Card;
+using Data.Collectible.Card;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Data.Units
 {
   public static class PlayerDataManager
   {
-    public static PlayerRunData RundInitialize(int maxHP, Dictionary<CardSO, int> deck, int takeGold = 0)
+    public static PlayerRunData RunInitialize(int maxHP, Dictionary<CardSO, int> deck, int takeGold = 0)
     {
       return new PlayerRunData(maxHP, deck, takeGold);
     }
 
     public static async Task<PlayerAccountData> GetAccountDataAsync()
     {
-      return await JsonData.LoadPlayerData();
+      return await SaveLoadManager.LoadPlayerData();
     }
 
     public static async Task<PlayerAccountData> NewAccountDataAsync()
     {
       PlayerAccountData data = await DefaultToAccountData();
-      await JsonData.SavePlayerDataAsync(data);
-      AssetLoader.ReleaseAsset("Account_Default");
-      Debug.Log($"[Account Data New]");
+      await SaveLoadManager.SavePlayerDataAsync(data);
+      AssetLoader.ReleaseAsset("Deck_Account_Default");
+      //Debug.Log($"[Account Data New]");
       return data;
     }
 
     private static async Task<PlayerAccountData> DefaultToAccountData()
     {
-      var accountSO = await AssetLoader.LoadAssetAsync<AccountSO>("Account_Default");
+      var accountSO = await AssetLoader.LoadAssetAsync<AccountSO>("Deck_Account_Default");
       Debug.Log($"[Account Default Setting]");
 
       return new PlayerAccountData

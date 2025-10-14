@@ -8,16 +8,16 @@ using Data.Units;
 
 namespace Utils
 {
-  public static class JsonData
+  public static class SaveLoadManager
   {
     public static StringBuilder _sb = new();
     private static bool _isSaving = false;
-    private static string _savePath = Path.Combine(Application.persistentDataPath, "AccountData.json");
+    private static readonly string _savePath = Path.Combine(Application.persistentDataPath, "AccountData.json");
 
     public static Task SavePlayerDataAsync(PlayerAccountData data) => SaveJsonDataAsync(data, _savePath);
     public static Task<PlayerAccountData> LoadPlayerData() => LoadJsonData<PlayerAccountData>(_savePath);
 
-    private async static Task SaveJsonDataAsync<T>(T data, string path)
+    private static async Task SaveJsonDataAsync<T>(T data, string path)
     {
       Debug.Log("..저장중..");
       if (_isSaving) return;
@@ -39,18 +39,18 @@ namespace Utils
       }
     }
 
-    private async static Task<T> LoadJsonData<T>(string path) where T : class
+    private static async Task<T> LoadJsonData<T>(string path) where T : class
     {
-      if (File.Exists(path) == false)
+      if (!File.Exists(path))
       {
         return null;
       }
-      string json = await File.ReadAllTextAsync(path);
+      var json = await File.ReadAllTextAsync(path);
       if (string.IsNullOrWhiteSpace(json))
       {
         return null;
       }
-      T data = JsonConvert.DeserializeObject<T>(json);
+      var data = JsonConvert.DeserializeObject<T>(json);
       //Debug.Log($"[Json Data Load: {path}]");
       return data;
     }

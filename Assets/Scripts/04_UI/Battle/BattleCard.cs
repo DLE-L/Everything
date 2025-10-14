@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 using System;
-using Data.Card;
+using Data.Collectible.Card;
 
 namespace UI.Battle
 {

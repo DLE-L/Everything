@@ -35,6 +35,12 @@ MonoBehaviour:
     - Common
     - Enemy
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 40962cfb808c67749b8e335500ff5a21
+    m_Address: UI_Canvas_Title
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 52a7f58d49db11b4cbf3f62d23115489
     m_Address: UI_Canvas_Shop
     m_ReadOnly: 0
@@ -59,6 +65,12 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Enemy
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 70b77d44261084c428e97f64c57dabe5
+    m_Address: UI_Canvas_Reward
+    m_ReadOnly: 0
+    m_SerializedLabels:
     - UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 7ec81474cdf67594c834a0822f6db8ce

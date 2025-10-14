@@ -1,4 +1,5 @@
-﻿using Core;
+﻿using System;
+using Core;
 using UI.Common;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -7,9 +8,16 @@ namespace _04_UI.Lobby
 {
   public class btnStartRun : MonoBehaviour
   {
-    private void OnClick(PointerEventData data)
+    private async void OnClick(PointerEventData data)
     {
-      GameSystem.Instance.Scene.LoadSceneMap();
+      try
+      {
+        await GameSystem.Instance.Scene.LoadSceneMapAsync();
+      }
+      catch (Exception e)
+      {
+        Debug.Log(e);
+      }
     }
     void OnEnable()
     {

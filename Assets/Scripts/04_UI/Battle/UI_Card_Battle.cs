@@ -4,7 +4,7 @@ using TMPro;
 using System;
 using UnityEngine.UI;
 using GamePlay.Battle;
-using Data.Card;
+using Data.Collectible.Card;
 using UI.Common;
 
 namespace UI.Battle

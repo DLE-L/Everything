@@ -16,6 +16,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2146ea9af27b6954db42e1711d1f9d49, type: 2}
   - {fileID: 11400000, guid: 70aa5ee71182db4408e507d28b51d74a, type: 2}
   BossEncounter: {fileID: 11400000, guid: 5c0d4c3a5d79b53488fe6cb62a8c635d, type: 2}
+  EncounterPoints:
+  - {fileID: 11400000, guid: 31f73df54c350b1458121639987d860e, type: 2}
   MaxShopCount: 2
   MaxRestCount: 2
   MaxEliteCount: 3

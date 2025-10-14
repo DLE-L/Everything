@@ -1,29 +1,29 @@
 using UnityEngine;
 using GamePlay.Battle;
-using Data.Card;
+using Data.Collectible.Card;
 using Data.Units;
 
 namespace GamePlay.Units
 {
   public class EnemyController : Unit
   {
-    public BattleManager battleManager { get; private set; }
+    private BattleManager _battleManager;
     public BattleEnemyData EnemyData { get; private set; }
-    private System.Random random = new();
+    private readonly System.Random random = new();
 
     void Awake()
     {
-      Initialize(TurnOwner.EnemyTeam);
+      Team = TurnOwner.EnemyTeam;
     }
 
     public void DataSetting(BattleEnemyData data, BattleManager manager)
     {
-      battleManager = manager;
+      _battleManager = manager;
       EnemyData = data;
       Stat = data.Stat;
     }
 
-    public override void HandleTurnStart(TurnOwner turnOwner)
+    protected override void HandleTurnStart(TurnOwner turnOwner)
     {
       base.HandleTurnStart(turnOwner);
       if (turnOwner == Team)

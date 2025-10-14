@@ -15,10 +15,10 @@ namespace Data.Act.Encounter
     public RaritySO Rarity;
     public List<EnemySO> Enemies;
     
-    public override Task BeginAsync(MapManager mapManager)
+    public override async Task BeginAsync(MapManager mapManager)
     {
-      GameSystem.Instance.Scene.LoadSceneBattle();
-      return null;
+      GameSystem.Instance.CurrentEncounter = this;
+      await GameSystem.Instance.Scene.LoadSceneBattleAsync();
     }
   }
 }

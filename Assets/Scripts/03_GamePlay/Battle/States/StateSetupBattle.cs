@@ -24,6 +24,7 @@ namespace GamePlay.Battle.State
       {
         BattleEvent.RaiseCombatStart();
         await _manager.UnitManager.Init(_manager);
+        //_manager.RewardData.Cards = new(_manager.currentBattleEncounter.Rewards)
         _fsm.ChangeState(new StateTurnStart(_manager, _fsm, _turnOwner));
       }
       catch (Exception e)

@@ -11,6 +11,8 @@ namespace Data.Act
   {
     public List<EncounterSO> Encounters;
     public EncounterSO BossEncounter;
+
+    public List<EncounterFixPointSO> EncounterPoints;
     
     [Space(10)]
     public int MaxShopCount = 2;

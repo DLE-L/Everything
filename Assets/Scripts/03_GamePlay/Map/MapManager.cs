@@ -3,13 +3,14 @@ using System.Collections.Generic;
 using Core;
 using Core.Event;
 using Data.Act.Encounter;
-using Data.Card;
+using Data.Collectible.Card;
 using Data.Units;
 using GamePlay.Units;
 using UI.Map;
 using UnityEngine;
 using Utils;
 using Data.Reward;
+using UnityEngine.AddressableAssets;
 
 namespace GamePlay.Map
 {
@@ -17,9 +18,12 @@ namespace GamePlay.Map
   {
     private MapGenerator _generator;
     private MapConfigSO _mapGenerateData;
-    private Narrative_UI _narrative_UI;
+    private UI_Narrative _uiNarrative;
     [SerializeField] private Transform _nodeParent;
+    [SerializeField] private AssetReference _nodePrefabRef;
+    private List<RewardData>  _rewards;
     public MapUIManager UIManager;
+    
     public void Awake()
     {
       GameSystem.Instance.RegisterMapManager(this);
@@ -37,46 +41,17 @@ namespace GamePlay.Map
         _mapGenerateData = await AssetLoader.LoadAssetAsync<MapConfigSO>("Data_GenerateMap");
 
         _generator = new();
-        await _generator.GenerateMap(_nodeParent, _mapGenerateData, 1);
+        await _generator.GenerateMap(_nodePrefabRef, _nodeParent, _mapGenerateData, 1);
 
         //_narrative_UI = _uiManager.GetComponentInChildren<Narrative_UI>();
-        _narrative_UI.Init();
+        _uiNarrative.Init();
       }
       catch (Exception e)
       {
-        Debug.Log($"[MapManager 'Start' Exception: {e.Message}]");
+        Debug.Log($"[MapManager Start Error: {e.Message}]");
       }
     }
-
-    public void GetReward(RewardSO reward)
-    {
-      Player player = GameSystem.Instance.Player;
-      PlayerRunData runData = player.RunData;
-
-      // foreach (var card in reward.Cards)
-      // {
-      //   runData.Deck[card] = runData.Deck.GetValueOrDefault(card, 0) + 1;
-      // }
-      // foreach (var relic in reward.Relics)
-      // {
-      //   runData.Relics.Add(relic);
-      // }
-    }
-
-    public void OnClickCombat(EncounterSO encounter)
-    {
-      GameSystem.Instance.CurrentEncounter = encounter;
-    }
-
-    void OnEnable()
-    {
-      SystemEvent.OnChoiceReward += GetReward;
-    }
-    void OnDisable()
-    {
-      SystemEvent.OnChoiceReward -= GetReward;
-    }
-
+    
     public void OnDestroy()
     {
       if (GameSystem.Instance != null)

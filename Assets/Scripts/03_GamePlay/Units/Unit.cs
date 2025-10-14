@@ -11,17 +11,13 @@ namespace GamePlay.Units
 {
   public abstract class Unit : MonoBehaviour
   {
-    public virtual StatData Stat { get; set; }
+    public StatData Stat { get; protected set; }
     public event Action<Unit> OnDeath;
     public readonly Dictionary<StatusEffectSO, ActiveStatusData> StatusEffects = new();
-    public TurnOwner Team { get; private set; }
+    protected TurnOwner Team { get; set; }
+    
 
-    public void Initialize(TurnOwner team)
-    {
-      Team = team;
-    }
-
-    public virtual void HandleTurnStart(TurnOwner turnOwner)
+    protected virtual void HandleTurnStart(TurnOwner turnOwner)
     {
       if (turnOwner == Team)
       {
@@ -47,7 +43,7 @@ namespace GamePlay.Units
       Debug.Log($"[{effect.Name}] 효과 중첩/갱신. 남은 턴: {data.duration}, 수치: {data.value}");
     }
 
-    public void ProcessTurnStartEffects()
+    private void ProcessTurnStartEffects()
     {
       foreach (StatusEffectSO effect in StatusEffects.Keys)
       {
@@ -158,13 +154,13 @@ namespace GamePlay.Units
       Debug.Log($"{this.name} Block {Stat.Block}");
     }
 
-    public void ResetBlock()
+    private void ResetBlock()
     {
       Stat.Block = 0;
       Debug.Log($"[Return {name} Reset Block]");
     }
 
-    public void ResetEnergy()
+    private void ResetEnergy()
     {
       Stat.Energy = Stat.MaxEnergy;
       Debug.Log($"[Return {name} Reset Energy]");

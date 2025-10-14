@@ -10,7 +10,7 @@ namespace Utils
   public static class AssetLoader
   {
     private static readonly Dictionary<string, AsyncOperationHandle> _assetHandles = new(); // 딕셔너리<에셋 주소, 핸들>
-    private static readonly List<GameObject> _spawnedInstances = new();
+    private static readonly Dictionary<GameObject, AsyncOperationHandle> _spawnedInstancesHandles = new(); // 딕셔너리<에셋 오브젝트, 핸들>
 
     public static async Task<IList<T>> LoadAssetsByLabelAsync<T>(string label) where T : Object
     {
@@ -22,10 +22,14 @@ namespace Utils
       var newHandle = Addressables.LoadAssetsAsync<T>(label);
       await newHandle.Task;
 
-      StringBuilder sb = new();
-      if (newHandle.Status is not AsyncOperationStatus.Succeeded) return null;
+      if (newHandle.Status is not AsyncOperationStatus.Succeeded)
+      {
+        Debug.LogError($"LoadAssetsByLabelAsync failed: {label}");
+        return null;
+      }
 
       _assetHandles[label] = newHandle;
+      // StringBuilder sb = new();
       // foreach (var asset in newHandle.Result)
       // {
       //   sb.AppendLine(asset.name);          
@@ -44,48 +48,81 @@ namespace Utils
       var newHandle = Addressables.LoadAssetAsync<T>(assetAddress);
       await newHandle.Task;
 
-      if (newHandle.Status is not AsyncOperationStatus.Succeeded) return null;
+      if (newHandle.Status is not AsyncOperationStatus.Succeeded)
+      {
+        Debug.LogError($"LoadAssetAsync failed: {assetAddress}");
+        return null;
+      }
 
       _assetHandles[assetAddress] = newHandle;
       //Debug.Log($"[AssetLoader]: {newHandle.Result.name}");
       return newHandle.Result;
     }
 
-    public static async Task<GameObject> InstantiateAsync(string assetAddress, Vector3 position = default,
-      Quaternion rotation = default, Transform parent = null)
-    {
-      var handle = Addressables.InstantiateAsync(assetAddress, position, rotation, parent);
-      var instance = await handle.Task;
-      _spawnedInstances.Add(instance);
-      return instance;
-    }
-
     public static async Task<GameObject> InstantiateAsync(AssetReference assetRef, Vector3 position = default,
       Quaternion rotation = default, Transform parent = null)
     {
-      var handle = assetRef.InstantiateAsync(parent);
-      var instance = await handle.Task;
-      _spawnedInstances.Add(instance);
+      var newHandle = assetRef.InstantiateAsync(parent);
+      await newHandle.Task;
+
+      if (newHandle.Status is not AsyncOperationStatus.Succeeded)
+      {
+        Debug.LogError($"InstantiateAsync(AssetRef, Vector3) failed: {assetRef}");
+        return null;
+      }
+
+      var instance = newHandle.Result;
+      _spawnedInstancesHandles[instance] = newHandle;
+      return instance;
+    }
+
+    public static async Task<GameObject> InstantiateAsync(AssetReference assetRef, Transform parent)
+    {
+      var newHandle = assetRef.InstantiateAsync(parent);
+      await newHandle.Task;
+
+      if (newHandle.Status is not AsyncOperationStatus.Succeeded)
+      {
+        Debug.LogError($"InstantiateAsync(AssetRef, Transform) failed: {assetRef}");
+        return null;
+      }
+
+      var instance = await newHandle.Task;
+      _spawnedInstancesHandles[instance] = newHandle;
       return instance;
     }
 
     public static void ReleaseInstance(GameObject instance)
     {
-      if (instance is not null && _spawnedInstances.Contains(instance))
+      if (!_spawnedInstancesHandles.TryGetValue(instance, out var handle))
       {
-        Addressables.ReleaseInstance(instance);
-        _spawnedInstances.Remove(instance);
+        Debug.LogError($"{instance.name} was not spawned");
+        return;
       }
+
+      Addressables.ReleaseInstance(handle);
+      _spawnedInstancesHandles.Remove(instance);
     }
 
     public static void ReleaseAsset(string assetAddress)
     {
-      if (!_assetHandles.TryGetValue(assetAddress, out var handle)) return;
+      if (!_assetHandles.TryGetValue(assetAddress, out var handle))
+      {
+        Debug.LogError($"{assetAddress} was not loaded");
+        return;
+      }
 
       Addressables.Release(handle);
       _assetHandles.Remove(assetAddress);
+    }
 
-      Debug.Log($"[{assetAddress} Asset Released]");
+    public static void ReleaseAllInstance()
+    {
+      List<GameObject> objects = new(_spawnedInstancesHandles.Keys);
+      foreach (var key in objects)
+      {
+        ReleaseInstance(key);
+      }
     }
 
     public static void ReleaseAllAsset()
@@ -95,15 +132,6 @@ namespace Utils
       {
         ReleaseAsset(key);
       }
-    }
-
-    public static void ReleaseAllInstance()
-    {
-      foreach (var instance in _spawnedInstances)
-      {
-        Addressables.ReleaseInstance(instance);
-      }
-      _spawnedInstances.Clear();
     }
   }
 }
