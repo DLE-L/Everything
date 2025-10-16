@@ -1,11 +1,7 @@
-using System.Collections.Generic;
 using UnityEngine;
-using System;
 using System.Threading.Tasks;
 using Data.Map;
-using Data.Reward;
 using GamePlay.Map;
-using UnityEngine.AddressableAssets;
 
 namespace Data.Act.Encounter
 {
@@ -13,19 +9,17 @@ namespace Data.Act.Encounter
   {
     public EncounterNodeStyleSO Style;
     public EncounterType Type;
-    public RewardSO Reward;
     public int weight = 100;
 
-    public abstract Task BeginAsync(MapManager mapManager);
+    public abstract Task BeginAsync(MapManager mapManager, Node node);
   }
 
   public enum EncounterType
   {
     None,
     Narrative,
-    Combat,    
+    Combat,
     Shop,
     Rest,
-    Boss,
   }
 }

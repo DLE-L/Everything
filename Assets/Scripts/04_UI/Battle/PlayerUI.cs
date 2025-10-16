@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine.UI;
 using Data.Units;
 
-namespace UI.Battle
+namespace UIs.Battle
 {
   public class BattleUI : UnityEngine.MonoBehaviour // MonoBehaviour 제거 예정
   {

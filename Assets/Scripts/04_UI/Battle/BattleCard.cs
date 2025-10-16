@@ -3,7 +3,7 @@ using TMPro;
 using System;
 using Data.Collectible.Card;
 
-namespace UI.Battle
+namespace UIs.Battle
 {
   public class BattleCard : MonoBehaviour
   {

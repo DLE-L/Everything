@@ -3,7 +3,7 @@ using Core.Event;
 using Data.Collectible.Card;
 using UnityEngine;
 
-namespace UI.Battle
+namespace UIs.Battle
 {
   public class BattleUIManager : MonoBehaviour
   {

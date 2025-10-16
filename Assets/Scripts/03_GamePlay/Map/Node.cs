@@ -4,7 +4,7 @@ using Core;
 using Core.Event;
 using Data.Act.Encounter;
 using Data.Map;
-using UI.Common;
+using UIs.Common;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -34,8 +34,8 @@ namespace GamePlay.Map
     {
       try
       {
-        SystemEvent.RaiseOnClickNode(this);
-        await Encounter.BeginAsync(GameSystem.Instance.Map);
+        SystemEvent.RaiseClickNode(this);
+        await Encounter.BeginAsync(GameSystem.Instance.Map, this);
       }
       catch (Exception e)
       {

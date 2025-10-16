@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8be9994478c052c40a27bfa3b249b29b, type: 3}
   m_Name: Encounter_Combat_Common_Goblin_Duo
   m_EditorClassIdentifier: 
-  Style: {fileID: 0}
+  Style: {fileID: 11400000, guid: ee9a252060eba0348848c7b678c84751, type: 2}
   Type: 2
   Reward: {fileID: 11400000, guid: 10b11a2980e269b40bd1e68c33a53ad3, type: 2}
   weight: 10

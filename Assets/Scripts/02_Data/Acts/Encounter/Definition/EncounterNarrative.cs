@@ -1,4 +1,7 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Data.Reward;
 using GamePlay.Map;
 using UnityEngine;
 
@@ -7,9 +10,19 @@ namespace Data.Act.Encounter
   [CreateAssetMenu(fileName = "Encounter_Narrative_", menuName = "MyMenu/Act/Encounter/Narrative")]
   public class EncounterNarrative : EncounterSO
   {
-    public override async Task BeginAsync(MapManager mapManager)
+    public string Name;
+    public string Description;
+    public List<NarrativeChoice> Choices;
+    public override async Task BeginAsync(MapManager mapManager, Node node)
     {
-      await mapManager.UIManager.ShowEncounter(mapManager.UIManager.narrativeCanvasRef);
+      await mapManager.mapUIManager.ShowEncounter(mapManager.mapUIManager.narrativeCanvasRef, node);
     }
+  }
+
+  [Serializable]
+  public class NarrativeChoice
+  {
+    public string Description;
+    public RewardSO Reward; 
   }
 }

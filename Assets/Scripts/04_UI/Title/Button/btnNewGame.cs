@@ -2,9 +2,9 @@ using System;
 using Core;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UI.Common;
+using UIs.Common;
 
-namespace UI.Title
+namespace UIs.Title
 {
   public class btnNewGame : MonoBehaviour
   {

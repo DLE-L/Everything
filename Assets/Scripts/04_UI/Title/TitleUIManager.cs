@@ -1,35 +1,21 @@
-﻿using System;
+﻿using System.Threading.Tasks;
+using UIs.UIManager;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 using Utils;
 
-namespace UI.Title
+namespace UIs.Title
 {
-  public class TitleUIManager : MonoBehaviour
+  public class TitleUIManager : UIManagerBase
   {
-    [SerializeField] private AssetReference _uICanvasTitleRef;
-    private GameObject _uiCanvasTitle;
-
+    [Header("Title UI Manager")]
     public Image btnContinueGameImage;
-    private async void Start()
+
+    public override async Task InitCanvasSceneAsync()
     {
-      try
-      {
-        _uiCanvasTitle = await AssetLoader.InstantiateAsync(_uICanvasTitleRef);
-      }
-      catch (Exception e)
-      {
-        Debug.LogError($"TitleUIManager Error: {e.Message}");
-      }
-    }
-    
-    private void OnDestroy()
-    {
-      if (_uiCanvasTitle is not null)
-      {
-        AssetLoader.ReleaseInstance(_uiCanvasTitle);
-      }
+      await base.InitCanvasSceneAsync();
+      btnContinueGameImage ??= canvasPrefab.GetComponentInChildren<btnContinueGame>().GetComponent<Image>();
     }
   }
 }

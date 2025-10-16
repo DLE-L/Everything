@@ -16,7 +16,7 @@ MonoBehaviour:
   m_GUID: b58ab4a15bc312c4cb1ebcded6bdd1e6
   m_SerializeEntries:
   - m_GUID: 038f6afb477e7b446a544e84b5ea06de
-    m_Address: UI_Button_Narrative_Choice
+    m_Address: Button_Narrative_Choice
     m_ReadOnly: 0
     m_SerializedLabels:
     - UI
@@ -36,15 +36,17 @@ MonoBehaviour:
     - Enemy
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 40962cfb808c67749b8e335500ff5a21
-    m_Address: UI_Canvas_Title
+    m_Address: Canvas_Scene_Title
     m_ReadOnly: 0
     m_SerializedLabels:
+    - Scene
     - UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 52a7f58d49db11b4cbf3f62d23115489
-    m_Address: UI_Canvas_Shop
+    m_Address: Canvas_Encounter_Shop
     m_ReadOnly: 0
     m_SerializedLabels:
+    - Encounter
     - UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 55b9878af7142ad4396498c01b79007e
@@ -67,8 +69,15 @@ MonoBehaviour:
     - Enemy
     - UI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 69d2000ceff7a424ebdde6bc2afc0676
+    m_Address: Canvas_Scene_Lobby
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scene
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 70b77d44261084c428e97f64c57dabe5
-    m_Address: UI_Canvas_Reward
+    m_Address: Canvas_Reward_Combat
     m_ReadOnly: 0
     m_SerializedLabels:
     - UI
@@ -81,15 +90,17 @@ MonoBehaviour:
     - Common
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 813951ebcff89724180ab8f44db806f2
-    m_Address: UI_Canvas_Rest
+    m_Address: Canvas_Encounter_Rest
     m_ReadOnly: 0
     m_SerializedLabels:
+    - Encounter
     - UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9339b041f680fc44eb9c3a129eb320c0
-    m_Address: UI_Canvas_Narrative
+    m_Address: Canvas_Encounter_Narrative
     m_ReadOnly: 0
     m_SerializedLabels:
+    - Encounter
     - UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9ab455fba149bb9428d03e42fce6b08e
@@ -124,6 +135,19 @@ MonoBehaviour:
     m_SerializedLabels:
     - Deck
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bf3da558c6533194caa535de1d7b6683
+    m_Address: Button_Reward_Relic
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e3c118e387b89c548b5367a981ca957e
+    m_Address: Canvas_Scene_Map
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scene
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e5576ba5312984f43ad41f11f9403e05
     m_Address: Data_GenerateMap
     m_ReadOnly: 0
@@ -137,6 +161,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Card
     - Common
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f321f636b23fb1e4fbdd50af4dec58df
+    m_Address: Button_Reward_Card
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: fc73c6ad8680d724aa315cd9bac6ae52
     m_Address: Card_Skill_Rare_Adrenaline

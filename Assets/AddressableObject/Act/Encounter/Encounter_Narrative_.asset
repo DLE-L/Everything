@@ -12,7 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9747529014db24647b20c2f947f1f3ea, type: 3}
   m_Name: Encounter_Narrative_
   m_EditorClassIdentifier: 
-  Visuals: {fileID: 11400000, guid: 0b072623244e3d5458af6b6c68794708, type: 2}
+  Style: {fileID: 11400000, guid: 44e1fd9e36e1d404e9c21f3fa5f19791, type: 2}
   Type: 1
-  RewardInfos: []
   weight: 100
+  Name: "\uACE0\uB300 \uC8FC\uC220"
+  Description: "\uD53C\uB97C \uBC14\uCE58\uACA0\uB294"
+  Choices:
+  - Description: hi
+    Reward: {fileID: 11400000, guid: c89719ca95ea38f4f86cf11b00983685, type: 2}
+  - Description: bye
+    Reward: {fileID: 11400000, guid: 8222a6c542098714c8118c51e0e90dc4, type: 2}

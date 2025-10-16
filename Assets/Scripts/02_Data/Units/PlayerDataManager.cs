@@ -1,38 +1,37 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using System.Collections.Generic;
+using Core;
+using Data.Collectible.Card;
 using Utils;
 using UnityEngine;
-using Data.Collectible.Card;
-using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace Data.Units
 {
   public static class PlayerDataManager
   {
-    public static PlayerRunData RunInitialize(int maxHP, Dictionary<CardSO, int> deck, int takeGold = 0)
+    public static PlayerRunData NewRunInitialize(int maxHp, Dictionary<CardSO, int> deck, int takeGold = 0)
     {
-      return new PlayerRunData(maxHP, deck, takeGold);
+      return new PlayerRunData(maxHp, deck, takeGold);
     }
-
-    public static async Task<PlayerAccountData> GetAccountDataAsync()
+    public static async Task<PlayerAccountData> LoadAccountDataAsync()
     {
       return await SaveLoadManager.LoadPlayerData();
     }
 
     public static async Task<PlayerAccountData> NewAccountDataAsync()
     {
-      PlayerAccountData data = await DefaultToAccountData();
-      await SaveLoadManager.SavePlayerDataAsync(data);
+      var accountData = await DefaultToAccountData();
+      await SaveLoadManager.SavePlayerDataAsync(accountData);
       AssetLoader.ReleaseAsset("Deck_Account_Default");
-      //Debug.Log($"[Account Data New]");
-      return data;
+      Debug.Log($"-Account Data New-");
+      return accountData;
     }
 
     private static async Task<PlayerAccountData> DefaultToAccountData()
     {
       var accountSO = await AssetLoader.LoadAssetAsync<AccountSO>("Deck_Account_Default");
-      Debug.Log($"[Account Default Setting]");
+      Debug.Log($"-Account Default Setting-");
 
       return new PlayerAccountData
       {

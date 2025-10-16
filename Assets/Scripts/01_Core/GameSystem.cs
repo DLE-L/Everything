@@ -5,29 +5,30 @@ using GamePlay.Battle;
 using GamePlay.Lobby;
 using GamePlay.Map;
 using GamePlay.Title;
-using Data.Collectible.Card;
 using Core.Event;
 using Data.Act.Encounter;
 using Data.Units;
-using GamePlay.Units;
+using GamePlay.Reward;
 
 namespace Core
 {
   public class GameSystem : MonoBehaviour
   {
     public static GameSystem Instance;
-    public PlayerAccountData PlayerAccountData = new();
-    public Player Player;
-    
+    public PlayerAccountData PlayerAccountData { get; private set; }
     public EncounterSO CurrentEncounter { get; set; }
 
     #region Manager & System
-    private readonly SceneSystem _scene = new();
-    public SceneSystem Scene => _scene;
+
+    public SceneSystem Scene { get; } = new();
+    public RunSystem Run { get; private set; }
+
     public TitleManager Title { get; private set; }
     public LobbyManager Lobby { get; private set; }
     public MapManager Map { get; private set; }
+    public RewardManager Reward { get; private set; }
     public BattleManager Battle { get; private set; }
+
     #endregion
 
     private void Awake()
@@ -41,32 +42,20 @@ namespace Core
       {
         Destroy(gameObject);
       }
-      
-      Debug.Log($"\\----GameSystem Initialized----//");
+
+      Debug.Log($"----GameSystem Initialized----");
     }
 
     private async void Start()
     {
       try
       {
-        await _scene.LoadSceneTitleAsync();
+        PlayerRunAction.Init();
+        await Scene.LoadSceneTitleAsync();
       }
       catch (Exception e)
       {
         Debug.LogError($"GameSystem Start Error: {e.Message}");
-      }
-    }
-
-    public void RemoveCardFromDeckPermanently(CardSO cardToRemove)
-    {
-      var permanentDeck = Player.RunData.Deck;      
-      if (permanentDeck.Remove(cardToRemove))
-      {
-        Debug.Log($"'{cardToRemove.Name}' card permanent deck remove");
-      }
-      else
-      {
-        Debug.LogError($"'{cardToRemove.Name}' card is not existing");
       }
     }
 
@@ -76,25 +65,52 @@ namespace Core
     public void UnregisterLobbyManager() => Lobby = null;
     public void RegisterMapManager(MapManager manager) => Map = manager;
     public void UnregisterMapManager() => Map = null;
+    public void ResisterRewardManager(RewardManager manager) => Reward = manager;
+    public void UnregisterRewardManager() => Reward = null;
     public void RegisterBattleManager(BattleManager manager) => Battle = manager;
     public void UnregisterBattleManager() => Battle = null;
 
+    public void PlayerAccountDataInitialize(PlayerAccountData data) => PlayerAccountData = data;
+
+    private void OnBeforeStartNewRun(PlayerRunData data)
+    {
+      Run = new(data);
+    }
+
+    private void OnStartNewRun()
+    {
+      Run.Init();
+    }
+
+    private void OnEndRun()
+    {
+      
+    }
+
     private void OnClickNode(Node node) => CurrentEncounter = node.Encounter;
+
 
     void OnEnable()
     {
+      SystemEvent.OnBeforeStartNewRun += OnBeforeStartNewRun;
+      SystemEvent.OnStartNewRun += OnStartNewRun;
       SystemEvent.OnClickNode += OnClickNode;
+      SystemEvent.OnEndRun += OnEndRun;
     }
 
     void OnDisable()
     {
+      SystemEvent.OnBeforeStartNewRun -= OnBeforeStartNewRun;
+      SystemEvent.OnStartNewRun -= OnStartNewRun;
       SystemEvent.OnClickNode -= OnClickNode;
+      SystemEvent.OnEndRun -= OnEndRun;
     }
 
     void OnDestroy()
     {
       AssetLoader.ReleaseAllAsset();
       AssetLoader.ReleaseAllInstance();
+      PlayerRunAction.DeInit();
     }
   }
 }

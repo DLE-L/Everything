@@ -4,6 +4,7 @@ using Data.Act.Encounter;
 using GamePlay.Battle;
 using GamePlay.Units;
 using Data.Collectible.Card;
+using Data.Reward;
 
 namespace Core.Event
 {
@@ -14,6 +15,12 @@ namespace Core.Event
     public static void RaiseCombatStart() => OnCombatStart?.Invoke();
     public static event Action OnCombatEnd;
     public static void RaiseCombatEnd() => OnCombatEnd?.Invoke();
+    public static event Action OnPlayerWin;
+    public static void RaisePlayerWin() => OnPlayerWin?.Invoke();
+    public static event Action OnPlayerLose;
+    public static void RaisePlayerLose() => OnPlayerLose?.Invoke();
+    public static event Action<RewardSO> OnRewardPhaseStart;
+    public static void  RaiseRewardPhaseStart(RewardSO reward) => OnRewardPhaseStart?.Invoke(reward);
     public static event Action<TurnOwner> OnTurnStart;
     public static void RaiseTurnStart(TurnOwner team) => OnTurnStart?.Invoke(team);
     public static event Action<List<Unit>> OnTurnEnd;
@@ -31,6 +38,8 @@ namespace Core.Event
     public static void RaiseCardDiscard(CardSO card) => OnCardDiscard?.Invoke(card);
     public static event Action<CardSO> OnCardExhaust;
     public static void RaiseCardExhaust(CardSO card) => OnCardExhaust?.Invoke(card);
+    public static event Action<CardSO> OnPlayPowerCard;
+    public static void RaisePlayPowerCard(CardSO card) => OnPlayPowerCard?.Invoke(card);
     #endregion
 
     #region Battle Effect Event
@@ -46,8 +55,8 @@ namespace Core.Event
     public static void RaiseApplyDebuff(Unit owner, Unit target, int debuff) => OnApplyDebuff?.Invoke(owner, target, debuff);
     public static event Action<Unit, Unit, int> OnApplyBuff;
     public static void RaiseApplyBuff(Unit owner, Unit target, int buff) => OnApplyBuff?.Invoke(owner, target, buff);
-    public static event Action<Unit, Unit> OnEnemyKill;
-    public static void RaiseEnemyKill(Unit owner, Unit target) => OnEnemyKill?.Invoke(owner, target);
+    public static event Action<Unit> OnEnemyKill;
+    public static void RaiseEnemyKill(Unit enemy) => OnEnemyKill?.Invoke(enemy);
     #endregion
   }
 }

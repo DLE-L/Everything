@@ -55,19 +55,19 @@ namespace Utils
       }
 
       _assetHandles[assetAddress] = newHandle;
-      //Debug.Log($"[AssetLoader]: {newHandle.Result.name}");
+      Debug.Log($"AssetLoader: {newHandle.Result.name}");
       return newHandle.Result;
     }
 
-    public static async Task<GameObject> InstantiateAsync(AssetReference assetRef, Vector3 position = default,
-      Quaternion rotation = default, Transform parent = null)
+    public static async Task<GameObject> InstantiateAsync(AssetReference assetRef, Vector3 position,
+      Quaternion rotation, Transform parent = null)
     {
-      var newHandle = assetRef.InstantiateAsync(parent);
+      var newHandle = assetRef.InstantiateAsync(position, rotation, parent);
       await newHandle.Task;
 
       if (newHandle.Status is not AsyncOperationStatus.Succeeded)
       {
-        Debug.LogError($"InstantiateAsync(AssetRef, Vector3) failed: {assetRef}");
+        Debug.LogError($"InstantiateAsync(AssetRef, Vector3, Quaternion, Transform) failed: {assetRef}");
         return null;
       }
 
@@ -76,7 +76,7 @@ namespace Utils
       return instance;
     }
 
-    public static async Task<GameObject> InstantiateAsync(AssetReference assetRef, Transform parent)
+    public static async Task<GameObject> InstantiateAsync(AssetReference assetRef, Transform parent = null)
     {
       var newHandle = assetRef.InstantiateAsync(parent);
       await newHandle.Task;

@@ -1,15 +1,11 @@
 using System;
-using System.Collections.Generic;
 using Core;
 using Core.Event;
-using Data.Act.Encounter;
-using Data.Collectible.Card;
-using Data.Units;
-using GamePlay.Units;
-using UI.Map;
+using UIs.Map;
 using UnityEngine;
 using Utils;
 using Data.Reward;
+using UIs.Reward;
 using UnityEngine.AddressableAssets;
 
 namespace GamePlay.Map
@@ -18,43 +14,78 @@ namespace GamePlay.Map
   {
     private MapGenerator _generator;
     private MapConfigSO _mapGenerateData;
-    private UI_Narrative _uiNarrative;
+    private Canvas_Encounter_Narrative _canvasEncounterNarrative;
     [SerializeField] private Transform _nodeParent;
     [SerializeField] private AssetReference _nodePrefabRef;
-    private List<RewardData>  _rewards;
-    public MapUIManager UIManager;
+    public MapUIManager mapUIManager;
     
     public void Awake()
     {
       GameSystem.Instance.RegisterMapManager(this);
-      UIManager = GameObject.FindFirstObjectByType<MapUIManager>();
+      mapUIManager ??= FindFirstObjectByType<MapUIManager>();
       
-      SystemEvent.RaiseOnStartNewRun();
-      Debug.Log($"[New Run Start]");
+      Debug.Log($"\\\\--New Run Start--////");
+      SystemEvent.RaiseStartNewRun();
     }
 
     public async void Start()
     {
       try
       {
-        await CardDatabase.InitializeAsync();            
+        await mapUIManager.InitCanvasSceneAsync();
+        _nodeParent = mapUIManager.canvasPrefab.GetComponent<Canvas_Scene_Map>().nodeParent;        
         _mapGenerateData = await AssetLoader.LoadAssetAsync<MapConfigSO>("Data_GenerateMap");
-
+        
         _generator = new();
         await _generator.GenerateMap(_nodePrefabRef, _nodeParent, _mapGenerateData, 1);
+        
+        AssetLoader.ReleaseAsset("Data_GenerateMap");
 
         //_narrative_UI = _uiManager.GetComponentInChildren<Narrative_UI>();
-        _uiNarrative.Init();
+        //_uiNarrative.Init();
       }
       catch (Exception e)
       {
-        Debug.Log($"[MapManager Start Error: {e.Message}]");
+        Debug.LogError($"MapManager Start Error: {e.Message}");
+      }
+    }
+
+    private async void OnCombatEnd()
+    {
+      try
+      {
+        UnsubscribeBattleEvents();
+        await GameSystem.Instance.Scene.UnloadBattleAsync();
+      }
+      catch (Exception e)
+      {
+        Debug.LogError($"MapManager CombatEnd Error: {e.Message}");
       }
     }
     
+    private void SubscribeBattleEvents()
+    {
+      BattleEvent.OnCombatEnd += OnCombatEnd;
+    }
+
+    private void UnsubscribeBattleEvents()
+    {
+      BattleEvent.OnCombatEnd -= OnCombatEnd;
+    }
+
+    private void OnEnable()
+    {
+      BattleEvent.OnCombatStart += SubscribeBattleEvents;
+    }
+    private void OnDisable()
+    {
+      BattleEvent.OnCombatStart -= SubscribeBattleEvents;
+      UnsubscribeBattleEvents();
+    }
+
     public void OnDestroy()
     {
-      if (GameSystem.Instance != null)
+      if (GameSystem.Instance.Map is not null)
       {
         GameSystem.Instance.UnregisterMapManager();
       }

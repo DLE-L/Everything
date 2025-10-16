@@ -114,6 +114,8 @@ MonoBehaviour:
     - Boss
     - Special
     - Data
+    - Encounter
+    - Scene
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 3fbcb4243ad01154e8bdb557abd75b4b, type: 2}

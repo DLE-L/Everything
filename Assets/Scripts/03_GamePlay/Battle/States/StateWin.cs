@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.Event;
+using Data.Act.Encounter;
 
 namespace GamePlay.Battle.State
 {
@@ -15,7 +16,9 @@ namespace GamePlay.Battle.State
     
     public void Enter()
     {
-      
+      BattleEvent.RaisePlayerWin();
+      BattleEvent.RaiseRewardPhaseStart(_manager.currentCombat.Reward);
+      BattleEvent.RaiseCombatEnd();
     }
 
     public void Execute()

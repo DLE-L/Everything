@@ -7,9 +7,9 @@ namespace Data.Act.Encounter
   [CreateAssetMenu(fileName = "Encounter_Shop_", menuName = "MyMenu/Act/Encounter/Shop")]
   public class EncounterShop : EncounterSO
   {
-    public override async Task BeginAsync(MapManager mapManager)
+    public override async Task BeginAsync(MapManager mapManager, Node node)
     {
-      await mapManager.UIManager.ShowEncounter(mapManager.UIManager.shopCanvasRef);
+      await mapManager.mapUIManager.ShowEncounter(mapManager.mapUIManager.shopCanvasRef, node);
     }
   }
 }

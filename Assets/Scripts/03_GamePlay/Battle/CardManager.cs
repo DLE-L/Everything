@@ -69,6 +69,7 @@ namespace GamePlay.Battle
         CardSO cardToDraw = DrawPile[0];
         DrawPile.RemoveAt(0);
         Hand.Add(cardToDraw);
+        BattleEvent.RaiseCardDraw(cardToDraw);
       }
 
       BattleEvent.RaiseHandUpdated(Hand);
@@ -79,6 +80,7 @@ namespace GamePlay.Battle
       if (Hand.Remove(cardToDiscard))
       {
         DiscardPile.Add(cardToDiscard);
+        BattleEvent.RaiseCardDiscard(cardToDiscard);
       }
     }
 

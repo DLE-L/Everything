@@ -5,6 +5,7 @@ using Core.Event;
 using UnityEngine;
 using Data.Units;
 using Data.Rarity;
+using Data.Reward;
 using GamePlay.Map;
 
 namespace Data.Act.Encounter
@@ -13,9 +14,10 @@ namespace Data.Act.Encounter
   public class EncounterCombat : EncounterSO
   {
     public RaritySO Rarity;
+    public RewardSO Reward;
     public List<EnemySO> Enemies;
     
-    public override async Task BeginAsync(MapManager mapManager)
+    public override async Task BeginAsync(MapManager mapManager, Node node)
     {
       GameSystem.Instance.CurrentEncounter = this;
       await GameSystem.Instance.Scene.LoadSceneBattleAsync();

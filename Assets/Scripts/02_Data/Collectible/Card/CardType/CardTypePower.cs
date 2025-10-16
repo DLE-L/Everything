@@ -1,6 +1,8 @@
 using UnityEngine;
 using GamePlay.Battle;
 using Core;
+using Core.Event;
+using Data.Units;
 
 namespace Data.Collectible.Card
 {
@@ -9,8 +11,8 @@ namespace Data.Collectible.Card
   {
     public override void OnCardPlayed(CardSO card, CardManager manager)
     {
-      manager.Hand.Remove(card);      
-      GameSystem.Instance.RemoveCardFromDeckPermanently(card);
+      manager.Hand.Remove(card);
+      BattleEvent.RaisePlayPowerCard(card);
     }
   }
 }

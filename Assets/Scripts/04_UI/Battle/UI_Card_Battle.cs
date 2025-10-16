@@ -5,9 +5,9 @@ using System;
 using UnityEngine.UI;
 using GamePlay.Battle;
 using Data.Collectible.Card;
-using UI.Common;
+using UIs.Common;
 
-namespace UI.Battle
+namespace UIs.Battle
 {
   public class UI_Card_Battle : MonoBehaviour
   {

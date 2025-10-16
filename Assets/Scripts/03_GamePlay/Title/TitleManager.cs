@@ -1,7 +1,7 @@
 using System;
 using Core;
 using Data.Units;
-using UI.Title;
+using UIs.Title;
 using UnityEngine;
 using Utils;
 
@@ -9,24 +9,27 @@ namespace GamePlay.Title
 {
   public class TitleManager : MonoBehaviour
   {
-    public TitleUIManager titleUIManager { get; private set; }
+    public TitleUIManager TitleUIManager;
     void Awake()
     {
       GameSystem.Instance.RegisterTitleManager(this);
+      TitleUIManager ??= FindFirstObjectByType<TitleUIManager>();
     }
 
     private async void Start()
     {
       try
       {
-        var accountData = await SaveLoadManager.LoadPlayerData();
+        await TitleUIManager.InitCanvasSceneAsync();
+        
+        var accountData = await PlayerDataManager.LoadAccountDataAsync();
         if (accountData is null)
         {
-          titleUIManager.btnContinueGameImage.raycastTarget = false;
-          titleUIManager.btnContinueGameImage.color = Color.red; //TODO: 변경 예정
+          TitleUIManager.btnContinueGameImage.raycastTarget = false;
+          TitleUIManager.btnContinueGameImage.color = Color.red; //TODO: 클릭 불가 & 회색처리
           accountData = await PlayerDataManager.NewAccountDataAsync();
         }
-        GameSystem.Instance.PlayerAccountData = accountData;
+        GameSystem.Instance.PlayerAccountDataInitialize(accountData);
       }
       catch (Exception e)
       {

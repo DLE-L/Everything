@@ -1,10 +1,10 @@
 ﻿using System;
 using Core;
-using UI.Common;
+using UIs.Common;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace _04_UI.Lobby
+namespace UIs.Lobby
 {
   public class btnStartRun : MonoBehaviour
   {
@@ -12,11 +12,12 @@ namespace _04_UI.Lobby
     {
       try
       {
+        GameSystem.Instance.Lobby.SettingBeforeNewRun();
         await GameSystem.Instance.Scene.LoadSceneMapAsync();
       }
       catch (Exception e)
       {
-        Debug.Log(e);
+        Debug.Log($"Lobby-btnStartRun Error: {e.Message}");
       }
     }
     void OnEnable()

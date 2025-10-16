@@ -18,7 +18,7 @@ namespace GamePlay.Battle
     private TaskCompletionSource<Unit> _currentTargetSelectionTask;
     private RaycastHit2D _hit;
     public event Action<Unit> OnEnemyClicked;
-    public EncounterSO currentBattleEncounter;
+    public EncounterCombat currentCombat;
     
     public StateMachine Fsm { get; private set; } = new();
     public CardManager CardManager { get; private set; }

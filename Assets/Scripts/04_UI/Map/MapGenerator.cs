@@ -10,7 +10,7 @@ using Data.Act;
 using Data.Act.Encounter;
 using UnityEngine.AddressableAssets;
 
-namespace UI.Map
+namespace UIs.Map
 {
   public class MapGenerator
   {
@@ -34,7 +34,6 @@ namespace UI.Map
       for (int floorIndex = 0; floorIndex < mapConfig.Act_FloorCount; floorIndex++)
       {        
         List<EncounterSO> encountersFloor = new();
-        StringBuilder sb = new();
 
         if (floorIndex == mapConfig.Node_BossIndex) // 보스 층
         {
@@ -63,6 +62,7 @@ namespace UI.Map
 
         for (int nodeIndex = 0; nodeIndex < encountersFloor.Count; nodeIndex++)
         {
+          StringBuilder sb = new();
           EncounterSO selectedEncounter = encountersFloor[nodeIndex];
           if (selectedEncounter is null) continue;
 

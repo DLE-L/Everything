@@ -19,17 +19,16 @@ namespace GamePlay.Units
 
     protected virtual void HandleTurnStart(TurnOwner turnOwner)
     {
-      if (turnOwner == Team)
-      {
-        ResetBlock();
-        ResetEnergy();
-        ProcessTurnStartEffects();
-      }
+      if (turnOwner != Team) return;
+      
+      ResetBlock();
+      ResetEnergy();
+      ProcessTurnStartEffects();
     }
 
     public void ApplyStatusEffect(StatusEffectSO effect, int duration, int value)
     {
-      if (StatusEffects.TryGetValue(effect, out ActiveStatusData data) == false)
+      if (StatusEffects.TryGetValue(effect, out var data) == false)
       {
         data = new() { duration = duration, value = value };
         StatusEffects.Add(effect, data);
@@ -45,7 +44,7 @@ namespace GamePlay.Units
 
     private void ProcessTurnStartEffects()
     {
-      foreach (StatusEffectSO effect in StatusEffects.Keys)
+      foreach (var effect in StatusEffects.Keys)
       {
         ActiveStatusData data = StatusEffects[effect];
         effect.OnTurnStart(this, ref data);
@@ -77,6 +76,7 @@ namespace GamePlay.Units
       Debug.Log($"[Multiple Damage : {finalDamage}]");
 
       // 3. 데미지 전달
+      BattleEvent.RaiseDealDamage(this, target, Mathf.FloorToInt(finalDamage));
       target.TakeDamage(this, Mathf.FloorToInt(finalDamage));
     }
 
@@ -170,7 +170,7 @@ namespace GamePlay.Units
     {
       OnDeath?.Invoke(this);
     }
-
+    
     void OnEnable()
     {
       BattleEvent.OnTurnStart += HandleTurnStart;
@@ -178,7 +178,6 @@ namespace GamePlay.Units
     void OnDisable()
     {
       BattleEvent.OnTurnStart -= HandleTurnStart;
-
     }
   }
 }

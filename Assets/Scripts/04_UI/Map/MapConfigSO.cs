@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace UI.Map
+namespace UIs.Map
 {
   [CreateAssetMenu(fileName = "Data_GenerateMap", menuName = "MyMenu/Data_GenerateMap")]
   public class MapConfigSO : ScriptableObject

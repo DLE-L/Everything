@@ -14,11 +14,11 @@ namespace Data.Units
 
     public HashSet<RelicSO> Relics = new();
     public Dictionary<string, int> Items = new();
-    public Dictionary<CardSO, int> Deck = new();
+    public Dictionary<CardSO, int> Deck;
 
     public PlayerRunData(int maxHp, Dictionary<CardSO, int> deck, int takeGold = 0)
     {
-      RunStateGold = 0;
+      RunStateGold = takeGold;
       Deck = new(deck);
       Stat = new()
       {

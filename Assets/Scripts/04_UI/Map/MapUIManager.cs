@@ -1,36 +1,41 @@
 using System.Threading.Tasks;
+using GamePlay.Map;
+using UIs.UIManager;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Utils;
 
-namespace UI.Map
+namespace UIs.Map
 {
-  public class MapUIManager : MonoBehaviour
+  public class MapUIManager : UIManagerBase
   {
-    [SerializeField] private Canvas _cvGame;
+    [Header("Map UI Manager")]
     public AssetReference narrativeCanvasRef;
     public AssetReference shopCanvasRef;
     public AssetReference restCanvasRef;
     
     private GameObject _currentCanvasObject;
     
-    public Canvas GameUI => _cvGame;
 
-    void Start()
-    {
-      _cvGame.enabled = true;
-    }
-    
-    public async Task ShowEncounter(AssetReference encounterRef)
+    public async Task ShowEncounter(AssetReference encounterRef, Node node)
     {
       _currentCanvasObject = await AssetLoader.InstantiateAsync(encounterRef);
-      Debug.Log($"[Show EncounterRef: {_currentCanvasObject.name}]");
+      var uiCanvas = _currentCanvasObject.GetComponent<CanvasEncounterBase>();
+      uiCanvas ??= _currentCanvasObject.AddComponent<CanvasEncounterBase>();
+      await uiCanvas.SettingUIAsync(node);
+      
+      Debug.Log($"Show EncounterRef: {_currentCanvasObject.name}");
     }
-    
-    private void CloseCurrentCanvas()
+
+    public void CloseCurrentCanvas()
     {
       AssetLoader.ReleaseInstance(_currentCanvasObject);
-      Debug.Log($"[Close EncounterRef: {_currentCanvasObject.name}]");
+      Debug.Log($"Close EncounterRef: {_currentCanvasObject.name}");
+    }
+
+    public override Task InitCanvasSceneAsync()
+    {
+      return base.InitCanvasSceneAsync();
     }
   }
 }

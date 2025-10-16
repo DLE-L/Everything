@@ -2,31 +2,34 @@
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Utils;
-using System.Threading.Tasks;
-using Core.Event;
-using Data.Act.Encounter;
+using Data.Reward;
 
-namespace UI.Reward
+namespace UIs.Reward
 {
   public class RewardUIManager : MonoBehaviour
   {
     public AssetReference rewardCanvasRef;
     private GameObject _rewardCanvas;
-    
-    public async void ShowReward(EncounterSO encounter)
+    private Canvas_Reward_Combat rewardCombat;
+
+    public async void ShowReward(RewardSO reward)
     {
       try
       {
         _rewardCanvas = await AssetLoader.InstantiateAsync(rewardCanvasRef);
+        rewardCombat = _rewardCanvas.GetComponent<Canvas_Reward_Combat>();
+        await rewardCombat.SetRewardData(reward);
+        Debug.Log($"Show Reward: {reward}");
       }
       catch (Exception e)
       {
-        Debug.Log($"[RewardUIManager Error: {e.Message}]");
+        Debug.Log($"[RewardUIManager ShowReward Error: {e.Message}]");
       }
     }
 
-    public void CloseReward()
+    public void CloseRewardCanvas()
     {
+      rewardCombat.ReleaseRef();
       AssetLoader.ReleaseInstance(_rewardCanvas);
     }
 

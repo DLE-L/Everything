@@ -2,7 +2,7 @@ using UnityEngine;
 using Core;
 using System.Collections.Generic;
 using Data.Collectible.Card;
-using UI.Battle;
+using UIs.Battle;
 using GamePlay.Units;
 
 namespace GamePlay.Battle.State
@@ -12,7 +12,7 @@ namespace GamePlay.Battle.State
     private readonly BattleManager _manager;
     private StateMachine _fsm;
     private Unit _playerUnit;
-    private bool _isActionInProgress = false;
+    private readonly bool _isActionInProgress = false;
 
     public StateTurnPlayer(BattleManager manager, StateMachine fsm)
     {
@@ -44,30 +44,30 @@ namespace GamePlay.Battle.State
     }
     private async void UseCardProcessAsync(BattleCard battleCard)
     {
-      _isActionInProgress = true; // 행동 시작, 다른 입력 잠금
-
-      CardSO cardSO = battleCard.CardData;
-      Unit user = _manager.UnitManager.Player;
-
-      // 1. 타겟팅 전략에 따라 타겟을 결정 (플레이어 선택이 필요하면 여기서 대기)
-      List<Unit> targets = new();//= await cardSO.Targeting.FindTargetsAsync(new TargetingContext());
-
-      // 2. 타겟 선택이 완료되면 (취소되지 않았다면)
-      if (targets != null && targets.Count > 0)
-      {
-        // 3. 카드 효과를 발동
-        foreach (Unit target in targets)
-        {
-          foreach (var effect in cardSO.Effects)
-          {
-            //effect.Execute(user, target);
-          }
-        }
-        // 4. 카드 사용 후 처리 (버리기 등)
-        _manager.CardManager.Discard(cardSO);
-      }
-
-      _isActionInProgress = false; // 행동 종료, 다시 입력 가능
+      // _isActionInProgress = true; // 행동 시작, 다른 입력 잠금
+      //
+      // CardSO cardSO = battleCard.CardData;
+      // Unit user = _manager.UnitManager.Player;
+      //
+      // // 1. 타겟팅 전략에 따라 타겟을 결정 (플레이어 선택이 필요하면 여기서 대기)
+      // List<Unit> targets = await cardSO.Effects.FindTargetsAsync(new TargetingContext());
+      //
+      // // 2. 타겟 선택이 완료되면 (취소되지 않았다면)
+      // if (targets is not null && targets.Count > 0)
+      // {
+      //   // 3. 카드 효과를 발동
+      //   foreach (Unit target in targets)
+      //   {
+      //     foreach (var effect in cardSO.Effects)
+      //     {
+      //       //effect.Execute(user, target);
+      //     }
+      //   }
+      //   // 4. 카드 사용 후 처리 (버리기 등)
+      //   _manager.CardManager.Discard(cardSO);
+      // }
+      //
+      // _isActionInProgress = false; // 행동 종료, 다시 입력 가능
     }
 
     public void Exit()

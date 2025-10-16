@@ -16,25 +16,5 @@ namespace Data.Units
     public HashSet<string> UnlockedCardIDs = new(); // 해금된 카드 ID 목록
     public HashSet<string> UnlockedRelicIDs = new(); // Dictionary<해금 요소 ID>
     public Dictionary<string, Dictionary<string, int>> Decks = new(); // Dictionary<덱ID, Dictionary<카드ID, 개수>>
-
-    public bool IsCardUnlocked(string cardId)
-    {
-      return UnlockedCardIDs.Contains(cardId);
-    }
-
-    public bool AddCardToDeck(string deckId, string cardId)
-    {
-      if (Decks.ContainsKey(deckId) == false
-          || IsCardUnlocked(cardId) == false) return false;
-
-
-      Dictionary<string, int> deck = Decks[deckId];
-      deck.TryGetValue(cardId, out int count);
-
-      if (CardDatabase.IsDefaultCard(cardId) == false && count == 2) return false;
-
-      deck[cardId] = count + 1;
-      return true;
-    }
   }
 }

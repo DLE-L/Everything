@@ -1,11 +1,11 @@
 using Core;
 using GamePlay.Battle;
 using GamePlay.Battle.State;
-using UI.Common;
+using UIs.Common;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace UI.Battle
+namespace UIs.Battle
 {
   public class btnPlayerTurnEnd : MonoBehaviour
   {

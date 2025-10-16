@@ -1,10 +1,10 @@
 using System;
 using Core;
-using UI.Common;
+using UIs.Common;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace UI.Title
+namespace UIs.Title
 {
   public class btnContinueGame : MonoBehaviour
   {
