@@ -25,7 +25,7 @@ namespace Data.Units
       }
     }
     
-    private static void GrantsReward(RewardData reward)
+    private static void GrantsReward(RewardResult reward)
     {
       foreach (var cardSO in reward.Cards)
       {

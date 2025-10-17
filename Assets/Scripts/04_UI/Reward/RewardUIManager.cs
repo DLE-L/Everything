@@ -12,14 +12,14 @@ namespace UIs.Reward
     private GameObject _rewardCanvas;
     private Canvas_Reward_Combat rewardCombat;
 
-    public async void ShowReward(RewardSO reward)
+    public async void ShowReward(RewardStrategySO rewardList)
     {
       try
       {
         _rewardCanvas = await AssetLoader.InstantiateAsync(rewardCanvasRef);
         rewardCombat = _rewardCanvas.GetComponent<Canvas_Reward_Combat>();
-        await rewardCombat.SetRewardData(reward);
-        Debug.Log($"Show Reward: {reward}");
+        await rewardCombat.SetRewardData(rewardList);
+        Debug.Log($"Show Reward: {rewardList}");
       }
       catch (Exception e)
       {

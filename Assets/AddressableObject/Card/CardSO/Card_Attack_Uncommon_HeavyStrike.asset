@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf6a51469d6c86b4bb85f128ef42e40a, type: 3}
+  m_Name: Card_Attack_Uncommon_HeavyStrike
+  m_EditorClassIdentifier: 
+  Name: "\uAC15\uD0C0"
+  Illustration: {fileID: 0}
+  Description: "\uB2E8\uC77C \uC801\uC5D0\uAC8C 9\uC758 \uD53C\uD574\uB97C \uC90D\uB2C8\uB2E4."
+  Cost: 1
+  Retain: 0
+  Exhaust: 0
+  Rarity: {fileID: 11400000, guid: 773a4956810fec149805bcbe162687ec, type: 2}
+  Type: {fileID: 11400000, guid: e78a4e113ea108c4fa3ce1f920605ed1, type: 2}
+  Effects:
+  - Effect: {fileID: 11400000, guid: 0d022c3e26297674b8d705f40cefea0b, type: 2}
+    Target: {fileID: 11400000, guid: df5f9e32a05b2dc459856d247e68e0ed, type: 2}

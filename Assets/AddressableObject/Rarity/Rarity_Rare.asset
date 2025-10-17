@@ -12,3 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f81121880c0e8245b5068dc887f8934, type: 3}
   m_Name: Rarity_Rare
   m_EditorClassIdentifier: 
+  Name: Rare
+  Frame: {r: 0, g: 0, b: 0, a: 0}
+  Icon: {fileID: 0}

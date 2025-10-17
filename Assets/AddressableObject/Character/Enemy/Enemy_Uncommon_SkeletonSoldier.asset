@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71866cbf389f6b64797a8f3b6b6b5ef1, type: 3}
-  m_Name: Enemy_Common_Goblin
+  m_Name: Enemy_Uncommon_SkeletonSoldier
   m_EditorClassIdentifier: 
-  Name: "\uACE0\uBE14\uB9B0"
+  Name: "\uD574\uACE8 \uBCD1\uC0AC"
   Sprite: {fileID: 0}
-  MaxHP: 25
+  MaxHP: 40
   MaxEnergy: 0
-  Rarity: {fileID: 11400000, guid: 437810856cc084e4cb96206c602c602f, type: 2}
+  Rarity: {fileID: 11400000, guid: 773a4956810fec149805bcbe162687ec, type: 2}
   Deck:
-  - {fileID: 11400000, guid: 7ec81474cdf67594c834a0822f6db8ce, type: 2}
-  - {fileID: 11400000, guid: 7ec81474cdf67594c834a0822f6db8ce, type: 2}
-  - {fileID: 11400000, guid: aa0495037178cdc41b05766c38dcaf12, type: 2}
-  AILogic: 3
+  - {fileID: 11400000, guid: 5bbe7cd9221416045a7bedfb522a24ec, type: 2}
+  - {fileID: 11400000, guid: f28afe06842fdd047b8010fc60d166c6, type: 2}
+  AILogic: 5

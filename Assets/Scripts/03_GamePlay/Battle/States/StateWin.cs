@@ -17,7 +17,7 @@ namespace GamePlay.Battle.State
     public void Enter()
     {
       BattleEvent.RaisePlayerWin();
-      BattleEvent.RaiseRewardPhaseStart(_manager.currentCombat.Reward);
+      BattleEvent.RaiseRewardPhaseStart(_manager.currentCombat.RewardStrategy);
       BattleEvent.RaiseCombatEnd();
     }
 

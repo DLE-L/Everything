@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using Data.Collectible.Card;
+using Data.Rarity;
 
 namespace Data.Units
 {
@@ -11,6 +12,7 @@ namespace Data.Units
     public Sprite Sprite;
     public int MaxHP;
     public int MaxEnergy;
+    public RaritySO Rarity;
     public List<CardSO> Deck;
     public EnemyAILogicType AILogic;
   }
@@ -18,8 +20,10 @@ namespace Data.Units
   public enum EnemyAILogicType
   {
      //--- 기본 AI ---
+    SimpleRepeat,   // 단순 반복
     SimpleRandom,   // 덱에 있는 카드 중 하나를 완전히 무작위로 선택한다. (가장 기본)
     Aggressive,     // 공격(Attack) 타입의 카드를 우선적으로 선택한다.
+    AggressiveRandom,
     Defensive,      // 방어/보조(Skill) 타입의 카드를 우선적으로 선택한다.
 
     //--- 고급 AI ---

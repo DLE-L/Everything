@@ -8,22 +8,11 @@ namespace Data.Reward
 {
   public class RewardData
   {
-    public List<CardSO> Cards;
-    public List<RelicSO> Relics;
+    public List<CardSO> CardsToPresent;
+    public List<RelicSO> RelicsToPresent;
     public int Gold;
-
-    public RewardData(List<CardSO> cards, List<RelicSO> relics, int gold)
-    {
-      Cards = new(cards);
-      Relics = new(relics);
-      Gold = gold;
-    }
     
-    public RewardData(RewardSO reward)
-    {
-      Cards = new(reward.Cards);
-      Relics = new(reward.Relics);
-      Gold = reward.Gold;
-    }
+    public int SelectableCardCount;
+    public int SelectableRelicCount;
   }
 }

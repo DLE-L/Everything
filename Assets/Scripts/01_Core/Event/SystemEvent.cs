@@ -18,8 +18,8 @@ namespace Core.Event
     public static void RaiseEndRun() => OnEndRun?.Invoke();
     public static event Action<Node> OnClickNode;
     public static void RaiseClickNode(Node node) => OnClickNode?.Invoke(node);
-    public static event Action<RewardData> OnGrantsReward;
-    public static void RaiseGrantsReward(RewardData reward) => OnGrantsReward?.Invoke(reward);
+    public static event Action<RewardResult> OnGrantsReward;
+    public static void RaiseGrantsReward(RewardResult reward) => OnGrantsReward?.Invoke(reward);
     #endregion
 
     #region Resource Event

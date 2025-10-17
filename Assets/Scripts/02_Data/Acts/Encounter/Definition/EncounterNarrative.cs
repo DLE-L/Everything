@@ -23,6 +23,6 @@ namespace Data.Act.Encounter
   public class NarrativeChoice
   {
     public string Description;
-    public RewardSO Reward; 
+    public RewardStrategySO RewardStrategy; 
   }
 }

@@ -9,9 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24d1f7123b4168c48bd3ff233d72c72a, type: 3}
-  m_Name: Rarity_Uncommon
+  m_Script: {fileID: 11500000, guid: 66820c5e150a7f7428bd7c1e90f76b3b, type: 3}
+  m_Name: Effect_Damage_9
   m_EditorClassIdentifier: 
-  Name: Uncommon
-  Frame: {r: 0, g: 0, b: 0, a: 0}
-  Icon: {fileID: 0}
+  Amount: 9

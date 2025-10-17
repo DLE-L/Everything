@@ -1,8 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Core.Event;
-using Data.Act.Encounter;
 using Data.Collectible;
 using Data.Collectible.Card;
 using Data.Collectible.Relic;
@@ -24,16 +21,16 @@ namespace UIs.Reward
 
     [SerializeField] private TextMeshProUGUI _txtRewardGold;
 
-    private readonly List<GameObject> _rewardPrefabs = new();
+    private readonly List<GameObject> _rewardPrefabs = new List<GameObject>();
 
-    private RewardSO _rewardSO;
+    private RewardData _rewardData;
     private LinkedList<CardSO> _selectCards;
     private LinkedList<RelicSO> _selectRelics;
     
-    public async Task SetRewardData(RewardSO reward)
+    public async Task SetRewardData(RewardStrategySO rewardStrategy)
     {
-      _rewardSO = reward;
-      foreach (var card in reward.Cards)
+      _rewardData = await rewardStrategy.GenerateRewardAsync();
+      foreach (var card in _rewardData.CardsToPresent)
       {
         var cardGo = await AssetLoader.InstantiateAsync(_btnRewardCard, _viewRewardCardRoot);
         cardGo.name = card.Name;
@@ -42,7 +39,7 @@ namespace UIs.Reward
         _rewardPrefabs.Add(cardGo);
       }
 
-      foreach (var relic in reward.Relics)
+      foreach (var relic in _rewardData.RelicsToPresent)
       {
         var relicGo = await AssetLoader.InstantiateAsync(_btnRewardRelic, _viewRewardRelicRoot);
         relicGo.name = relic.Name;
@@ -51,18 +48,18 @@ namespace UIs.Reward
         _rewardPrefabs.Add(relicGo);
       }
       
-      _txtRewardGold.text = reward.Gold.ToString();
+      _txtRewardGold.text = _rewardData.Gold.ToString();
     }
 
     public bool SelectionItem(CollectibleSO item, bool isSelected)
     {
       if (item is CardSO card)
       {
-        return UpdateSelectionList(_selectCards, card, _rewardSO.SelectAbleCardCount, isSelected);
+        return UpdateSelectionList(_selectCards, card, _rewardData.SelectableCardCount, isSelected);
       }
       else if (item is RelicSO relic)
       {
-        return UpdateSelectionList(_selectRelics, relic, _rewardSO.SelectAbleRelicCount, isSelected);
+        return UpdateSelectionList(_selectRelics, relic, _rewardData.SelectableRelicCount, isSelected);
       }
       
       return false;
@@ -75,7 +72,8 @@ namespace UIs.Reward
         selectionList.Remove(item);
         return true;
       }
-      else if (selectionList.Count < maxCount)
+      
+      if (selectionList.Count < maxCount)
       {
         selectionList.AddLast(item);
         return true;
@@ -84,14 +82,21 @@ namespace UIs.Reward
       return false;
     }
 
-    public RewardData CompleteSelection()
+    public RewardResult CompleteSelection()
     {
-      return new RewardData(_selectCards.ToList(),  _selectRelics.ToList(), _rewardSO.Gold);
+      var rewardResult = new RewardResult()
+      {
+        Cards = new List<CardSO>(_selectCards),
+        Relics = new List<RelicSO>(_selectRelics),
+        Gold = _rewardData.Gold,
+      };
+      
+      return rewardResult;
     }
 
     public bool IsCompleteSelection()
     {
-      return _selectCards.Count == _rewardSO.SelectAbleCardCount && _selectRelics.Count == _rewardSO.SelectAbleRelicCount;
+      return _selectCards.Count == _rewardData.SelectableCardCount && _selectRelics.Count == _rewardData.SelectableRelicCount;
     }
 
     public void ReleaseRef()

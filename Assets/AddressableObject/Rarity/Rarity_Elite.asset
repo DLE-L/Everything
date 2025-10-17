@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 11c51e4e012a4d8408b0a7cbfc81b6fc, type: 3}
   m_Name: Rarity_Elite
   m_EditorClassIdentifier: 
-  Name: 
+  Name: Elite
   Frame: {r: 0, g: 0, b: 0, a: 0}
   Icon: {fileID: 0}

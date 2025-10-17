@@ -9,9 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 24d1f7123b4168c48bd3ff233d72c72a, type: 3}
-  m_Name: Rarity_Uncommon
+  m_Script: {fileID: 11500000, guid: 245feff2de99415ea4a88543f8410190, type: 3}
+  m_Name: Reward_Defined_
   m_EditorClassIdentifier: 
-  Name: Uncommon
-  Frame: {r: 0, g: 0, b: 0, a: 0}
-  Icon: {fileID: 0}
+  goldMin: 0
+  goldMax: 0
+  SelectableCardCount: 1
+  SelectableRelicCount: 1
+  Cards: []
+  Relics: []

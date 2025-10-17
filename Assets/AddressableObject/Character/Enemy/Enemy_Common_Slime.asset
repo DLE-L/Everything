@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: "\uC2AC\uB77C\uC784"
   Sprite: {fileID: 0}
-  MaxHP: 25
+  MaxHP: 15
   MaxEnergy: 0
-  Deck: []
+  Rarity: {fileID: 11400000, guid: 437810856cc084e4cb96206c602c602f, type: 2}
+  Deck:
+  - {fileID: 11400000, guid: 7ec81474cdf67594c834a0822f6db8ce, type: 2}
   AILogic: 0

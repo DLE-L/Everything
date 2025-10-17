@@ -12,10 +12,10 @@ namespace Data.Collectible.Card
   [CreateAssetMenu(fileName = "Card_", menuName = "MyMenu/Card/Card")]
   public class CardSO : CollectibleSO
   {
-    public RaritySO Rarity;
     public int Cost;
     public bool Retain;
     public bool Exhaust;
+    public RaritySO Rarity;
     public CardTypeSO Type;
     public List<CardEffect> Effects;
   }

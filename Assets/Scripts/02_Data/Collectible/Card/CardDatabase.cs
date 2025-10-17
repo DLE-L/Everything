@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Data.Rarity;
 using TMPro;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 using Utils;
 
@@ -10,7 +12,7 @@ namespace Data.Collectible.Card
 {
    public static class CardDatabase
   {
-    public static Dictionary<string, CardSO> AllCards { get; private set; } = new(); // Dictionary<CardId, CardSO>      
+    public static Dictionary<string, CardSO> AllCards { get; private set; } = new(); // Dictionary<CardId, CardSO>
     private static readonly HashSet<string> _defaultCardIDs = new()
     {
       "Card_Attack_Common_Strike",
@@ -29,9 +31,11 @@ namespace Data.Collectible.Card
       Debug.Log($"[CardDatabase] Initialized");
     }
 
-    public static bool IsDefaultCard(string cardID)
+    public static async Task<IList<CardSO>> GetCardsToRarityAsync(RaritySO rarity)
     {
-      return _defaultCardIDs.Contains(cardID);
+      List<string> rarityLabel = new() { "Card", rarity.Name };
+      var cardList = await AssetLoader.LoadAssetsByLabelsAsync<CardSO>(rarityLabel);
+      return cardList;
     }
   }
 

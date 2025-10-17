@@ -19,8 +19,8 @@ namespace Core.Event
     public static void RaisePlayerWin() => OnPlayerWin?.Invoke();
     public static event Action OnPlayerLose;
     public static void RaisePlayerLose() => OnPlayerLose?.Invoke();
-    public static event Action<RewardSO> OnRewardPhaseStart;
-    public static void  RaiseRewardPhaseStart(RewardSO reward) => OnRewardPhaseStart?.Invoke(reward);
+    public static event Action<RewardStrategySO> OnRewardPhaseStart;
+    public static void  RaiseRewardPhaseStart(RewardStrategySO rewardStrategy) => OnRewardPhaseStart?.Invoke(rewardStrategy);
     public static event Action<TurnOwner> OnTurnStart;
     public static void RaiseTurnStart(TurnOwner team) => OnTurnStart?.Invoke(team);
     public static event Action<List<Unit>> OnTurnEnd;

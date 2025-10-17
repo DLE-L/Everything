@@ -24,8 +24,8 @@ namespace UIs.Reward
         Debug.Log($"Please Select all reward ");
         return;
       } 
-      RewardData rewardData = _combat.CompleteSelection();
-      SystemEvent.RaiseGrantsReward(rewardData);
+      var rewardResult = _combat.CompleteSelection();
+      SystemEvent.RaiseGrantsReward(rewardResult);
       GameSystem.Instance.Reward.rewardUIManager.CloseRewardCanvas();
     }
     

@@ -19,9 +19,9 @@ namespace GamePlay.Reward
     
     
 
-    private void OnRewardPhaseStart(RewardSO reward)
+    private void OnRewardPhaseStart(RewardStrategySO rewardStrategy)
     {
-      rewardUIManager.ShowReward(reward);
+      rewardUIManager.ShowReward(rewardStrategy);
     }
     
     private void OnEnable()

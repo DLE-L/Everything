@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -11,6 +12,40 @@ namespace Utils
   {
     private static readonly Dictionary<string, AsyncOperationHandle> _assetHandles = new(); // 딕셔너리<에셋 주소, 핸들>
     private static readonly Dictionary<GameObject, AsyncOperationHandle> _spawnedInstancesHandles = new(); // 딕셔너리<에셋 오브젝트, 핸들>
+    private static readonly Dictionary<string, AsyncOperationHandle> _assetLabelsHandles = new(); 
+    
+    private static string GenerateKey(List<string> labels)
+    {
+      if (labels == null || labels.Count == 0)
+      {
+        return string.Empty;
+      }
+      var sb = new StringBuilder();
+      var sortedLabels = labels.OrderBy(l => l);
+      sb.AppendJoin("_", sortedLabels);
+      return sb.ToString();
+    }
+    public static async Task<IList<T>> LoadAssetsByLabelsAsync<T>(List<string> labels) where T : Object
+    {
+      string key = GenerateKey(labels);
+      
+      if (_assetLabelsHandles.TryGetValue(key, out AsyncOperationHandle handle))
+      {
+        return handle.Result as IList<T>;
+      }
+      
+      var newHandle = Addressables.LoadAssetsAsync<T>(labels, null,Addressables.MergeMode.Intersection);
+      await newHandle.Task;
+
+      if (newHandle.Status is not AsyncOperationStatus.Succeeded)
+      {
+        Debug.LogError($"LoadAssetsByLabelsAsync failed: {key}");
+        return null;
+      }
+
+      _assetLabelsHandles[key] = newHandle;
+      return newHandle.Result;
+    }
 
     public static async Task<IList<T>> LoadAssetsByLabelAsync<T>(string label) where T : Object
     {
@@ -132,6 +167,7 @@ namespace Utils
       {
         ReleaseAsset(key);
       }
+      List<string> labels = new(_assetLabelsHandles.Keys);
     }
   }
 }

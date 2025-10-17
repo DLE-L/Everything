@@ -1,3 +1,4 @@
+using System;
 using Core;
 using Core.Event;
 using Data.Act.Encounter;
@@ -27,11 +28,24 @@ namespace UIs.Map
     }
     
 
-    private void OnClick(PointerEventData data)
+    private async void OnClick(PointerEventData data)
     {
-      RewardData reward = new(_narrativeChoice.Reward);
-      SystemEvent.RaiseGrantsReward(reward);
-      GameSystem.Instance.Map.mapUIManager.CloseCurrentCanvas();
+      try
+      {
+        var rewardData = await _narrativeChoice.RewardStrategy.GenerateRewardAsync(); //TODO: 수정 필요
+        var rewardResult = new RewardResult()
+        {
+          Cards = rewardData.CardsToPresent,
+          Relics = rewardData.RelicsToPresent,
+          Gold = rewardData.Gold,
+        };
+        SystemEvent.RaiseGrantsReward(rewardResult);
+        GameSystem.Instance.Map.mapUIManager.CloseCurrentCanvas();
+      }
+      catch (Exception e)
+      {
+        Debug.LogError($"NarrativeChoice Error: {e.Message}");
+      }
     }
 
     void OnEnable()
