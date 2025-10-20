@@ -16,7 +16,7 @@ MonoBehaviour:
   Type: 2
   weight: 100
   Rarity: {fileID: 11400000, guid: 437810856cc084e4cb96206c602c602f, type: 2}
-  Reward: {fileID: 11400000, guid: 10b11a2980e269b40bd1e68c33a53ad3, type: 2}
+  RewardStrategy: {fileID: 11400000, guid: dc55783f92bc54d4c8041f1c6d74f50b, type: 2}
   Enemies:
   - {fileID: 11400000, guid: 2b43480519bb45940ab0775f1b863705, type: 2}
   - {fileID: 11400000, guid: 2b43480519bb45940ab0775f1b863705, type: 2}

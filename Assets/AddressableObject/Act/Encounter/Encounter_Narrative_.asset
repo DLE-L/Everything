@@ -19,6 +19,6 @@ MonoBehaviour:
   Description: "\uD53C\uB97C \uBC14\uCE58\uACA0\uB294"
   Choices:
   - Description: hi
-    Reward: {fileID: 11400000, guid: c89719ca95ea38f4f86cf11b00983685, type: 2}
+    RewardStrategy: {fileID: 11400000, guid: cf03958d4b33f724c8ec5706d623ca9b, type: 2}
   - Description: bye
-    Reward: {fileID: 11400000, guid: 8222a6c542098714c8118c51e0e90dc4, type: 2}
+    RewardStrategy: {fileID: 0}

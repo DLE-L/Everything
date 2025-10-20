@@ -27,9 +27,14 @@ namespace UIs.Map
       _lastSpawnFloors.Clear();
       _currentEliteCount = 0;
       
-      ActSO actData = await ActDatabase.GetNumberingActAsync(actNumbering);
-      Dictionary<(int, int), EncounterSO> encounterFixPoint = actData.EncounterPoints
-        .ToDictionary(key => (key.FloorIndex, key.NodeIndex), value => value.Encounter);
+      var act = await ActDatabase.GetNumberingActAsync(actNumbering);
+      if (act is null)
+      {
+        Debug.LogError($"{actNumbering}에 해당하는 Act를 찾을 수 없습니다!");
+        return new List<Node>();
+      }
+      var encounterFixPoint = act.EncounterPoints
+        .ToDictionary(point => (point.FloorIndex, point.NodeIndex), point => point.Encounter);
       
       for (int floorIndex = 0; floorIndex < mapConfig.Act_FloorCount; floorIndex++)
       {        
@@ -37,12 +42,12 @@ namespace UIs.Map
 
         if (floorIndex == mapConfig.Node_BossIndex) // 보스 층
         {
-          encountersFloor.Add(actData.BossEncounter);
+          encountersFloor.Add(act.BossEncounter);
         }
         else if (floorIndex == mapConfig.Act_FinalZoneIndex) // 보스 직전 층 (고정)
         {
-          EncounterSO shopEncounter = actData.Encounters.FirstOrDefault(e => e.Type == EncounterType.Shop);
-          EncounterSO restEncounter = actData.Encounters.FirstOrDefault(e => e.Type == EncounterType.Rest);
+          var shopEncounter = act.Encounters.FirstOrDefault(encounter => encounter.Type == EncounterType.Shop);
+          var restEncounter = act.Encounters.FirstOrDefault(encounter => encounter.Type == EncounterType.Rest);
           if (shopEncounter is not null) encountersFloor.Add(shopEncounter);
           if (restEncounter is not null) encountersFloor.Add(restEncounter);
           encountersFloor = encountersFloor.OrderBy(e => _random.Next()).ToList();
@@ -54,7 +59,7 @@ namespace UIs.Map
           for (int i = 0; i < nodeCountOnFloor; i++)
           {
             var isExistEncounter = encounterFixPoint.TryGetValue((floorIndex + 1, i + 1), out var encounter);
-            var encounterSo = isExistEncounter ? encounter : SelectEncounterForFloor(floorIndex, mapConfig, actData);
+            var encounterSo = isExistEncounter ? encounter : SelectEncounterForFloor(floorIndex, mapConfig, act);
             
             encountersFloor.Add(encounterSo);
           }
@@ -63,7 +68,7 @@ namespace UIs.Map
         for (int nodeIndex = 0; nodeIndex < encountersFloor.Count; nodeIndex++)
         {
           StringBuilder sb = new();
-          EncounterSO selectedEncounter = encountersFloor[nodeIndex];
+          var selectedEncounter = encountersFloor[nodeIndex];
           if (selectedEncounter is null) continue;
 
           var nodeGO = await AssetLoader.InstantiateAsync(nodePrefabRef, nodeParent);
@@ -72,20 +77,20 @@ namespace UIs.Map
           Vector2 position = SetNodePosition(floorIndex, nodeIndex, encountersFloor.Count, mapConfig);
           nodeRect.anchoredPosition = position;
 
-          Node mapNode = nodeGO.GetComponent<Node>();
+          var mapNode = nodeGO.GetComponent<Node>();
           mapNode.Setup(selectedEncounter);
           
           sb.Append($"Node_{floorIndex}-{nodeIndex}_{selectedEncounter.name}");
           mapNode.name = sb.ToString();
           _generatedNodes.Add(mapNode);
 
-          EncounterType type = selectedEncounter.Type;
+          var type = selectedEncounter.Type;
           if (type is not EncounterType.None) // 안전장치
           {
             _typeCounts[type] = _typeCounts.GetValueOrDefault(type, 0) + 1;
             _lastSpawnFloors[type] = floorIndex; // [수정] ContainsKey 체크 없이 바로 할당
           }
-          if (selectedEncounter is EncounterCombat ce && ce.Rarity == actData.EliteRarity)
+          if (selectedEncounter is EncounterCombat ce && ce.Rarity == act.EliteRarity)
           {
             _currentEliteCount++;
           }
@@ -133,7 +138,7 @@ namespace UIs.Map
       if (candidatePool.Count == 0) return null;
 
       // 가중치 기반 랜덤 선택
-      int totalWeight = candidatePool.Sum(e => e.weight);
+      int totalWeight = candidatePool.Sum(encounter => encounter.weight);
       if (totalWeight <= 0) return candidatePool.FirstOrDefault(); // 가중치가 모두 0인 경우 대비
 
       int randomValue = _random.Next(0, totalWeight);

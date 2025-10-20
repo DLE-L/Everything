@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using GamePlay.Battle;
 using Data.Collectible.Card;
@@ -8,7 +9,7 @@ namespace GamePlay.Units
   public class EnemyController : Unit
   {
     private BattleManager _battleManager;
-    public BattleEnemyData EnemyData { get; private set; }
+    public List<CardSO> Cards { get; private set; }
     private readonly System.Random random = new();
 
     void Awake()
@@ -16,11 +17,11 @@ namespace GamePlay.Units
       Team = TurnOwner.EnemyTeam;
     }
 
-    public void DataSetting(BattleEnemyData data, BattleManager manager)
+    public void DataSetting(EnemySO enemySo, BattleManager manager)
     {
       _battleManager = manager;
-      EnemyData = data;
-      Stat = data.Stat;
+      Stat.MaxHP = enemySo.MaxHP;
+      Cards = new List<CardSO>(enemySo.Deck);
     }
 
     protected override void HandleTurnStart(TurnOwner turnOwner)
@@ -35,8 +36,8 @@ namespace GamePlay.Units
 
     public void EnemyNextIntent()
     {
-      int rand = random.Next(0, EnemyData.AbilityCards.Count);
-      CardSO card = EnemyData.AbilityCards[rand];
+      var rand = random.Next(0, Cards.Count);
+      var card = Cards[rand];
       Debug.Log($"[{name}_Next Card]:{card.name}");
     }
   }

@@ -9,6 +9,7 @@ using Data.Collectible.Card;
 using Data.Units;
 using GamePlay.Battle.State;
 using GamePlay.Units;
+using UIs.Battle;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Utils;
@@ -19,12 +20,11 @@ namespace GamePlay.Battle
   {
     private Player _player => GameSystem.Instance.Run.Player;
     public StatData PlayerStat => _player.Stat;
-    public DeckSO PlayerStartDeck;
     public List<Unit> PlayerTeam { get; private set; } = new();
     public List<Unit> EnemyTeam { get; private set; } = new();
     
     [SerializeField] private AssetReference _enemyPrefabRef;
-    [SerializeField] private Transform _enemyTransform;
+    [SerializeField] private List<Transform> _enemiesTransform;
     private EncounterCombat _combatEncounter;
     private BattleManager _battleManager;
 
@@ -45,27 +45,31 @@ namespace GamePlay.Battle
 
     private async Task SpawnEnemiesAsync(EncounterSO encounter)
     {
-      int count = 0;
       _combatEncounter = encounter as EncounterCombat;
       if (_combatEncounter is null) return;
 
-      List<Task<GameObject>> spawnTasks = new();
-      foreach (var enemySo in _combatEncounter.Enemies)
+      _enemiesTransform = new List<Transform>(FindAnyObjectByType<Canvas_Scene_Battle>().enemiesTransform);
+      if (_enemiesTransform is null)
       {
-        Vector3 spawnPosition = _enemyTransform.position + new Vector3(0, count, 0);
-        var spawnTask = AssetLoader.InstantiateAsync(_enemyPrefabRef, spawnPosition, Quaternion.identity);
+        Debug.LogError($"SpawnEnemiesAsync: cannot find enemiesTransform");
+        return;
+      }
+      List<Task<GameObject>> spawnTasks = new();
+      for (var index = 0; index < _combatEncounter.Enemies.Count; index++)
+      {        
+        var spawnPosition = _enemiesTransform[index].position;
+        var spawnTask = AssetLoader.InstantiateAsync(_enemyPrefabRef, spawnPosition, Quaternion.identity, _enemiesTransform[index]);
         spawnTasks.Add(spawnTask);
-        count++;
       }
 
-      GameObject[] enemyInstances = await Task.WhenAll(spawnTasks);
-      for (int i = 0; i < enemyInstances.Length; i++)
+      var enemyInstances = await Task.WhenAll(spawnTasks);
+      for (var index = 0; index < enemyInstances.Length; index++)
       {
-        GameObject enemyInstance = enemyInstances[i];
-        EnemySO enemySo = _combatEncounter.Enemies[i];
-        EnemyController controller = enemyInstance.GetComponent<EnemyController>();
+        var enemyInstance = enemyInstances[index];
+        var enemySo = _combatEncounter.Enemies[index];
+        var controller = enemyInstance.GetComponent<EnemyController>();
 
-        controller.DataSetting(new BattleEnemyData(enemySo), _battleManager);
+        controller.DataSetting(enemySo, _battleManager);
         enemyInstance.name = enemySo.name;
         EnemyTeam.Add(controller);
       }
@@ -73,7 +77,7 @@ namespace GamePlay.Battle
 
     private void OnUnitDeath(Unit deadUnit)
     {
-      GameObject deadUnitGO = deadUnit.gameObject;
+      var deadUnitGO = deadUnit.gameObject;
       AssetLoader.ReleaseInstance(deadUnitGO);
       
       deadUnit.OnDeath -= OnUnitDeath;
@@ -81,19 +85,16 @@ namespace GamePlay.Battle
       {
         EnemyTeam.Remove(deadUnit);
         BattleEvent.RaiseEnemyKill(deadUnit);
+        if (EnemyTeam.Count is not 0) return;
         
-        if (EnemyTeam.Count == 0)
-        {
-          UnsubscribeToUnitDeath();
-          _battleManager.Fsm.ChangeState(new StateWin(_battleManager, _battleManager.Fsm));
-        }
-      }
-      else if (deadUnit is Player)
-      {
         UnsubscribeToUnitDeath();
-        
-        _battleManager.Fsm.ChangeState(new StateLose(_battleManager, _battleManager.Fsm));
+        _battleManager.Fsm.ChangeState(new StateWin(_battleManager, _battleManager.Fsm));
       }
+
+      if (deadUnit is not Player) return;
+      
+      UnsubscribeToUnitDeath();
+      _battleManager.Fsm.ChangeState(new StateLose(_battleManager, _battleManager.Fsm));
     }
 
     private void SubscribeToUnitDeath()

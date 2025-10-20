@@ -5,6 +5,7 @@ using GamePlay.Battle;
 using GamePlay.Units;
 using Data.Collectible.Card;
 using Data.Reward;
+using UIs.Battle;
 
 namespace Core.Event
 {
@@ -23,13 +24,13 @@ namespace Core.Event
     public static void  RaiseRewardPhaseStart(RewardStrategySO rewardStrategy) => OnRewardPhaseStart?.Invoke(rewardStrategy);
     public static event Action<TurnOwner> OnTurnStart;
     public static void RaiseTurnStart(TurnOwner team) => OnTurnStart?.Invoke(team);
-    public static event Action<List<Unit>> OnTurnEnd;
-    public static void RaiseTurnEnd(List<Unit> team) => OnTurnEnd?.Invoke(team);
     #endregion
 
     #region Card Event
     public static event Action<List<CardSO>> OnHandUpdated;
     public static void RaiseHandUpdated(List<CardSO> hand) => OnHandUpdated?.Invoke(hand);
+    public static event Action<Button_BattleCard> OnBattleCardClick;
+    public static void RaiseBattleCardClick(Button_BattleCard buttonBattleCard) => OnBattleCardClick?.Invoke(buttonBattleCard);
     public static event Action<CardSO> OnCardPlay;
     public static void RaiseCardPlay(CardSO card) => OnCardPlay?.Invoke(card);
     public static event Action<CardSO> OnCardDraw;

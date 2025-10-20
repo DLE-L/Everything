@@ -24,12 +24,12 @@ namespace GamePlay.Battle.State
       {
         BattleEvent.RaiseCombatStart();
         await _manager.UnitManager.Init(_manager);
-        //_manager.RewardData.Cards = new(_manager.currentBattleEncounter.Rewards)
+        Debug.Log($"---Battle Setup---");
         _fsm.ChangeState(new StateTurnStart(_manager, _fsm, _turnOwner));
       }
       catch (Exception e)
       {
-        Debug.Log($"[SetupBattle Error: {e}]");
+        Debug.LogWarning($"SetupBattle Error: {e}");
       }
     }
 

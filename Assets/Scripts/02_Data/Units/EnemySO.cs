@@ -11,7 +11,6 @@ namespace Data.Units
     public string Name;
     public Sprite Sprite;
     public int MaxHP;
-    public int MaxEnergy;
     public RaritySO Rarity;
     public List<CardSO> Deck;
     public EnemyAILogicType AILogic;

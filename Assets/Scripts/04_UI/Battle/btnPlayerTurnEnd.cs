@@ -12,7 +12,7 @@ namespace UIs.Battle
     public void OnClickTurnEnd(PointerEventData data)
     {
       BattleManager manager = GameSystem.Instance.Battle;
-      manager.Fsm.ChangeState(new StateTurnEnd(manager, manager.Fsm, TurnOwner.EnemyTeam));
+      manager.Fsm.ChangeState(new StateTurnEnd(manager, manager.Fsm, TurnOwner.PlayerTeam));
     }
 
     void OnEnable()

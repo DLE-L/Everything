@@ -8,6 +8,8 @@ using Data.Collectible.Card;
 using Data.Act.Encounter;
 using Data.Reward;
 using GamePlay.Battle.State;
+using GamePlay.Units;
+using UIs.Battle;
 using StateMachine = Core.StateMachine;
 using Unit = GamePlay.Units.Unit;
 
@@ -17,28 +19,39 @@ namespace GamePlay.Battle
   {
     private TaskCompletionSource<Unit> _currentTargetSelectionTask;
     private RaycastHit2D _hit;
+    private CardSO _selectedCard;
     public event Action<Unit> OnEnemyClicked;
     public EncounterCombat currentCombat;
     
     public StateMachine Fsm { get; private set; } = new();
     public CardManager CardManager { get; private set; }
     public UnitManager UnitManager;
-
-    public RewardData RewardData;
+    public BattleUIManager battleUIManager { get; private set; }
 
     private void Awake()
     {
       GameSystem.Instance.RegisterBattleManager(this);
+      battleUIManager ??= FindAnyObjectByType<BattleUIManager>();
     }
 
-    private void Start()
+    private async void Start()
     {
-      List<CardSO> DeckList = UnitManager.PlayerStartDeck.Cards
-        .SelectMany(cardCount => Enumerable.Repeat(cardCount.Card, cardCount.Count))
-        .ToList();
-      CardManager = new CardManager(DeckList);
+      try
+      {
+        await battleUIManager.InitCanvasSceneAsync();
+        var DeckList = GameSystem.Instance.Run.PlayerRunData.Deck
+          .SelectMany(deck => Enumerable.Repeat(deck.Key, deck.Value))
+          .ToList();
+        CardManager = new CardManager(DeckList);
+      
+        // TODO: 적 의도 보여줌
 
-      Fsm.ChangeState(new StateSetupBattle(this, Fsm, TurnOwner.PlayerTeam));
+        Fsm.ChangeState(new StateSetupBattle(this, Fsm, TurnOwner.PlayerTeam));
+      }
+      catch (Exception e)
+      {
+        Debug.LogError($"BattleManager Start warning: {e.Message}");
+      }
     }
 
     public void Update()
@@ -64,28 +77,33 @@ namespace GamePlay.Battle
     private void HandlePlayerClick()
     {
       // 타겟 선택 대기 상태가 아닐 때는 클릭을 무시
-      if (_currentTargetSelectionTask == null || _currentTargetSelectionTask.Task.IsCompleted)
+      if (_currentTargetSelectionTask is null || _currentTargetSelectionTask.Task.IsCompleted)
       {
         return;
       }
 
-      if (Input.GetMouseButtonDown(0))
+      if (!Input.GetMouseButtonDown(0)) return;
+      
+      var hitCollider = _hit.collider;
+      
+      if (hitCollider is null) return;
+
+      if (hitCollider.gameObject.CompareTag("Enemy"))
       {
-        // ... Raycast 로직 ...
-        var enemyCollider = _hit.collider;
-        if (enemyCollider is not null)
-        {
-          // 클릭된 적 정보를 이벤트로 방송 (다른 용도를 위해 남겨둘 수 있음)
-          var enemy = enemyCollider.GetComponent<Unit>();
-          OnEnemyClicked?.Invoke(enemy);
+        var enemy = hitCollider.GetComponent<EnemyController>();
+        OnEnemyClicked?.Invoke(enemy);
 
-          // 3. '약속 티켓'에 결과를 기록하여, await 하던 곳을 깨웁니다!
-          _currentTargetSelectionTask.SetResult(enemy);
-
-          // 화살표 UI 비활성화
-          //TargetingArrow.Instance.Hide();
-        }
+        // 3. '약속 티켓'에 결과를 기록하여, await 하던 곳을 깨웁니다!
+        _currentTargetSelectionTask.SetResult(enemy);  
       }
+      else if (hitCollider.gameObject.CompareTag("Player"))
+      {
+        
+      }
+      
+
+      // 화살표 UI 비활성화
+      //TargetingArrow.Instance.Hide();
     }
 
     public bool TryUseEnergy(int cardCost)

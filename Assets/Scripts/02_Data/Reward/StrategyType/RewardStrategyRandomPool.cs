@@ -10,7 +10,7 @@ namespace Data.Reward.Type
   [CreateAssetMenu(fileName = "Reward_Random_", menuName = "MyMenu/Reward/RandomPool")]
   public class RewardStrategyRandomPool : RewardStrategySO
   {
-    public int CardChoices;
+    public int CardChoices = 1;
     public int goldMin;
     public int goldMax;
     public int SelectableCardCount = 1;

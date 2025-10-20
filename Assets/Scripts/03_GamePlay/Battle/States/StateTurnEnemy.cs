@@ -17,14 +17,14 @@ namespace GamePlay.Battle.State
     }
     public void Enter()
     {
-      Debug.Log($"[Enemy Turn State]");
+      Debug.Log($"-Enemy Turn State-");
 
       foreach (var unit in _manager.UnitManager.EnemyTeam)
       {
         // 카드 사용 로직
       }
 
-      _fsm.ChangeState(new StateTurnEnd(_manager, _fsm, TurnOwner.PlayerTeam));
+      _fsm.ChangeState(new StateTurnEnd(_manager, _fsm, TurnOwner.EnemyTeam));
     }
 
     public void Execute()
@@ -41,16 +41,14 @@ namespace GamePlay.Battle.State
 
     public void EnemyNextIntent()
     {
-      for (int i = 0; i < _manager.UnitManager.EnemyTeam.Count; i++)
+      foreach (var unit in _manager.UnitManager.EnemyTeam)
       {
+        if (unit is not EnemyController enemy) return;
         var random = new System.Random();
-
-        EnemyController enemy = _manager.UnitManager.EnemyTeam[i] as EnemyController;
-        if (enemy is null) return;
         
-        int rand = random.Next(0, enemy.EnemyData.AbilityCards.Count);
-        CardSO card = enemy.EnemyData.AbilityCards[rand];
-        UnityEngine.Debug.Log($"[{enemy.name}_Next Intent]:{card.name}");
+        var rand = random.Next(0, enemy.Cards.Count);
+        var card = enemy.Cards[rand];
+        Debug.Log($"[{enemy.name}_Next Intent]:{card.name}");
       }
     }
   }

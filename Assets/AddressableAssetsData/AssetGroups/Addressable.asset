@@ -21,12 +21,25 @@ MonoBehaviour:
     m_SerializedLabels:
     - UI
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0b269889da73f924481acc18c05aa266
+    m_Address: Canvas_Scene_Battle
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Scene
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2698e465291d393429fdaf9793f9b2b8
     m_Address: Enemy_Common_Goblin
     m_ReadOnly: 0
     m_SerializedLabels:
     - Common
     - Enemy
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2af4d636bae95b04eba740d9f688ea81
+    m_Address: Button_BattleCard
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 40962cfb808c67749b8e335500ff5a21
     m_Address: Canvas_Scene_Title
@@ -41,6 +54,13 @@ MonoBehaviour:
     m_SerializedLabels:
     - Encounter
     - UI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5bbe7cd9221416045a7bedfb522a24ec
+    m_Address: Card_Attack_Uncommon_HeavyStrike
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Card
+    - Uncommon
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 61fea7d1e7841b747966f7bc7014b6fb
     m_Address: Act_1
@@ -134,8 +154,21 @@ MonoBehaviour:
     - Data
     - Map
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f28afe06842fdd047b8010fc60d166c6
+    m_Address: Card_Skill_Uncommon_DefensiveStance
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Card
+    - Uncommon
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f321f636b23fb1e4fbdd50af4dec58df
     m_Address: Button_Reward_Card
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f97e2bd43edce7144a72374b34831271
+    m_Address: Image_HPBar
     m_ReadOnly: 0
     m_SerializedLabels:
     - UI

@@ -22,9 +22,10 @@ namespace GamePlay.Battle.State
 
     public void Enter()
     {
-      Debug.Log($"[Player Turn State]");
+      Debug.Log($"-Player Turn State-");
       _manager.CardManager.TurnStartDiscardHand();
       _manager.CardManager.Draw(5);
+      Debug.Log($"Hand Card Count : {_manager.CardManager.Hand.Count}");
 
       // 외부에서 턴 넘김
     }
@@ -42,7 +43,7 @@ namespace GamePlay.Battle.State
       //   UseCardProcessAsync(clickedCard);
       // }
     }
-    private async void UseCardProcessAsync(BattleCard battleCard)
+    private async void UseCardProcessAsync(Button_BattleCard buttonBattleCard)
     {
       // _isActionInProgress = true; // 행동 시작, 다른 입력 잠금
       //

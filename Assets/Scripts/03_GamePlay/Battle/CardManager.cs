@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -28,32 +29,39 @@ namespace GamePlay.Battle
 
     public async void PlayCard(CardSO card, Unit user, BattleManager manager)
     {
-      if (manager.TryUseEnergy(card.Cost) == false)
+      try
       {
-        Debug.Log($"[에너지 부족]");
-        return;
-      }
-
-      BattleEvent.RaiseCardPlay(card);
-
-      foreach (var cardEffect in card.Effects)
-      {
-        TargetingStrategySO targeting = cardEffect.Target;        
-        TargetingContext context = new (
-          user,
-          manager.UnitManager.PlayerTeam,
-          manager.UnitManager.EnemyTeam
-        );
-
-        List<Unit> targets = await targeting.FindTargetsAsync(context);
-
-        foreach (Unit target in targets)
+        if (manager.TryUseEnergy(card.Cost) == false)
         {
-          cardEffect.Effect.Execute(user, target, manager);
+          Debug.Log($"[에너지 부족]");
+          return;
         }
+
+        BattleEvent.RaiseCardPlay(card);
+
+        foreach (var cardEffect in card.Effects)
+        {
+          TargetingStrategySO targeting = cardEffect.Target;        
+          TargetingContext context = new (
+            user,
+            manager.UnitManager.PlayerTeam,
+            manager.UnitManager.EnemyTeam
+          );
+
+          List<Unit> targets = await targeting.FindTargetsAsync(context);
+
+          foreach (Unit target in targets)
+          {
+            cardEffect.Effect.Execute(user, target, manager);
+          }
+        }
+        card.Type.OnCardPlayed(card, this);
+        Debug.Log($"{card.name} is Play");
       }
-      card.Type.OnCardPlayed(card, this);
-      Debug.Log($"{card.name} is Play");
+      catch (Exception e)
+      {
+        Debug.LogError($"CardManager PlayCard Error: {e.Message}");
+      }
     }
 
     public void Draw(int amount)

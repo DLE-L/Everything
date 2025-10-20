@@ -24,7 +24,7 @@ namespace GamePlay.Map
       GameSystem.Instance.RegisterMapManager(this);
       mapUIManager ??= FindFirstObjectByType<MapUIManager>();
       
-      Debug.Log($"\\\\--New Run Start--////");
+      Debug.Log($"---New Run Start---");
       SystemEvent.RaiseStartNewRun();
     }
 
@@ -38,15 +38,12 @@ namespace GamePlay.Map
         
         _generator = new();
         await _generator.GenerateMap(_nodePrefabRef, _nodeParent, _mapGenerateData, 1);
-        
-        AssetLoader.ReleaseAsset("Data_GenerateMap");
 
-        //_narrative_UI = _uiManager.GetComponentInChildren<Narrative_UI>();
-        //_uiNarrative.Init();
+        AssetLoader.ReleaseAsset("Data_GenerateMap");
       }
       catch (Exception e)
       {
-        Debug.LogError($"MapManager Start Error: {e.Message}");
+        Debug.LogWarning($"MapManager Start warning: {e.Message}");
       }
     }
 

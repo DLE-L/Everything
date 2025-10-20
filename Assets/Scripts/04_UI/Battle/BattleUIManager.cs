@@ -1,26 +1,20 @@
-using System.Collections.Generic;
-using Core.Event;
-using Data.Collectible.Card;
+using System.Threading.Tasks;
+using UIs.UIManager;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace UIs.Battle
 {
-  public class BattleUIManager : MonoBehaviour
+  public class BattleUIManager : UIManagerBase
   {
-
-    public void UpdateHandUI(List<CardSO> hand)
+    [Header("Battle UI Manager")]
+    [SerializeField] private AssetReference _battleCardRef;
+    [SerializeField] private AssetReference _unitHPBarRef;
+    
+    public override async Task InitCanvasSceneAsync()
     {
-
+      await base.InitCanvasSceneAsync();
     }
-    void OnEnable()
-    {
-      BattleEvent.OnHandUpdated += UpdateHandUI;
-    }
-    void OnDisable()
-    {
-      BattleEvent.OnHandUpdated -= UpdateHandUI;
-    }
-
     
   }
 }

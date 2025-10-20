@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 using Data.Rarity;
 using TMPro;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 using UnityEngine.UI;
 using Utils;
 
@@ -15,10 +14,8 @@ namespace Data.Collectible.Card
     public static Dictionary<string, CardSO> AllCards { get; private set; } = new(); // Dictionary<CardId, CardSO>
     private static readonly HashSet<string> _defaultCardIDs = new()
     {
-      "Card_Attack_Common_Strike",
-      "Card_Skill_Common_Defend",
-      "Card_Attack_Common_Bash",
-      "Card_Skill_Uncommon_Uplift"
+      "Card_Attack_Basic_Strike",
+      "Card_Skill_Basic_Defend",
     };
 
     public static async Task InitializeAsync()
@@ -28,7 +25,7 @@ namespace Data.Collectible.Card
       {        
         AllCards.TryAdd(card.name, card);
       }
-      Debug.Log($"[CardDatabase] Initialized");
+      Debug.Log($"CardDatabase Initialized");
     }
 
     public static async Task<IList<CardSO>> GetCardsToRarityAsync(RaritySO rarity)
@@ -40,23 +37,10 @@ namespace Data.Collectible.Card
   }
 
   [Serializable]
-  public class BattleCardData
-  {
-    public CardSO CardSO;
-    public string BattleCardID;
-
-    public BattleCardData(string cardObjectID, string cardId)
-    {
-      CardSO = CardDatabase.AllCards[cardObjectID];
-      BattleCardID = cardId;
-    }
-  }
-
-  [Serializable]
   public class CardUI
   {
-    public Image imgCardFrame;
-    public Image imgCardIcon;
+    public Image imgFrame;
+    public Image imgIcon;
     public Image imgName;
     public Image imgCost;
     public TextMeshProUGUI txtName;
@@ -65,8 +49,8 @@ namespace Data.Collectible.Card
     public CardUI() {}
     public void UpdateUI(Sprite frame, Sprite icon, Sprite name, Sprite cost, string nameText, string description)
     {
-      imgCardFrame.sprite = frame;
-      imgCardIcon.sprite = icon;
+      imgFrame.sprite = frame;
+      imgIcon.sprite = icon;
       imgName.sprite = name;
       imgCost.sprite = cost;
       txtName.text = nameText;

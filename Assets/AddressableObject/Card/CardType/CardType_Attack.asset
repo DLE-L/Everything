@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9143106136ed99e4cb7838efba90196d, type: 3}
   m_Name: CardType_Attack
   m_EditorClassIdentifier: 
-  TypeName: CardType_Attack
+  TypeName: Attack
   FrameColor: {r: 0, g: 0, b: 0, a: 0}
   Icon: {fileID: 0}
   Description: 
