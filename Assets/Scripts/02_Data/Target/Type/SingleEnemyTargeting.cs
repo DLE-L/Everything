@@ -10,7 +10,13 @@ namespace Data.Target
   {
     public override Task<List<Unit>> FindTargetsAsync(TargetingContext context)
     {
-      return Task.FromResult(new List<Unit>() {  }); //TODO : 추가해야됨
+      var targets = new List<Unit>();
+      if (context.User is EnemyController)
+      {
+        System.Random random = new();
+        targets = new List<Unit>() { context.Enemies[random.Next(0, context.Enemies.Count)]};
+      }
+      return Task.FromResult(targets); //TODO : 추가해야됨
     }
   }
 }

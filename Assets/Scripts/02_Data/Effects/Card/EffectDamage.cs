@@ -10,7 +10,7 @@ namespace Data.Effect.Card
     [SerializeField] private int Amount;
     public override void Execute(Unit user, Unit target, BattleManager manager)
     {
-      if (user != null && target != null)
+      if (user is not null && target is not null)
       {
         user.DealDamage(target, Amount);        
         Debug.Log($"[Damage Effect][{target.name} is Damaged {user.name}, {Amount}]");

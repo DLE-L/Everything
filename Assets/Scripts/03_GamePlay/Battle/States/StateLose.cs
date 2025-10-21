@@ -1,5 +1,6 @@
 ﻿using Core;
 using Core.Event;
+using UnityEngine;
 
 namespace GamePlay.Battle.State
 {
@@ -16,16 +17,17 @@ namespace GamePlay.Battle.State
     {
       BattleEvent.RaisePlayerLose();
       SystemEvent.RaiseEndRun();
+      Debug.Log($"Player Lose");
     }
 
     public void Execute()
     {
-      throw new System.NotImplementedException();
+      
     }
 
     public void Exit()
     {
-      throw new System.NotImplementedException();
+      
     }
   }
 }

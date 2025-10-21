@@ -79,12 +79,19 @@ namespace Core
 
     private void OnStartNewRun()
     {
-      Run.Init();
+      Run.RunStart();
     }
 
-    private void OnEndRun()
+    private async void OnEndRun()
     {
-      
+      try
+      {
+        await Scene.LoadSceneLobbyAsync();
+      }
+      catch (Exception e)
+      {
+      Debug.Log($"OnEndRun Error: {e.Message}");
+      }
     }
 
     private void OnClickNode(Node node) => CurrentEncounter = node.Encounter;

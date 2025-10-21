@@ -12,7 +12,7 @@ namespace Data.Collectible.Card
     public virtual void OnCardPlayed(CardSO card, CardManager manager)
     {
       manager.Discard(card);
-      Debug.Log($"{card.name} is Discard");
+      //Debug.Log($"{card.name} is Discard");
     }
   } 
 }

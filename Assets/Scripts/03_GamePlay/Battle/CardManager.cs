@@ -31,9 +31,9 @@ namespace GamePlay.Battle
     {
       try
       {
-        if (manager.TryUseEnergy(card.Cost) == false)
+        if (user is Player && !manager.TryUseEnergy(card.Cost))
         {
-          Debug.Log($"[에너지 부족]");
+          Debug.Log($"플레이어 에너지 부족");
           return;
         }
 
@@ -52,11 +52,13 @@ namespace GamePlay.Battle
 
           foreach (Unit target in targets)
           {
+            Debug.Log($"Target: {target}");
             cardEffect.Effect.Execute(user, target, manager);
           }
         }
-        card.Type.OnCardPlayed(card, this);
-        Debug.Log($"{card.name} is Play");
+
+        if (user is Player) card.Type.OnCardPlayed(card, this);
+        Debug.Log($"{card.name}: is Play");
       }
       catch (Exception e)
       {

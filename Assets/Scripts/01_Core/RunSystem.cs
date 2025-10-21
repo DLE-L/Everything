@@ -12,11 +12,11 @@ namespace Core
     public RunSystem(PlayerRunData data)
     {
       PlayerRunData = data;
-      
     }
-    public void Init()
+    public void RunStart()
     {
       Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+      Player.DataSetting(PlayerRunData);
     }
     
   }

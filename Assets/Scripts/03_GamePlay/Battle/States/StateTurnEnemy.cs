@@ -1,4 +1,5 @@
 using Core;
+using GamePlay.Units;
 using UnityEngine;
 
 namespace GamePlay.Battle.State
@@ -15,11 +16,17 @@ namespace GamePlay.Battle.State
     }
     public void Enter()
     {
-      Debug.Log($"-Enemy Turn-");
+      //Debug.Log($"-Enemy Turn-");
 
       foreach (var unit in _manager.UnitManager.EnemyTeam)
       {
-        // 카드 사용 로직
+        if (unit is not EnemyController enemy)
+        {
+          Debug.LogError($"Enemy is null");
+          return;
+        }
+
+        _manager.CardManager.PlayCard(enemy.NextCard, enemy, _manager);
       }
 
       _fsm.ChangeState(new StateTurnEnd(_manager, _fsm, TurnOwner.EnemyTeam));

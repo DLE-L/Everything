@@ -83,12 +83,11 @@ namespace GamePlay.Battle
 
     private void OnUnitDeath(Unit deadUnit)
     {
-      var deadUnitGO = deadUnit.gameObject;
-      AssetLoader.ReleaseInstance(deadUnitGO);
-      
       deadUnit.OnDeath -= OnUnitDeath;
       if (deadUnit is EnemyController)
       {
+        var deadUnitGO = deadUnit.gameObject;
+        AssetLoader.ReleaseInstance(deadUnitGO);
         EnemyTeam.Remove(deadUnit);
         BattleEvent.RaiseEnemyKill(deadUnit);
         if (EnemyTeam.Count is not 0) return;

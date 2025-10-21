@@ -22,7 +22,7 @@ namespace GamePlay.Battle.State
 
     public void Enter()
     {
-      Debug.Log($"-Player Turn-");
+      //Debug.Log($"-Player Turn-");
       _manager.CardManager.TurnStartDiscardHand();
       _manager.CardManager.Draw(5);
 

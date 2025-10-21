@@ -50,7 +50,7 @@ namespace GamePlay.Units
         effect.OnTurnStart(this, ref data);
         StatusEffects[effect] = data;
       }
-      Debug.Log($"{name}'s Turn Start Effects");
+      //Debug.Log($"{name}'s Turn Start Effects");
     }
 
     public void DealDamage(Unit target, int damage)
@@ -64,7 +64,7 @@ namespace GamePlay.Units
         additive += effect.GetOutgoingAdditiveBonus(this);
       }
       finalDamage += additive;
-      Debug.Log($"Addictive Damage : {finalDamage}");
+      //Debug.Log($"Addictive Damage : {finalDamage}");
 
       // 2. 곱연산
       float multiple = 1.0f;
@@ -73,7 +73,7 @@ namespace GamePlay.Units
         multiple *= effect.GetOutgoingMultiplicativeModifier(this);
       }
       finalDamage *= multiple;
-      Debug.Log($"Multiple Damage : {finalDamage}");
+      //Debug.Log($"Multiple Damage : {finalDamage}");
 
       // 3. 데미지 전달
       BattleEvent.RaiseDealDamage(this, target, Mathf.FloorToInt(finalDamage));
@@ -121,7 +121,7 @@ namespace GamePlay.Units
       // 6. 피격 이벤트 발생
       BattleEvent.RaiseTakeDamage(attacker, this, damageAfterBlock);
       BattleEvent.RaiseDamageFeedback(this, damageAfterBlock);
-      Debug.Log($"{attacker} attack {this}. Take Damage {damageAfterBlock}][Remain HP: {Stat.HP}");
+      Debug.Log($"{attacker.name} attack {this.name}. Take Damage {damageAfterBlock}. Remain HP: {Stat.HP}");
     }
 
     public void Heal(int heal)
@@ -137,7 +137,7 @@ namespace GamePlay.Units
       {
         Stat.HP = Stat.MaxHP;
       }
-      Debug.Log($"[{finalHeal}체력 획득][현재체력: {Stat.HP}]");
+      Debug.Log($"{finalHeal}체력 획득. 현재체력: {Stat.HP}");
     }
 
     public virtual void GainBlock(int block)

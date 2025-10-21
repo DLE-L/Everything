@@ -17,7 +17,7 @@ namespace Data.Target
     private List<Unit> _enemyTeam;
 
     public List<Unit> Allies => _playerTeam.Contains(User) ? _playerTeam : _enemyTeam;
-    public List<Unit> Enemies => !_playerTeam.Contains(User) ? _enemyTeam : _playerTeam;
+    public List<Unit> Enemies => _playerTeam.Contains(User) ? _enemyTeam : _playerTeam;
 
     public Unit Attacker { get; set; }
 

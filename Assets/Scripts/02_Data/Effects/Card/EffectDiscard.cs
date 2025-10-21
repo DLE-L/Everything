@@ -9,14 +9,14 @@ namespace Data.Effect.Card
     public int amount;
     public override void Execute(Unit user, Unit target, BattleManager manager)
     {
-      if (user != null)
+      if (user is not null)
       {
         manager.CardManager.DiscardRandom(amount);
         Debug.Log($"[Discard Effect][{user.name} is Discard {amount}]");
       }
       else
       {
-        Debug.Log($"[Discard Effect][{user.name} is null]");
+        Debug.Log($"[Discard Effect][User is null]");
       }
     }
   }
