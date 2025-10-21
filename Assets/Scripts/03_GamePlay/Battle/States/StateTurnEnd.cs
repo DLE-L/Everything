@@ -17,7 +17,7 @@ namespace GamePlay.Battle.State
 
     public void Enter()
     {
-      UnityEngine.Debug.Log($"---{_turnOwner} 턴 종료! ---");
+      UnityEngine.Debug.Log($"-{_turnOwner} 턴 종료!-");
       var nextTurnOwner = _turnOwner is TurnOwner.PlayerTeam ? TurnOwner.EnemyTeam : TurnOwner.PlayerTeam;
 
       _fsm.ChangeState(new StateTurnStart(_manager, _fsm, nextTurnOwner));

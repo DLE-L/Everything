@@ -11,7 +11,7 @@ namespace GamePlay.Units
 {
   public abstract class Unit : MonoBehaviour
   {
-    public StatData Stat { get; protected set; }
+    public StatData Stat { get; protected set; } = new();
     public event Action<Unit> OnDeath;
     public readonly Dictionary<StatusEffectSO, ActiveStatusData> StatusEffects = new();
     protected TurnOwner Team { get; set; }
@@ -28,18 +28,18 @@ namespace GamePlay.Units
 
     public void ApplyStatusEffect(StatusEffectSO effect, int duration, int value)
     {
-      if (StatusEffects.TryGetValue(effect, out var data) == false)
+      if (!StatusEffects.TryGetValue(effect, out var data))
       {
         data = new() { duration = duration, value = value };
         StatusEffects.Add(effect, data);
         effect.OnApply(this, ref data);
-        Debug.Log($"[{effect.Name}] 효과 신규 적용. 남은 턴: {data.duration}, 수치: {data.value}");
+        Debug.Log($"{effect.Name} 효과 신규 적용. 남은 턴: {data.duration}, 수치: {data.value}");
         return;
       }
 
       effect.OnReapply(ref data, duration, value);
       StatusEffects[effect] = data;
-      Debug.Log($"[{effect.Name}] 효과 중첩/갱신. 남은 턴: {data.duration}, 수치: {data.value}");
+      Debug.Log($"{effect.Name} 효과 중첩/갱신. 남은 턴: {data.duration}, 수치: {data.value}");
     }
 
     private void ProcessTurnStartEffects()
@@ -50,7 +50,7 @@ namespace GamePlay.Units
         effect.OnTurnStart(this, ref data);
         StatusEffects[effect] = data;
       }
-      Debug.Log($"[{name}'s Turn Start Effects]");
+      Debug.Log($"{name}'s Turn Start Effects");
     }
 
     public void DealDamage(Unit target, int damage)
@@ -64,7 +64,7 @@ namespace GamePlay.Units
         additive += effect.GetOutgoingAdditiveBonus(this);
       }
       finalDamage += additive;
-      Debug.Log($"[Addictive Damage : {finalDamage}]");
+      Debug.Log($"Addictive Damage : {finalDamage}");
 
       // 2. 곱연산
       float multiple = 1.0f;
@@ -73,7 +73,7 @@ namespace GamePlay.Units
         multiple *= effect.GetOutgoingMultiplicativeModifier(this);
       }
       finalDamage *= multiple;
-      Debug.Log($"[Multiple Damage : {finalDamage}]");
+      Debug.Log($"Multiple Damage : {finalDamage}");
 
       // 3. 데미지 전달
       BattleEvent.RaiseDealDamage(this, target, Mathf.FloorToInt(finalDamage));
@@ -91,7 +91,7 @@ namespace GamePlay.Units
         finalDamage += effect.GetIncomingAdditiveBonus(this);
       }
       finalDamage += additive;
-      Debug.Log($"[Modified Additive Damage : {additive}]");
+      Debug.Log($"Modified Additive Damage : {additive}");
 
       // 2. 곱연산      
       float multiple = 1.0f;
@@ -100,7 +100,7 @@ namespace GamePlay.Units
         multiple *= effect.GetIncomingMultiplicativeModifier(this);
       }
       finalDamage *= multiple;
-      Debug.Log($"[Modified Multiple Damage : {finalDamage}]");
+      Debug.Log($"Modified Multiple Damage : {finalDamage}");
 
       // 3. 방어도 적용
       int damageAfterBlock = Mathf.FloorToInt(finalDamage) - Stat.Block;
@@ -120,7 +120,8 @@ namespace GamePlay.Units
 
       // 6. 피격 이벤트 발생
       BattleEvent.RaiseTakeDamage(attacker, this, damageAfterBlock);
-      Debug.Log($"[{attacker} attack {this}. Take Damage {damageAfterBlock}][Remain HP: {Stat.HP}]");
+      BattleEvent.RaiseDamageFeedback(this, damageAfterBlock);
+      Debug.Log($"{attacker} attack {this}. Take Damage {damageAfterBlock}][Remain HP: {Stat.HP}");
     }
 
     public void Heal(int heal)
@@ -147,23 +148,23 @@ namespace GamePlay.Units
       {
         finalBlock += effect.GetAdditiveGainBlock(this);
       }
-      Debug.Log($"[Addiitive Block : {finalBlock}]");
+      Debug.Log($"Addictive Block : {finalBlock}");
 
       Stat.Block += finalBlock;
       BattleEvent.RaiseGainBlock(this, finalBlock);
-      Debug.Log($"{this.name} Block {Stat.Block}");
+      //Debug.Log($"{this.name} Block {Stat.Block}");
     }
 
     private void ResetBlock()
     {
       Stat.Block = 0;
-      Debug.Log($"[Return {name} Reset Block]");
+      //Debug.Log($"Return {name} Reset Block");
     }
 
     private void ResetEnergy()
     {
       Stat.Energy = Stat.MaxEnergy;
-      Debug.Log($"[Return {name} Reset Energy]");
+      //Debug.Log($"Return {name} Reset Energy");
     }
 
     private void Die()

@@ -28,6 +28,12 @@ namespace GamePlay.Battle
     private EncounterCombat _combatEncounter;
     private BattleManager _battleManager;
 
+    private void Awake()
+    {
+      PlayerTeam = new List<Unit>();
+      EnemyTeam = new List<Unit>();
+    }
+
     public async Task Init(BattleManager manager)
     {
       _battleManager = manager;
@@ -54,6 +60,7 @@ namespace GamePlay.Battle
         Debug.LogError($"SpawnEnemiesAsync: cannot find enemiesTransform");
         return;
       }
+      
       List<Task<GameObject>> spawnTasks = new();
       for (var index = 0; index < _combatEncounter.Enemies.Count; index++)
       {        
@@ -62,7 +69,7 @@ namespace GamePlay.Battle
         spawnTasks.Add(spawnTask);
       }
 
-      var enemyInstances = await Task.WhenAll(spawnTasks);
+      GameObject[] enemyInstances = await Task.WhenAll(spawnTasks);
       for (var index = 0; index < enemyInstances.Length; index++)
       {
         var enemyInstance = enemyInstances[index];
@@ -70,7 +77,6 @@ namespace GamePlay.Battle
         var controller = enemyInstance.GetComponent<EnemyController>();
 
         controller.DataSetting(enemySo, _battleManager);
-        enemyInstance.name = enemySo.name;
         EnemyTeam.Add(controller);
       }
     }

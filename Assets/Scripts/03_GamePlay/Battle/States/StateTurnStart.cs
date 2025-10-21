@@ -18,7 +18,7 @@ namespace GamePlay.Battle.State
 
     public void Enter()
     {
-      UnityEngine.Debug.Log($"--- {_turnOwner}의 턴 시작! ---");      
+      UnityEngine.Debug.Log($"-{_turnOwner}의 턴 시작!-");      
       BattleEvent.RaiseTurnStart(_turnOwner);
 
       if (_turnOwner == TurnOwner.PlayerTeam)

@@ -9,7 +9,7 @@ namespace UIs.Battle
   {
     [Header("Battle UI Manager")]
     [SerializeField] private AssetReference _battleCardRef;
-    [SerializeField] private AssetReference _unitHPBarRef;
+    
     
     public override async Task InitCanvasSceneAsync()
     {

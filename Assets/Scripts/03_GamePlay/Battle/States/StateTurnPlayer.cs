@@ -22,10 +22,9 @@ namespace GamePlay.Battle.State
 
     public void Enter()
     {
-      Debug.Log($"-Player Turn State-");
+      Debug.Log($"-Player Turn-");
       _manager.CardManager.TurnStartDiscardHand();
       _manager.CardManager.Draw(5);
-      Debug.Log($"Hand Card Count : {_manager.CardManager.Hand.Count}");
 
       // 외부에서 턴 넘김
     }

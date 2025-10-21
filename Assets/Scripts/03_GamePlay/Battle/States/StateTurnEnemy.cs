@@ -1,6 +1,4 @@
 using Core;
-using Data.Collectible.Card;
-using GamePlay.Units;
 using UnityEngine;
 
 namespace GamePlay.Battle.State
@@ -17,7 +15,7 @@ namespace GamePlay.Battle.State
     }
     public void Enter()
     {
-      Debug.Log($"-Enemy Turn State-");
+      Debug.Log($"-Enemy Turn-");
 
       foreach (var unit in _manager.UnitManager.EnemyTeam)
       {
@@ -36,20 +34,7 @@ namespace GamePlay.Battle.State
 
     public void Exit()
     {
-      EnemyNextIntent();
-    }
 
-    public void EnemyNextIntent()
-    {
-      foreach (var unit in _manager.UnitManager.EnemyTeam)
-      {
-        if (unit is not EnemyController enemy) return;
-        var random = new System.Random();
-        
-        var rand = random.Next(0, enemy.Cards.Count);
-        var card = enemy.Cards[rand];
-        Debug.Log($"[{enemy.name}_Next Intent]:{card.name}");
-      }
     }
   }
 }

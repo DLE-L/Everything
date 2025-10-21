@@ -53,6 +53,7 @@ namespace GamePlay.Map
       {
         UnsubscribeBattleEvents();
         await GameSystem.Instance.Scene.UnloadBattleAsync();
+        GameSystem.Instance.Map.mapUIManager.CanvasMapActive(true);
       }
       catch (Exception e)
       {

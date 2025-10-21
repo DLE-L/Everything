@@ -48,6 +48,8 @@ namespace Core.Event
     public static void RaiseDealDamage(Unit owner, Unit target, int damage) => OnDealDamage?.Invoke(owner, target, damage);
     public static event Action<Unit, Unit, int> OnTakeDamage;
     public static void RaiseTakeDamage(Unit owner, Unit target, int damage) => OnTakeDamage?.Invoke(owner, target, damage);
+    public static event Action<Unit, int> OnDamageFeedback;
+    public static void RaiseDamageFeedback(Unit target, int damage) => OnDamageFeedback?.Invoke(target, damage);
     public static event Action<Unit, int> OnGainBlock;
     public static void RaiseGainBlock(Unit owner, int block) => OnGainBlock?.Invoke(owner, block);
     public static event Action<Unit, int> OnHeal;

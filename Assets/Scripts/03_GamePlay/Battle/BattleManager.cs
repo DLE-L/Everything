@@ -120,7 +120,7 @@ namespace GamePlay.Battle
 
     void OnDestroy()
     {
-      if (GameSystem.Instance != null)
+      if (GameSystem.Instance is not null)
       {
         GameSystem.Instance.UnregisterBattleManager();
       }

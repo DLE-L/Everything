@@ -167,12 +167,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - UI
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f97e2bd43edce7144a72374b34831271
-    m_Address: Image_HPBar
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
-    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: a55ce5090b944964093d12fd07965c07, type: 2}
   m_SchemaSet:

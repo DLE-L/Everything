@@ -33,6 +33,11 @@ namespace UIs.Map
       Debug.Log($"Close EncounterRef: {_currentCanvasObject.name}");
     }
 
+    public void CanvasMapActive(bool active)
+    {
+      canvasPrefab.SetActive(active);
+    }
+
     public override Task InitCanvasSceneAsync()
     {
       return base.InitCanvasSceneAsync();
