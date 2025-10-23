@@ -39,9 +39,18 @@ namespace GamePlay.Battle
       _battleManager = manager;
       _battleManager.currentCombat = GameSystem.Instance.CurrentEncounter as EncounterCombat;
       await SpawnEnemiesAsync(_battleManager.currentCombat);
+      
       SubscribeToUnitDeath();
       
       GameSystem.Instance.CurrentEncounter = null;
+    }
+
+    public void Cleanup()
+    {
+      UnsubscribeToUnitDeath();
+      
+      EnemyTeam.Clear();
+      PlayerTeam.Clear();
     }
 
     private void Start()
@@ -86,40 +95,31 @@ namespace GamePlay.Battle
       deadUnit.OnDeath -= OnUnitDeath;
       if (deadUnit is EnemyController)
       {
-        var deadUnitGO = deadUnit.gameObject;
-        AssetLoader.ReleaseInstance(deadUnitGO);
+        AssetLoader.ReleaseInstance(deadUnit.gameObject);
         EnemyTeam.Remove(deadUnit);
-        BattleEvent.RaiseEnemyKill(deadUnit);
+        
         if (EnemyTeam.Count is not 0) return;
         
-        UnsubscribeToUnitDeath();
-        _battleManager.Fsm.ChangeState(new StateWin(_battleManager, _battleManager.Fsm));
+        _battleManager.Fsm.ChangeState(new StateVictory(_battleManager, _battleManager.Fsm));
       }
 
       if (deadUnit is not Player) return;
       
-      UnsubscribeToUnitDeath();
-      _battleManager.Fsm.ChangeState(new StateLose(_battleManager, _battleManager.Fsm));
+      _battleManager.Fsm.ChangeState(new StateDefeat(_battleManager, _battleManager.Fsm));
     }
 
     private void SubscribeToUnitDeath()
     {
       _player.OnDeath += OnUnitDeath;
-      foreach (var unit in EnemyTeam)
-      {
-        var enemy = (EnemyController)unit;
-        enemy.OnDeath += OnUnitDeath;
-      }
+      
+      EnemyTeam.ForEach(unit =>  unit.OnDeath += OnUnitDeath);
     }
 
     private void UnsubscribeToUnitDeath()
     {
       _player.OnDeath -= OnUnitDeath;
-      foreach (var unit in EnemyTeam)
-      {
-        var enemy = (EnemyController)unit;
-        enemy.OnDeath -= OnUnitDeath;
-      }
+      
+      EnemyTeam.ForEach(unit => unit.OnDeath -= OnUnitDeath);
     }
   }
   

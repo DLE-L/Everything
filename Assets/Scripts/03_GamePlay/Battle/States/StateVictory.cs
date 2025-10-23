@@ -1,14 +1,15 @@
 ﻿using Core;
 using Core.Event;
 using Data.Act.Encounter;
+using UnityEngine;
 
 namespace GamePlay.Battle.State
 {
-  public class StateWin : IBattleState
+  public class StateVictory : IBattleState
   {
     private BattleManager _manager;
     private StateMachine _fsm;
-    public StateWin(BattleManager manager, StateMachine fsm)
+    public StateVictory(BattleManager manager, StateMachine fsm)
     {
       _manager = manager;
       _fsm = fsm;
@@ -16,19 +17,21 @@ namespace GamePlay.Battle.State
     
     public void Enter()
     {
-      BattleEvent.RaisePlayerWin();
+      Debug.Log($"Player Victory");
       BattleEvent.RaiseRewardPhaseStart(_manager.currentCombat.RewardStrategy);
       BattleEvent.RaiseCombatEnd();
+
+      _fsm.ChangeState(new StateCleanupBattle(_manager, _fsm, BattleResult.Victory));
     }
 
     public void Execute()
     {
-      throw new System.NotImplementedException();
+      
     }
 
     public void Exit()
     {
-      throw new System.NotImplementedException();
+      
     }
   }
 }

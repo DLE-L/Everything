@@ -4,20 +4,20 @@ using UnityEngine;
 
 namespace GamePlay.Battle.State
 {
-  public class StateLose : IBattleState
+  public class StateDefeat : IBattleState
   {
     private BattleManager _manager;
     private StateMachine _fsm;
-    public StateLose(BattleManager manager, StateMachine fsm)
+    public StateDefeat(BattleManager manager, StateMachine fsm)
     {
       _manager = manager;
       _fsm = fsm;
     }
     public void Enter()
     {
-      BattleEvent.RaisePlayerLose();
-      SystemEvent.RaiseEndRun();
-      Debug.Log($"Player Lose");
+      Debug.Log($"Player Defeat");
+      
+      _fsm.ChangeState(new StateCleanupBattle(_manager, _fsm, BattleResult.Defeat));
     }
 
     public void Execute()

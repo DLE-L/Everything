@@ -30,7 +30,7 @@ namespace GamePlay.Units
     {
       if (!StatusEffects.TryGetValue(effect, out var data))
       {
-        data = new() { duration = duration, value = value };
+        data = new ActiveStatusData() { duration = duration, value = value };
         StatusEffects.Add(effect, data);
         effect.OnApply(this, ref data);
         Debug.Log($"{effect.Name} 효과 신규 적용. 남은 턴: {data.duration}, 수치: {data.value}");
@@ -46,9 +46,9 @@ namespace GamePlay.Units
     {
       foreach (var effect in StatusEffects.Keys)
       {
-        ActiveStatusData data = StatusEffects[effect];
-        effect.OnTurnStart(this, ref data);
-        StatusEffects[effect] = data;
+        var activeStatusData = StatusEffects[effect];
+        effect.OnTurnStart(this, ref activeStatusData);
+        StatusEffects[effect] = activeStatusData;
       }
       //Debug.Log($"{name}'s Turn Start Effects");
     }

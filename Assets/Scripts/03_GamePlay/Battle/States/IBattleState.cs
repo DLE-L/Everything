@@ -6,4 +6,10 @@ namespace GamePlay.Battle.State
     public void Execute();
     public void Exit();
   }
+
+  public enum BattleResult
+  {
+    Victory,
+    Defeat,
+  }
 }

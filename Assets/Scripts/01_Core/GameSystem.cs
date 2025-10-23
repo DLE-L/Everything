@@ -90,7 +90,7 @@ namespace Core
       }
       catch (Exception e)
       {
-      Debug.Log($"OnEndRun Error: {e.Message}");
+        Debug.Log($"OnEndRun Error: {e.Message}");
       }
     }
 

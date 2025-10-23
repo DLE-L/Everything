@@ -16,10 +16,6 @@ namespace Core.Event
     public static void RaiseCombatStart() => OnCombatStart?.Invoke();
     public static event Action OnCombatEnd;
     public static void RaiseCombatEnd() => OnCombatEnd?.Invoke();
-    public static event Action OnPlayerWin;
-    public static void RaisePlayerWin() => OnPlayerWin?.Invoke();
-    public static event Action OnPlayerLose;
-    public static void RaisePlayerLose() => OnPlayerLose?.Invoke();
     public static event Action<RewardStrategySO> OnRewardPhaseStart;
     public static void  RaiseRewardPhaseStart(RewardStrategySO rewardStrategy) => OnRewardPhaseStart?.Invoke(rewardStrategy);
     public static event Action<TurnOwner> OnTurnStart;
@@ -58,8 +54,6 @@ namespace Core.Event
     public static void RaiseApplyDebuff(Unit owner, Unit target, int debuff) => OnApplyDebuff?.Invoke(owner, target, debuff);
     public static event Action<Unit, Unit, int> OnApplyBuff;
     public static void RaiseApplyBuff(Unit owner, Unit target, int buff) => OnApplyBuff?.Invoke(owner, target, buff);
-    public static event Action<Unit> OnEnemyKill;
-    public static void RaiseEnemyKill(Unit enemy) => OnEnemyKill?.Invoke(enemy);
     #endregion
   }
 }

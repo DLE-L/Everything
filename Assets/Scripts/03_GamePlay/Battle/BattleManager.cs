@@ -25,20 +25,21 @@ namespace GamePlay.Battle
     
     public StateMachine Fsm { get; private set; } = new();
     public CardManager CardManager { get; private set; }
-    public UnitManager UnitManager;
-    public BattleUIManager battleUIManager { get; private set; }
+    public UnitManager UnitManager { get; private set; }
+    public BattleUIManager UIManager { get; private set; }
 
     private void Awake()
     {
       GameSystem.Instance.RegisterBattleManager(this);
-      battleUIManager ??= FindAnyObjectByType<BattleUIManager>();
+      UnitManager ??= FindAnyObjectByType<UnitManager>();
+      UIManager ??= FindAnyObjectByType<BattleUIManager>();
     }
 
     private async void Start()
     {
       try
       {
-        await battleUIManager.InitCanvasSceneAsync();
+        await UIManager.InitCanvasSceneAsync();
         var DeckList = GameSystem.Instance.Run.PlayerRunData.Deck
           .SelectMany(deck => Enumerable.Repeat(deck.Key, deck.Value))
           .ToList();

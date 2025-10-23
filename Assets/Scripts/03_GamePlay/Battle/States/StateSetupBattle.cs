@@ -22,9 +22,9 @@ namespace GamePlay.Battle.State
     {
       try
       {
-        BattleEvent.RaiseCombatStart();
-        await _manager.UnitManager.Init(_manager);
         Debug.Log($"---Battle Setup---");
+        BattleEvent.RaiseCombatStart();
+        await _manager.UnitManager.Init(_manager);        
         _fsm.ChangeState(new StateTurnStart(_manager, _fsm, _turnOwner));
       }
       catch (Exception e)

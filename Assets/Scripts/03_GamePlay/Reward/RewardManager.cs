@@ -16,8 +16,6 @@ namespace GamePlay.Reward
       GameSystem.Instance.ResisterRewardManager(this);
       rewardUIManager ??= FindFirstObjectByType<RewardUIManager>();
     }
-    
-    
 
     private void OnRewardPhaseStart(RewardStrategySO rewardStrategy)
     {
