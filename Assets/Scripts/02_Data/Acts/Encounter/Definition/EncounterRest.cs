@@ -9,7 +9,7 @@ namespace Data.Act.Encounter
   {
     public override async Task BeginAsync(MapManager mapManager, Node node)
     {
-      await mapManager.mapUIManager.ShowEncounter(mapManager.mapUIManager.restCanvasRef, node);
+      await mapManager.uiManager.ShowEncounter(mapManager.assetLoader.restCanvasRef, node);
     }
   }
 }

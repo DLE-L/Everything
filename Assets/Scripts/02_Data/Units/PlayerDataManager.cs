@@ -19,21 +19,9 @@ namespace Data.Units
       return await SaveLoadManager.LoadPlayerData();
     }
 
-    public static async Task<PlayerAccountData> NewAccountDataAsync()
+    public static async Task<PlayerAccountData> NewAccountDefaultDataAsync(AccountSO accountSO)
     {
-      var accountData = await DefaultToAccountData();
-      await SaveLoadManager.SavePlayerDataAsync(accountData);
-      AssetLoader.ReleaseAsset("Deck_Account_Default");
-      Debug.Log($"-Account Data New-");
-      return accountData;
-    }
-
-    private static async Task<PlayerAccountData> DefaultToAccountData()
-    {
-      var accountSO = await AssetLoader.LoadAssetAsync<AccountSO>("Deck_Account_Default");
-      Debug.Log($"-Account Default Setting-");
-
-      return new PlayerAccountData
+      var accountData = new PlayerAccountData
       {
         Gold = accountSO.Gold,
         UnlockedCardIDs = accountSO.UnlockedCards.Select(card => card.name).ToHashSet(),
@@ -41,10 +29,15 @@ namespace Data.Units
         Decks = accountSO.Decks.ToDictionary(
           deck => deck.name,
           deck => deck.Cards.ToDictionary(
-              cardCount => cardCount.Card.name,
-              cardCount => cardCount.Count
-        ))
+            cardCount => cardCount.Card.name,
+            cardCount => cardCount.Count
+          ))
       };
+      
+      await SaveLoadManager.SavePlayerDataAsync(accountData);
+      //AssetLoader.ReleaseAsset("Deck_Account_Default");
+      Debug.Log($"-Account Data New-");
+      return accountData;
     }
   }
 }

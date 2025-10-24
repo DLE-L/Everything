@@ -11,7 +11,7 @@ namespace Utils
   public static class SaveLoadManager
   {
     public static StringBuilder _sb = new();
-    private static bool _isSaving = false;
+    private static bool _isSaving;
     private static readonly string _savePath = Path.Combine(Application.persistentDataPath, "AccountData.json");
 
     public static Task SavePlayerDataAsync(PlayerAccountData data) => SaveJsonDataAsync(data, _savePath);
@@ -19,19 +19,19 @@ namespace Utils
 
     private static async Task SaveJsonDataAsync<T>(T data, string path)
     {
-      Debug.Log("..저장중..");
+      Debug.Log("..Saving..");
       if (_isSaving) return;
 
       try
       {
         _isSaving = true;
-        string json = JsonConvert.SerializeObject(data, Formatting.Indented);
-        await File.WriteAllTextAsync(path, json);
-        Debug.Log($"<color=green>저장 성공: {path}</color>");
+        var jsonString = JsonConvert.SerializeObject(data, Formatting.Indented);
+        await File.WriteAllTextAsync(path, jsonString);
+        Debug.Log($"<color=green>Save Succeed: {path}</color>");
       }
       catch (Exception e)
       {
-        Debug.LogError($"저장 중 에러 발생: {e.GetType().Name} - {e.Message}");
+        Debug.LogError($"Save Error: {e.GetType().Name} - {e.Message}");
       }
       finally
       {
@@ -43,14 +43,15 @@ namespace Utils
     {
       if (!File.Exists(path))
       {
+        Debug.LogError($"{path} does not exist");
         return null;
       }
-      var json = await File.ReadAllTextAsync(path);
-      if (string.IsNullOrWhiteSpace(json))
+      var jsonString = await File.ReadAllTextAsync(path);
+      if (string.IsNullOrWhiteSpace(jsonString))
       {
         return null;
       }
-      var data = JsonConvert.DeserializeObject<T>(json);
+      var data = JsonConvert.DeserializeObject<T>(jsonString);
       //Debug.Log($"[Json Data Load: {path}]");
       return data;
     }

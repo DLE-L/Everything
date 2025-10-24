@@ -13,7 +13,7 @@ namespace Data.Act
     {
       StringBuilder sb = new();
       sb.Append($"Act_{actNumbering}");
-      return await AssetLoader.LoadAssetAsync<ActSO>(sb.ToString());
+      return null; //await AssetLoader.LoadAssetAsync<ActSO>(sb.ToString());
     }
   }
 }

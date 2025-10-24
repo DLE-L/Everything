@@ -5,6 +5,7 @@ using Data.Collectible.Card;
 using Data.Collectible.Relic;
 using Data.Reward;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using Utils;
@@ -32,7 +33,7 @@ namespace UIs.Reward
       _rewardData = await rewardStrategy.GenerateRewardAsync();
       foreach (var card in _rewardData.CardsToPresent)
       {
-        var cardGo = await AssetLoader.InstantiateAsync(_btnRewardCard, _viewRewardCardRoot);
+        GameObject cardGo = null; //await AssetLoader.InstantiateAsync(_btnRewardCard, _viewRewardCardRoot);
         cardGo.name = card.Name;
         var item = cardGo.GetComponent<RewardItem>();
         item.Init(card, this);
@@ -41,7 +42,7 @@ namespace UIs.Reward
 
       foreach (var relic in _rewardData.RelicsToPresent)
       {
-        var relicGo = await AssetLoader.InstantiateAsync(_btnRewardRelic, _viewRewardRelicRoot);
+        GameObject relicGo = null;//await AssetLoader.InstantiateAsync(_btnRewardRelic, _viewRewardRelicRoot);
         relicGo.name = relic.Name;
         var item = relicGo.GetComponent<RewardItem>();
         item.Init(relic, this);
@@ -97,14 +98,6 @@ namespace UIs.Reward
     public bool IsCompleteSelection()
     {
       return _selectCards.Count == _rewardData.SelectableCardCount && _selectRelics.Count == _rewardData.SelectableRelicCount;
-    }
-
-    public void ReleaseRef()
-    {
-      foreach(var rewardRef in _rewardPrefabs)
-      {
-        AssetLoader.ReleaseInstance(rewardRef);
-      }
     }
   }
 }

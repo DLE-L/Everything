@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 64f0947349c674645a494d7b8d05611d
   m_currentHash:
     serializedVersion: 2
-    Hash: 809553f7d0474b358cad4201442c1ecc
+    Hash: 00000000000000000000000000000000
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -117,6 +117,9 @@ MonoBehaviour:
     - Encounter
     - Scene
     - Basic
+    - Title
+    - Lobby
+    - Battle
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 3fbcb4243ad01154e8bdb557abd75b4b, type: 2}

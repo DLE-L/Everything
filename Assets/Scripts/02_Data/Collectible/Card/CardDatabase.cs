@@ -20,7 +20,7 @@ namespace Data.Collectible.Card
 
     public static async Task InitializeAsync()
     {
-      var cardList = await AssetLoader.LoadAssetsByLabelAsync<CardSO>("Card");
+      List<CardSO> cardList = null;//await AssetLoader.LoadAssetsByLabelAsync<CardSO>("Card");
       foreach (var card in cardList)
       {        
         AllCards.TryAdd(card.name, card);
@@ -31,7 +31,7 @@ namespace Data.Collectible.Card
     public static async Task<IList<CardSO>> GetCardsToRarityAsync(RaritySO rarity)
     {
       List<string> rarityLabel = new() { "Card", rarity.Name };
-      var cardList = await AssetLoader.LoadAssetsByLabelsAsync<CardSO>(rarityLabel);
+      List<CardSO> cardList = null;//await AssetLoader.LoadAssetsByLabelsAsync<CardSO>(rarityLabel);
       return cardList;
     }
   }

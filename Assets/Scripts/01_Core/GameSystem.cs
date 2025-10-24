@@ -46,17 +46,9 @@ namespace Core
       Debug.Log($"----GameSystem Initialized----");
     }
 
-    private async void Start()
+    private void Start()
     {
-      try
-      {
-        PlayerRunAction.Init();
-        await Scene.LoadSceneTitleAsync();
-      }
-      catch (Exception e)
-      {
-        Debug.LogError($"GameSystem Start Error: {e.Message}");
-      }
+      PlayerRunAction.Init();
     }
 
     public void RegisterTitleManager(TitleManager manager) => Title = manager;
@@ -65,10 +57,10 @@ namespace Core
     public void UnregisterLobbyManager() => Lobby = null;
     public void RegisterMapManager(MapManager manager) => Map = manager;
     public void UnregisterMapManager() => Map = null;
-    public void ResisterRewardManager(RewardManager manager) => Reward = manager;
-    public void UnregisterRewardManager() => Reward = null;
     public void RegisterBattleManager(BattleManager manager) => Battle = manager;
     public void UnregisterBattleManager() => Battle = null;
+    public void ResisterRewardManager(RewardManager manager) => Reward = manager;
+    public void UnregisterRewardManager() => Reward = null;
 
     public void PlayerAccountDataInitialize(PlayerAccountData data) => PlayerAccountData = data;
 
@@ -115,8 +107,6 @@ namespace Core
 
     void OnDestroy()
     {
-      AssetLoader.ReleaseAllAsset();
-      AssetLoader.ReleaseAllInstance();
       PlayerRunAction.DeInit();
     }
   }

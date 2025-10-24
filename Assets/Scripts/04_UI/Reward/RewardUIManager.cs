@@ -16,7 +16,7 @@ namespace UIs.Reward
     {
       try
       {
-        _rewardCanvas = await AssetLoader.InstantiateAsync(rewardCanvasRef);
+        _rewardCanvas = null;//await AssetLoader.InstantiateAsync(rewardCanvasRef);
         rewardCombat = _rewardCanvas.GetComponent<Canvas_Reward_Combat>();
         await rewardCombat.SetRewardData(rewardList);
         Debug.Log($"Show Reward: {rewardList}");
@@ -29,8 +29,8 @@ namespace UIs.Reward
 
     public void CloseRewardCanvas()
     {
-      rewardCombat.ReleaseRef();
-      AssetLoader.ReleaseInstance(_rewardCanvas);
+      //rewardCombat.ReleaseRef();
+      //AssetLoader.ReleaseInstance(_rewardCanvas);
     }
 
     private void OnEnable()
