@@ -19,14 +19,13 @@ MonoBehaviour:
     m_Address: Button_Narrative_Choice
     m_ReadOnly: 0
     m_SerializedLabels:
-    - UI
+    - Map
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0b269889da73f924481acc18c05aa266
     m_Address: Canvas_Scene_Battle
     m_ReadOnly: 0
     m_SerializedLabels:
     - Battle
-    - UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2698e465291d393429fdaf9793f9b2b8
     m_Address: Enemy_Common_Goblin
@@ -39,14 +38,14 @@ MonoBehaviour:
     m_Address: Button_BattleCard
     m_ReadOnly: 0
     m_SerializedLabels:
-    - UI
+    - Battle
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 52a7f58d49db11b4cbf3f62d23115489
     m_Address: Canvas_Encounter_Shop
     m_ReadOnly: 0
     m_SerializedLabels:
     - Encounter
-    - UI
+    - Map
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5bbe7cd9221416045a7bedfb522a24ec
     m_Address: Card_Attack_Uncommon_HeavyStrike
@@ -59,20 +58,19 @@ MonoBehaviour:
     m_Address: Act_1
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Act
+    - Map
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 6823351aa79171e4d969c6d33a90071b
     m_Address: UI_Enemy
     m_ReadOnly: 0
     m_SerializedLabels:
+    - Battle
     - Enemy
-    - UI
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 70b77d44261084c428e97f64c57dabe5
     m_Address: Canvas_Reward_Combat
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 71d98446868922e4ba9293a47d6bc723
     m_Address: Scene_Map
@@ -92,14 +90,14 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Encounter
-    - UI
+    - Map
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9339b041f680fc44eb9c3a129eb320c0
     m_Address: Canvas_Encounter_Narrative
     m_ReadOnly: 0
     m_SerializedLabels:
     - Encounter
-    - UI
+    - Map
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9ae7f7175ee78264480a13426930477a
     m_Address: Scene_Lobby
@@ -118,7 +116,7 @@ MonoBehaviour:
     m_Address: UI_Node
     m_ReadOnly: 0
     m_SerializedLabels:
-    - UI
+    - Map
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ba34e9df9cb12b443ab6dca9034184a0
     m_Address: Deck_Default
@@ -130,14 +128,12 @@ MonoBehaviour:
     m_Address: Deck_Account_Default
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Deck
     - Title
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bf3da558c6533194caa535de1d7b6683
     m_Address: Button_Reward_Relic
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e4ec0cd9f3eba154eb33c3574eb6d74a
     m_Address: Scene_Title
@@ -149,7 +145,6 @@ MonoBehaviour:
     m_Address: Data_GenerateMap
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Data
     - Map
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f28afe06842fdd047b8010fc60d166c6
@@ -162,8 +157,7 @@ MonoBehaviour:
   - m_GUID: f321f636b23fb1e4fbdd50af4dec58df
     m_Address: Button_Reward_Card
     m_ReadOnly: 0
-    m_SerializedLabels:
-    - UI
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f7d2f9116a2bd1548941f8eecc8a7347
     m_Address: Scene_Battle

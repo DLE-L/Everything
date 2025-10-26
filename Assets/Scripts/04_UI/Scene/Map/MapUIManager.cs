@@ -1,4 +1,6 @@
+using System;
 using System.Threading.Tasks;
+using Core.Event;
 using GamePlay.Map;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
@@ -10,6 +12,13 @@ namespace UIs.Map
   {
     [Header("Map UI Manager")]
     private GameObject _currentCanvasObject;
+
+    public Map_Canvas mapCanvas;
+
+    private void Awake()
+    {
+      mapCanvas ??= FindFirstObjectByType<Map_Canvas>();
+    }
 
     public async Task ShowEncounter(AssetReference encounterRef, Node node)
     {
@@ -25,6 +34,28 @@ namespace UIs.Map
     {
       //AssetLoader.ReleaseInstance(_currentCanvasObject);
       Debug.Log($"Close EncounterRef: {_currentCanvasObject.name}");
+    }
+
+    private void OnEncounterEnter()
+    {
+      mapCanvas.enabled = false;
+    }
+
+    private void OnEncounterExit()
+    {
+      mapCanvas.enabled = true;
+    }
+
+    private void OnEnable()
+    {
+      SystemEvent.OnEncounterEnter += OnEncounterEnter;
+      SystemEvent.OnEncounterExit += OnEncounterExit;
+    }
+
+    private void OnDisable()
+    {
+      SystemEvent.OnEncounterEnter -= OnEncounterEnter;
+      SystemEvent.OnEncounterExit -= OnEncounterExit;
     }
   }
 }

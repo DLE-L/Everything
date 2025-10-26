@@ -16,7 +16,7 @@ namespace UIs.Map
     [SerializeField] private TextMeshProUGUI _txtEncounterDescription;
     [SerializeField] private Transform _choiceRoot;
 
-    private UnityEngine.Canvas _canvas;
+    private Canvas _canvas;
 
     private void Awake()
     {
@@ -35,7 +35,7 @@ namespace UIs.Map
       
       for (var i = 0; i < narrative.Choices.Count; i++)
       {
-        Task<GameObject> spawnTask = AssetLoader.InstantiateAsync(GameSystem.Instance.Map.assetLoader.buttonNarrativeChoiceRef, _choiceRoot);
+        Task<GameObject> spawnTask = AssetLoader.InstantiateAsync(GameSystem.Instance.Map.assetLoader.ButtonNarrativeChoiceRef, _choiceRoot);
         spawnTasks.Add(spawnTask);
       }
 

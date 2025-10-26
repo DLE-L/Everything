@@ -20,6 +20,11 @@ namespace Core.Event
     public static void RaiseClickNode(Node node) => OnClickNode?.Invoke(node);
     public static event Action<RewardResult> OnGrantsReward;
     public static void RaiseGrantsReward(RewardResult reward) => OnGrantsReward?.Invoke(reward);
+    public static event Action OnEncounterEnter;
+    public static void RaiseEncounterEnter() => OnEncounterEnter?.Invoke();
+    public static event Action OnEncounterExit;
+    public static void RaiseEncounterExit() => OnEncounterExit?.Invoke();
+
     #endregion
 
     #region Resource Event

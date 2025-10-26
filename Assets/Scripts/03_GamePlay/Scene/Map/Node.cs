@@ -21,6 +21,7 @@ namespace GamePlay.Map
     void Awake()
     {
       _icon = GetComponent<Image>();
+      
     }
 
     public void Setup(EncounterSO encounter)
@@ -35,6 +36,7 @@ namespace GamePlay.Map
       try
       {
         SystemEvent.RaiseClickNode(this);
+        SystemEvent.RaiseEncounterEnter();
         await Encounter.BeginAsync(GameSystem.Instance.Map, this);
       }
       catch (Exception e)

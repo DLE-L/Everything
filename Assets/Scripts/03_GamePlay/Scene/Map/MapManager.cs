@@ -3,6 +3,7 @@ using Core;
 using Core.Event;
 using UIs.Map;
 using UnityEngine;
+using Utils;
 
 namespace GamePlay.Map
 {
@@ -30,13 +31,12 @@ namespace GamePlay.Map
     {
       try
       {
-        //_nodeParent = mapUIManager.canvasPrefab.GetComponent<Canvas_Scene_Map>().nodeParent;        
-        _mapGenerateData = null; //await AssetLoader.LoadAssetAsync<MapConfigSO>("Data_GenerateMap");
-        
-        _generator = new();
-        await _generator.GenerateMap(assetLoader.nodePrefabRef, _nodeParent, _mapGenerateData, 1);
+        _mapGenerateData = await AssetLoader.LoadAssetReferenceAsync<MapConfigSO>(assetLoader.GenerateDataRef);
 
-        //AssetLoader.ReleaseAsset("Data_GenerateMap");
+        _generator = new();
+        await _generator.GenerateMap(assetLoader.NodePrefabRef, _nodeParent, _mapGenerateData, assetLoader.ActsRef[0]);
+
+        AssetLoader.ReleaseAssetByKey(assetLoader.GenerateDataRef.AssetGUID);
       }
       catch (Exception e)
       {

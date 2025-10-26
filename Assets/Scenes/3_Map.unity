@@ -329,9 +329,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d04c4fe976a1ca24f85d3d61e47790a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _nodeParent: {fileID: 0}
-  uiManager: {fileID: 0}
-  assetLoader: {fileID: 0}
+  _nodeParent: {fileID: 1398127332}
+  uiManager: {fileID: 1907327784}
+  assetLoader: {fileID: 1550354268}
 --- !u!1 &1387247194
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,6 +625,18 @@ MonoBehaviour:
     m_SubObjectType: 
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
+  _generateDataRef:
+    m_AssetGUID: e5576ba5312984f43ad41f11f9403e05
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
+  _actsRef:
+  - m_AssetGUID: 61fea7d1e7841b747966f7bc7014b6fb
+    m_SubObjectName: 
+    m_SubObjectType: 
+    m_SubObjectGUID: 
+    m_EditorAssetChanged: 0
 --- !u!1 &1566339133
 GameObject:
   m_ObjectHideFlags: 0
@@ -733,6 +745,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c42338d9e2401e4f8ec5d09e4da4045, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mapCanvas: {fileID: 354741801}
 --- !u!4 &1907327785
 Transform:
   m_ObjectHideFlags: 0

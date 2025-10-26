@@ -1135,7 +1135,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _myLabel: Title
-  _nextSceneLabel: Lobby
+  _nextSceneLabel: 
   _defaultAccountSORef:
     m_AssetGUID: bde4875621169844fa3470efc75b37b1
     m_SubObjectName: 

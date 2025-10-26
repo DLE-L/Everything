@@ -21,26 +21,28 @@ namespace UIs.Map
     private readonly Dictionary<EncounterType, int> _lastSpawnFloors = new();
     private int _currentEliteCount;
 
-    public async Task<List<Node>> GenerateMap(AssetReference nodePrefabRef,Transform nodeParent, MapConfigSO mapConfig, int actNumbering)
+    public async Task<List<Node>> GenerateMap(AssetReference nodePrefabRef, Transform nodeParent, MapConfigSO mapConfig,
+      AssetReference actNumbering)
     {
       _generatedNodes.Clear();
       _typeCounts.Clear();
       _lastSpawnFloors.Clear();
       _currentEliteCount = 0;
-      
-      var act = await ActDatabase.GetNumberingActAsync(actNumbering);
+
+      var act = await AssetLoader.LoadAssetReferenceAsync<ActSO>(actNumbering);
       if (act is null)
       {
         Debug.LogError($"{actNumbering}에 해당하는 Act를 찾을 수 없습니다!");
         return new List<Node>();
       }
+
       var encounterFixPoint = act.EncounterPoints
         .ToDictionary(point => (point.FloorIndex, point.NodeIndex), point => point.Encounter);
 
       var manager = GameSystem.Instance.Map;
-      
+
       for (int floorIndex = 0; floorIndex < mapConfig.Act_FloorCount; floorIndex++)
-      {        
+      {
         List<EncounterSO> encountersFloor = new();
 
         if (floorIndex == mapConfig.Node_BossIndex) // 보스 층
@@ -58,12 +60,12 @@ namespace UIs.Map
         else
         {
           var nodeCountOnFloor = _random.Next(mapConfig.Floor_MinNode, mapConfig.Floor_MaxNode + 1);
-          
+
           for (int i = 0; i < nodeCountOnFloor; i++)
           {
             var isExistEncounter = encounterFixPoint.TryGetValue((floorIndex + 1, i + 1), out var encounter);
             var encounterSo = isExistEncounter ? encounter : SelectEncounterForFloor(floorIndex, mapConfig, act);
-            
+
             encountersFloor.Add(encounterSo);
           }
         }
@@ -82,23 +84,26 @@ namespace UIs.Map
 
           var mapNode = nodeGO.GetComponent<Node>();
           mapNode.Setup(selectedEncounter);
-          
+
           sb.Append($"Node_{floorIndex}-{nodeIndex}_{selectedEncounter.name}");
           mapNode.name = sb.ToString();
           _generatedNodes.Add(mapNode);
 
           var type = selectedEncounter.Type;
-          if (type is not EncounterType.None) // 안전장치
+          if (type is not EncounterType.None) // 타입이 없을때 체크
           {
             _typeCounts[type] = _typeCounts.GetValueOrDefault(type, 0) + 1;
-            _lastSpawnFloors[type] = floorIndex; // [수정] ContainsKey 체크 없이 바로 할당
+            _lastSpawnFloors[type] = floorIndex;
           }
+
           if (selectedEncounter is EncounterCombat ce && ce.Rarity == act.EliteRarity)
           {
             _currentEliteCount++;
           }
         }
       }
+
+      AssetLoader.ReleaseAssetByKey(actNumbering.AssetGUID);
 
       return _generatedNodes;
     }
@@ -125,9 +130,9 @@ namespace UIs.Map
       if (floorIndex <= mapConfig.Act_StartZoneEndIndex)
       {
         candidatePool.RemoveAll(e =>
-            e.Type == EncounterType.Shop ||
-            e.Type == EncounterType.Rest ||
-            (e is EncounterCombat ce && ce.Rarity == actData.EliteRarity)
+          e.Type == EncounterType.Shop ||
+          e.Type == EncounterType.Rest ||
+          (e is EncounterCombat ce && ce.Rarity == actData.EliteRarity)
         );
       }
 
@@ -151,6 +156,7 @@ namespace UIs.Map
         {
           return encounter;
         }
+
         randomValue -= encounter.weight;
       }
 

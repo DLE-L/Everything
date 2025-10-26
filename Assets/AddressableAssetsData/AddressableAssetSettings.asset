@@ -54,7 +54,7 @@ MonoBehaviour:
     m_Id: 
   m_RemoteCatalogLoadPath:
     m_Id: 
-  m_ContentStateBuildPathProfileVariableName: 
+  m_ContentStateBuildPathProfileVariableName: <default settings path>
   m_CustomContentStateBuildPath: 
   m_ContentStateBuildPath: 
   m_BuildAddressablesWithPlayerBuild: 0
@@ -102,24 +102,19 @@ MonoBehaviour:
     m_LabelNames:
     - Card
     - Enemy
-    - Act
-    - UI
     - Deck
-    - Account
     - Map
     - Common
-    - Elite
     - Uncommon
-    - Rare
-    - Boss
-    - Special
-    - Data
     - Encounter
     - Scene
     - Basic
     - Title
-    - Lobby
     - Battle
+    - Elite
+    - Rare
+    - Boss
+    - Lobby
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 3fbcb4243ad01154e8bdb557abd75b4b, type: 2}
