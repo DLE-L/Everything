@@ -1,4 +1,5 @@
 using Core;
+using Core.Event;
 using GamePlay.Units;
 using UnityEngine;
 
@@ -14,10 +15,11 @@ namespace GamePlay.Battle.State
       _manager = manager;
       _fsm = fsm;
     }
+
     public void Enter()
     {
       //Debug.Log($"-Enemy Turn-");
-
+      BattleEvent.RaiseEnemyTurnStart();
       foreach (var unit in _manager.UnitManager.EnemyTeam)
       {
         if (unit is not EnemyController enemy)
@@ -26,22 +28,17 @@ namespace GamePlay.Battle.State
           return;
         }
 
-        _manager.CardManager.PlayCard(enemy.NextCard, enemy, _manager);
+        //_manager.CardManager.EnemyPlayCard(enemy.NextCard, enemy);
       }
 
       _fsm.ChangeState(new StateTurnEnd(_manager, _fsm, TurnOwner.EnemyTeam));
     }
 
-    public void Execute()
-    {
-
-      // 3. 플레이어 턴으로 변경
-      // _battleManager.ChangePlayerTurnState();
-    }
-
+    public void Execute() { }
+    
     public void Exit()
     {
-
+      BattleEvent.RaiseEnemyTurnEnd();
     }
   }
 }

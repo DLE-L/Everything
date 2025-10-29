@@ -21,17 +21,20 @@ namespace GamePlay.Battle.State
       //UnityEngine.Debug.Log($"-{_turnOwner}의 턴 시작!-");      
       BattleEvent.RaiseTurnStart(_turnOwner);
 
-      if (_turnOwner == TurnOwner.PlayerTeam)
-      {
-        _fsm.ChangeState(new StateTurnPlayer(_manager, _fsm));
-      }
-      else if (_turnOwner == TurnOwner.EnemyTeam)
-      {
-        _fsm.ChangeState(new StateTurnEnemy(_manager, _fsm));
-      }
+      _fsm.ChangeState(GetNextTurn(_turnOwner));
     }
 
     public void Execute() { }
     public void Exit() { }
+
+    private IBattleState GetNextTurn(TurnOwner owner)
+    {
+      return owner switch
+      {
+        TurnOwner.EnemyTeam => new StateTurnEnemy(_manager, _fsm),
+        TurnOwner.PlayerTeam => new StateTurnPlayer(_manager, _fsm),
+        _ => null
+      };
+    }
   }
 }

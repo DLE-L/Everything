@@ -1,51 +1,56 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Core;
 using UnityEngine;
 using Data.Target;
 using Data.Collectible.Card;
 using GamePlay.Units;
 using Core.Event;
+using UIs.Battle;
 
 namespace GamePlay.Battle
 {
   public class CardManager
   {
-    public readonly List<CardSO> DrawPile;
-    public readonly List<CardSO> DiscardPile;
-    public readonly List<CardSO> Hand;
+    public const int MAX_COUNT_HAND = 10;
+    
+    public readonly List<RuntimeCard> DrawPile;
+    public readonly List<RuntimeCard> DiscardPile;
+    public readonly List<RuntimeCard> Hand;
     public List<CardSO> ExhaustPile;
 
     private readonly System.Random _random = new();
-
-    public CardManager(List<CardSO> startingDeck)
+    
+    public CardManager(List<RuntimeCard> startingDeck)
     {
-      DrawPile = new List<CardSO>(startingDeck);
-      Hand = new List<CardSO>();
-      DiscardPile = new List<CardSO>();
+      DrawPile = new List<RuntimeCard>(startingDeck);
+      Hand = new List<RuntimeCard>();
+      DiscardPile = new List<RuntimeCard>();
 
       Shuffle(DrawPile);
     }
 
-    public async void PlayCard(CardSO card, Unit user, BattleManager manager)
+    public void HandlePlayerTurnStart()
+    {
+      TurnStartDiscardHand();
+      Draw(5);
+    }
+
+    public async void EnemyPlayCard(RuntimeCard card, Unit user)
     {
       try
       {
-        if (user is Player && !manager.TryUseEnergy(card.Cost))
-        {
-          Debug.Log($"플레이어 에너지 부족");
-          return;
-        }
-
+        var battleManager = GameSystem.Instance.Battle;
         BattleEvent.RaiseCardPlay(card);
 
-        foreach (var cardEffect in card.Effects)
+        foreach (var cardEffect in card.Data.Effects)
         {
-          TargetingStrategySO targeting = cardEffect.Target;        
+          TargetingStrategySO targeting = cardEffect.Target;
           TargetingContext context = new (
             user,
-            manager.UnitManager.PlayerTeam,
-            manager.UnitManager.EnemyTeam
+            battleManager.UnitManager.PlayerTeam,
+            battleManager.UnitManager.EnemyTeam
           );
 
           List<Unit> targets = await targeting.FindTargetsAsync(context);
@@ -53,12 +58,12 @@ namespace GamePlay.Battle
           foreach (Unit target in targets)
           {
             Debug.Log($"Target: {target}");
-            cardEffect.Effect.Execute(user, target, manager);
+            cardEffect.Effect.Execute(user, target, battleManager);
           }
         }
 
-        if (user is Player) card.Type.OnCardPlayed(card, this);
-        Debug.Log($"{card.name}: is Play");
+        if (user is Player) card.Data.Type.OnCardPlayed(card, this);
+        Debug.Log($"{card.Data.Name}: is Play");
       }
       catch (Exception e)
       {
@@ -76,16 +81,20 @@ namespace GamePlay.Battle
           Reshuffle();
         }
 
-        CardSO cardToDraw = DrawPile[0];
+        var runtimeCard = DrawPile[0];
         DrawPile.RemoveAt(0);
-        Hand.Add(cardToDraw);
-        BattleEvent.RaiseCardDraw(cardToDraw);
+        if (Hand.Count >= MAX_COUNT_HAND)
+        {
+          DiscardPile.Add(runtimeCard);
+          continue;
+        }
+        Hand.Add(runtimeCard);
+        BattleEvent.RaiseCardDraw(runtimeCard);
+        Debug.Log($"{runtimeCard.Data.Name} is Draw");
       }
-
-      BattleEvent.RaiseHandUpdated(Hand);
     }
 
-    public void Discard(CardSO cardToDiscard)
+    public void Discard(RuntimeCard cardToDiscard)
     {
       if (Hand.Remove(cardToDiscard))
       {
@@ -100,11 +109,11 @@ namespace GamePlay.Battle
       Hand.Clear();
     }
 
-    public void TurnStartDiscardHand()
+    private void TurnStartDiscardHand()
     {
       for (int cardIndex = Hand.Count - 1; cardIndex >= 0; cardIndex--)
       {
-        if (Hand[cardIndex].Retain == false)
+        if (!Hand[cardIndex].Data.Retain)
         {
           Discard(Hand[cardIndex]);
         }
@@ -116,7 +125,7 @@ namespace GamePlay.Battle
       for (int i = 0; i < amount && Hand.Count > 0; i++)
       {
         int randomIndex = _random.Next(0, Hand.Count);
-        CardSO cardToDiscard = Hand[randomIndex];
+        RuntimeCard cardToDiscard = Hand[randomIndex];
         Discard(cardToDiscard); // 기존 Discard 메서드 재사용        
       }
     }
@@ -129,7 +138,7 @@ namespace GamePlay.Battle
       Shuffle(DrawPile);
     }
 
-    private void Shuffle(List<CardSO> list)
+    private void Shuffle(List<RuntimeCard> list)
     {
       var cardSoList = list.OrderBy(x => _random.Next()).ToList();
     }

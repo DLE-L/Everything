@@ -359,6 +359,8 @@ GameObject:
   - component: {fileID: 1824336896769734870}
   - component: {fileID: 6274520047830811334}
   - component: {fileID: 2356440738320168831}
+  - component: {fileID: 8226368574465138774}
+  - component: {fileID: 5869369255788631331}
   m_Layer: 5
   m_Name: Button_BattleCard
   m_TagString: Battle_Card
@@ -417,6 +419,32 @@ MonoBehaviour:
     imgCost: {fileID: 2967902730416897126}
     txtName: {fileID: 3510405159165882368}
     txtDescription: {fileID: 6320353434982297818}
+--- !u!114 &8226368574465138774
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3400851831534684377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4c4bab0ce9a4dfea44a839588273d47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalPosition: {x: 0, y: 0}
+  originalParent: {fileID: 0}
+--- !u!225 &5869369255788631331
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3400851831534684377}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &5103772831241056668
 GameObject:
   m_ObjectHideFlags: 0

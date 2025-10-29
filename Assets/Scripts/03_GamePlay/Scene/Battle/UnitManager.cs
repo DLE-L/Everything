@@ -23,9 +23,6 @@ namespace GamePlay.Battle
     public List<Unit> PlayerTeam { get; private set; } = new();
     public List<Unit> EnemyTeam { get; private set; } = new();
     
-    [SerializeField] private AssetReference _enemyPrefabRef;
-    [SerializeField] private List<Transform> _enemiesTransform;
-    private EncounterCombat _combatEncounter;
     private BattleManager _battleManager;
 
     private void Awake()
@@ -34,14 +31,17 @@ namespace GamePlay.Battle
       EnemyTeam = new List<Unit>();
     }
 
-    public async Task Init(BattleManager manager)
+    public async Task Init()
     {
-      _battleManager = manager;
-      _battleManager.currentCombat = GameSystem.Instance.CurrentEncounter as EncounterCombat;
-      await SpawnEnemiesAsync(_battleManager.currentCombat);
-      
+      _battleManager = GameSystem.Instance.Battle;
+      var currentCombat = GameSystem.Instance.CurrentEncounter as EncounterCombat;
+      _battleManager.currentCombat = currentCombat;
+      await SpawnEnemiesAsync(currentCombat,
+        _battleManager.AssetLoader.EnemyPrefabRef,
+        new List<Transform>(FindAnyObjectByType<Battle_Canvas>().EnemiesTransform));
+
       SubscribeToUnitDeath();
-      
+
       GameSystem.Instance.CurrentEncounter = null;
     }
 
@@ -58,23 +58,13 @@ namespace GamePlay.Battle
       PlayerTeam = GameObject.FindGameObjectsWithTag("Player").Select(x => x.GetComponent<Player>() as Unit).ToList();
     }
 
-    private async Task SpawnEnemiesAsync(EncounterSO encounter)
+    private async Task SpawnEnemiesAsync(EncounterCombat encounterCombat, AssetReference enemyPrefabRef, List<Transform> enemiesTrs)
     {
-      _combatEncounter = encounter as EncounterCombat;
-      if (_combatEncounter is null) return;
-
-      _enemiesTransform = new List<Transform>(FindAnyObjectByType<Canvas_Scene_Battle>().enemiesTransform);
-      if (_enemiesTransform is null)
-      {
-        Debug.LogError($"SpawnEnemiesAsync: cannot find enemiesTransform");
-        return;
-      }
-      
       List<Task<GameObject>> spawnTasks = new();
-      for (var index = 0; index < _combatEncounter.Enemies.Count; index++)
+      for (var index = 0; index < encounterCombat.Enemies.Count; index++)
       {        
-        var spawnPosition = _enemiesTransform[index].position;
-        Task<GameObject> spawnTask = null;//AssetLoader.InstantiateAsync(_enemyPrefabRef, spawnPosition, Quaternion.identity, _enemiesTransform[index]);
+        var spawnPosition = enemiesTrs[index].position;
+        var spawnTask = AssetLoader.InstantiateAsync(enemyPrefabRef, spawnPosition, Quaternion.identity, enemiesTrs[index]);
         spawnTasks.Add(spawnTask);
       }
 
@@ -82,7 +72,7 @@ namespace GamePlay.Battle
       for (var index = 0; index < enemyInstances.Length; index++)
       {
         var enemyInstance = enemyInstances[index];
-        var enemySo = _combatEncounter.Enemies[index];
+        var enemySo = encounterCombat.Enemies[index];
         var controller = enemyInstance.GetComponent<EnemyController>();
 
         controller.DataSetting(enemySo, _battleManager);

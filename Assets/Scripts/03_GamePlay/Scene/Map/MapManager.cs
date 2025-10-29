@@ -44,7 +44,7 @@ namespace GamePlay.Map
       }
     }
 
-    private async void OnCombatEnd()
+    private async void OnBattleEnd()
     {
       try
       {
@@ -60,21 +60,21 @@ namespace GamePlay.Map
     
     private void SubscribeBattleEvents()
     {
-      BattleEvent.OnCombatEnd += OnCombatEnd;
+      BattleEvent.OnBattleEnd += OnBattleEnd;
     }
 
     private void UnsubscribeBattleEvents()
     {
-      BattleEvent.OnCombatEnd -= OnCombatEnd;
+      BattleEvent.OnBattleEnd -= OnBattleEnd;
     }
 
     private void OnEnable()
     {
-      BattleEvent.OnCombatStart += SubscribeBattleEvents;
+      BattleEvent.OnBattleStart += SubscribeBattleEvents;
     }
     private void OnDisable()
     {
-      BattleEvent.OnCombatStart -= SubscribeBattleEvents;
+      BattleEvent.OnBattleStart -= SubscribeBattleEvents;
       UnsubscribeBattleEvents();
     }
 

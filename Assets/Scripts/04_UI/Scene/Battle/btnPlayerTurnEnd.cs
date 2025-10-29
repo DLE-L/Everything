@@ -9,11 +9,11 @@ namespace UIs.Battle
 {
   public class btnPlayerTurnEnd : MonoBehaviour
   {
-    public void OnClickTurnEnd(PointerEventData data)
+    private void OnClickTurnEnd(PointerEventData data)
     {
-      BattleManager manager = GameSystem.Instance.Battle;
-      //manager.Fsm.ChangeState(new StateTurnEnd(manager, manager.Fsm, TurnOwner.PlayerTeam));
-      manager.Fsm.ChangeState(new StateVictory(manager, manager.Fsm));
+      var battleManager = GameSystem.Instance.Battle;
+      battleManager.Fsm.ChangeState(new StateTurnEnd(battleManager, battleManager.Fsm, TurnOwner.PlayerTeam));
+      //manager.Fsm.ChangeState(new StateVictory(manager, manager.Fsm));
     }
 
     void OnEnable()

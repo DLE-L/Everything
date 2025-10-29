@@ -8,7 +8,7 @@ namespace GamePlay.Title
   {
     [Header("Title Asset Loader")] 
     [SerializeField] private AssetReference _defaultAccountSORef;
-    public AssetReference defaultAccountSORef => _defaultAccountSORef;
+    public AssetReference DefaultAccountSORef => _defaultAccountSORef;
 
   }
 }

@@ -23,14 +23,7 @@ namespace GamePlay.Battle.State
       _fsm.ChangeState(new StateTurnStart(_manager, _fsm, nextTurnOwner));
     }
 
-    public void Execute()
-    {
-
-    }
-
-    public void Exit()
-    {
-
-    }
+    public void Execute() { }
+    public void Exit() { }
   }
 }

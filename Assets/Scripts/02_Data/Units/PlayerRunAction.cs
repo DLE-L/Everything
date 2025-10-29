@@ -12,16 +12,16 @@ namespace Data.Units
     
     // TODO: 데미지, 회복 효과 발생시 받는 메서드 추가  
       
-    private static void RemoveCardFromDeckPermanently(CardSO cardToRemove)
+    private static void RemoveCardFromDeckPermanently(RuntimeCard cardToRemove)
     {
       var permanentDeck = _runData.Deck;
       if (permanentDeck.Remove(cardToRemove))
       {
-        Debug.Log($"[{cardToRemove.Name}] card permanent deck remove");
+        Debug.Log($"[{cardToRemove.Data.Name}] card permanent deck remove");
       }
       else
       {
-        Debug.LogError($"[{cardToRemove.Name}] card is not existing");
+        Debug.LogError($"[{cardToRemove.Data.Name}] card is not existing");
       }
     }
     
@@ -29,8 +29,9 @@ namespace Data.Units
     {
       foreach (var cardSO in reward.Cards)
       {
-        _runData.Deck.TryGetValue(cardSO, out var count);
-        _runData.Deck[cardSO] = count + 1;
+        var runtimeCard = new RuntimeCard(cardSO);
+        _runData.Deck.TryGetValue(runtimeCard, out var count);
+        _runData.Deck[runtimeCard] = count + 1;
       }
 
       foreach (var relicSO in reward.Relics)
@@ -46,16 +47,16 @@ namespace Data.Units
     
     public static void Init()
     {
-      BattleEvent.OnCombatStart += SubscribeBattleEvents;
-      BattleEvent.OnCombatEnd += UnsubscribeBattleEvents;
+      BattleEvent.OnBattleStart += SubscribeBattleEvents;
+      BattleEvent.OnBattleEnd += UnsubscribeBattleEvents;
       SystemEvent.OnStartNewRun += SubscribeRunEvents;
       SystemEvent.OnEndRun += UnsubscribeRunEvents;
     }
 
     public static void DeInit()
     {
-      BattleEvent.OnCombatStart -= SubscribeBattleEvents;
-      BattleEvent.OnCombatEnd -= UnsubscribeBattleEvents;
+      BattleEvent.OnBattleStart -= SubscribeBattleEvents;
+      BattleEvent.OnBattleEnd -= UnsubscribeBattleEvents;
       SystemEvent.OnStartNewRun -= SubscribeRunEvents;
       SystemEvent.OnEndRun -= UnsubscribeRunEvents;
     }

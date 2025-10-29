@@ -9,7 +9,7 @@ namespace Data.Collectible.Card
     public Color FrameColor;
     public Sprite Icon;
     public string Description;
-    public virtual void OnCardPlayed(CardSO card, CardManager manager)
+    public virtual void OnCardPlayed(RuntimeCard card, CardManager manager)
     {
       manager.Discard(card);
       //Debug.Log($"{card.name} is Discard");

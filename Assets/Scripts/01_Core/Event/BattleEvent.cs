@@ -11,32 +11,36 @@ namespace Core.Event
 {
   public static class BattleEvent
   {
-    #region Combat Event
-    public static event Action OnCombatStart;
-    public static void RaiseCombatStart() => OnCombatStart?.Invoke();
-    public static event Action OnCombatEnd;
-    public static void RaiseCombatEnd() => OnCombatEnd?.Invoke();
+    #region Battle Event
+    public static event Action OnBattleStart;
+    public static void RaiseCombatStart() => OnBattleStart?.Invoke();
+    public static event Action OnBattleEnd;
+    public static void RaiseCombatEnd() => OnBattleEnd?.Invoke();
     public static event Action<RewardStrategySO> OnRewardPhaseStart;
     public static void  RaiseRewardPhaseStart(RewardStrategySO rewardStrategy) => OnRewardPhaseStart?.Invoke(rewardStrategy);
     public static event Action<TurnOwner> OnTurnStart;
     public static void RaiseTurnStart(TurnOwner team) => OnTurnStart?.Invoke(team);
+    public static event Action OnPlayerTurnStart;
+    public static void RaisePlayerTurnStart() => OnPlayerTurnStart?.Invoke();
+    public static event Action OnPlayerTurnEnd;
+    public static void RaisePlayerTurnEnd() => OnPlayerTurnEnd?.Invoke();
+    public static event Action OnEnemyTurnStart;
+    public static void RaiseEnemyTurnStart() => OnEnemyTurnStart?.Invoke();
+    public static event Action OnEnemyTurnEnd;
+    public static void RaiseEnemyTurnEnd() => OnEnemyTurnEnd?.Invoke();
     #endregion
 
     #region Card Event
-    public static event Action<List<CardSO>> OnHandUpdated;
-    public static void RaiseHandUpdated(List<CardSO> hand) => OnHandUpdated?.Invoke(hand);
-    public static event Action<Button_BattleCard> OnBattleCardClick;
-    public static void RaiseBattleCardClick(Button_BattleCard buttonBattleCard) => OnBattleCardClick?.Invoke(buttonBattleCard);
-    public static event Action<CardSO> OnCardPlay;
-    public static void RaiseCardPlay(CardSO card) => OnCardPlay?.Invoke(card);
-    public static event Action<CardSO> OnCardDraw;
-    public static void RaiseCardDraw(CardSO card) => OnCardDraw?.Invoke(card);
-    public static event Action<CardSO> OnCardDiscard;
-    public static void RaiseCardDiscard(CardSO card) => OnCardDiscard?.Invoke(card);
-    public static event Action<CardSO> OnCardExhaust;
-    public static void RaiseCardExhaust(CardSO card) => OnCardExhaust?.Invoke(card);
-    public static event Action<CardSO> OnPlayPowerCard;
-    public static void RaisePlayPowerCard(CardSO card) => OnPlayPowerCard?.Invoke(card);
+    public static event Action<RuntimeCard> OnCardPlay;
+    public static void RaiseCardPlay(RuntimeCard card) => OnCardPlay?.Invoke(card);
+    public static event Action<RuntimeCard> OnCardDraw;
+    public static void RaiseCardDraw(RuntimeCard card) => OnCardDraw?.Invoke(card);
+    public static event Action<RuntimeCard> OnCardDiscard;
+    public static void RaiseCardDiscard(RuntimeCard card) => OnCardDiscard?.Invoke(card);
+    public static event Action<RuntimeCard> OnCardExhaust;
+    public static void RaiseCardExhaust(RuntimeCard card) => OnCardExhaust?.Invoke(card);
+    public static event Action<RuntimeCard> OnPlayPowerCard;
+    public static void RaisePlayPowerCard(RuntimeCard card) => OnPlayPowerCard?.Invoke(card);
     #endregion
 
     #region Battle Effect Event

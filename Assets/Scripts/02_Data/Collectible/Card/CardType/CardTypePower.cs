@@ -9,7 +9,7 @@ namespace Data.Collectible.Card
   [CreateAssetMenu(fileName = "CardType_Power", menuName = "MyMenu/Card/CardType/Power")]
   public class CardTypePower : CardTypeSO
   {
-    public override void OnCardPlayed(CardSO card, CardManager manager)
+    public override void OnCardPlayed(RuntimeCard card, CardManager manager)
     {
       manager.Hand.Remove(card);
       BattleEvent.RaisePlayPowerCard(card);

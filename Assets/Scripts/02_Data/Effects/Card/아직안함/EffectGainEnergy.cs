@@ -10,7 +10,7 @@ namespace Data.Effect.Card
     [SerializeField] private int Amount;
     public override void Execute(Unit user, Unit target, BattleManager manager)
     {
-      if (user != null)
+      if (user is not null)
       {
         user.GainBlock(Amount);        
         Debug.Log($"[GainEnergy Effect][{user.name} is Gain Block {Amount}]");

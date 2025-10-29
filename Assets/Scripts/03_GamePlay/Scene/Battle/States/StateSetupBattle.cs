@@ -24,7 +24,7 @@ namespace GamePlay.Battle.State
       {
         Debug.Log($"---Battle Setup---");
         BattleEvent.RaiseCombatStart();
-        await _manager.UnitManager.Init(_manager);        
+        await _manager.UnitManager.Init();
         _fsm.ChangeState(new StateTurnStart(_manager, _fsm, _turnOwner));
       }
       catch (Exception e)
@@ -33,14 +33,7 @@ namespace GamePlay.Battle.State
       }
     }
 
-    public void Execute()
-    {
-
-    }
-
-    public void Exit()
-    {
-
-    }
+    public void Execute() { }
+    public void Exit() { }
   }
 }

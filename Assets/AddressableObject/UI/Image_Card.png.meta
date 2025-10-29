@@ -206,7 +206,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Card_UI_Attack
+      name: Attack_Frame
       rect:
         serializedVersion: 2
         x: 1
@@ -214,7 +214,7 @@ TextureImporter:
         width: 34
         height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -228,7 +228,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Card_UI_Skill
+      name: Skill_Frame
       rect:
         serializedVersion: 2
         x: 37
@@ -236,7 +236,7 @@ TextureImporter:
         width: 34
         height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -250,7 +250,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Card_UI_Power
+      name: Power_Frame
       rect:
         serializedVersion: 2
         x: 73
@@ -258,7 +258,7 @@ TextureImporter:
         width: 34
         height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -272,7 +272,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Card_UI_Curse
+      name: Curse_Frame
       rect:
         serializedVersion: 2
         x: 109
@@ -280,7 +280,7 @@ TextureImporter:
         width: 34
         height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -294,7 +294,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Card_UI_Base
+      name: Base_Frame
       rect:
         serializedVersion: 2
         x: 145
@@ -302,7 +302,7 @@ TextureImporter:
         width: 34
         height: 50
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -316,7 +316,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Card_Cost_1
+      name: Cost_1
       rect:
         serializedVersion: 2
         x: 8
@@ -324,7 +324,7 @@ TextureImporter:
         width: 7
         height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -338,7 +338,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Card_Cost_2
+      name: Cost_2
       rect:
         serializedVersion: 2
         x: 19
@@ -346,7 +346,7 @@ TextureImporter:
         width: 7
         height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -360,7 +360,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Card_Cost_3
+      name: Cost_3
       rect:
         serializedVersion: 2
         x: 30
@@ -368,7 +368,7 @@ TextureImporter:
         width: 7
         height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -382,7 +382,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Card_Cost_4
+      name: Cost_4
       rect:
         serializedVersion: 2
         x: 41
@@ -390,7 +390,7 @@ TextureImporter:
         width: 7
         height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -404,7 +404,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Card_Cost_5
+      name: Cost_5
       rect:
         serializedVersion: 2
         x: 52
@@ -412,7 +412,7 @@ TextureImporter:
         width: 7
         height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -426,7 +426,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Card_Cost_6
+      name: Cost_6
       rect:
         serializedVersion: 2
         x: 63
@@ -434,7 +434,7 @@ TextureImporter:
         width: 7
         height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -448,7 +448,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Card_Cost_7
+      name: Cost_7
       rect:
         serializedVersion: 2
         x: 74
@@ -456,7 +456,7 @@ TextureImporter:
         width: 7
         height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -470,7 +470,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Card_Cost_8
+      name: Cost_8
       rect:
         serializedVersion: 2
         x: 85
@@ -478,7 +478,7 @@ TextureImporter:
         width: 7
         height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -492,7 +492,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Card_Cost_9
+      name: Cost_9
       rect:
         serializedVersion: 2
         x: 96
@@ -500,7 +500,7 @@ TextureImporter:
         width: 7
         height: 11
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -514,7 +514,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Card_UI_Attack_Name
+      name: Attack_Name
       rect:
         serializedVersion: 2
         x: 1
@@ -522,7 +522,7 @@ TextureImporter:
         width: 26
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -536,7 +536,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Card_UI_Skill_Name
+      name: Skill_Name
       rect:
         serializedVersion: 2
         x: 37
@@ -544,7 +544,7 @@ TextureImporter:
         width: 26
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -558,7 +558,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Card_UI_Power_Name
+      name: Power_Name
       rect:
         serializedVersion: 2
         x: 73
@@ -566,7 +566,7 @@ TextureImporter:
         width: 26
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -580,7 +580,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Card_UI_Curse_Name
+      name: Curse_Name
       rect:
         serializedVersion: 2
         x: 109
@@ -588,7 +588,7 @@ TextureImporter:
         width: 26
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -602,7 +602,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Card_UI_Base_Name
+      name: Base_Name
       rect:
         serializedVersion: 2
         x: 145
@@ -610,7 +610,7 @@ TextureImporter:
         width: 26
         height: 8
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -637,29 +637,29 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Card_Cost_1: -900377401
-      Card_Cost_2: 1215329703
-      Card_Cost_3: -1738548691
-      Card_Cost_4: 222318759
-      Card_Cost_5: 264109319
-      Card_Cost_6: -1122657760
-      Card_Cost_7: 355616983
-      Card_Cost_8: 697046208
-      Card_Cost_9: -679192230
+      Attack_Frame: -1514260520
+      Attack_Name: 629510809
+      Base_Frame: 76207949
+      Base_Name: -1234932090
       Card_UI_6: -73346132
       Card_UI_7: 284214283
       Card_UI_8: 1382824818
       Card_UI_9: 1378323025
-      Card_UI_Attack: -1514260520
-      Card_UI_Attack_Name: 629510809
-      Card_UI_Base: 76207949
-      Card_UI_Base_Name: -1234932090
-      Card_UI_Curse: -124450676
-      Card_UI_Curse_Name: 810618441
-      Card_UI_Power: 325160606
-      Card_UI_Power_Name: -729721201
-      Card_UI_Skill: 1570943821
-      Card_UI_Skill_Name: -1286180002
+      Cost_1: -900377401
+      Cost_2: 1215329703
+      Cost_3: -1738548691
+      Cost_4: 222318759
+      Cost_5: 264109319
+      Cost_6: -1122657760
+      Cost_7: 355616983
+      Cost_8: 697046208
+      Cost_9: -679192230
+      Curse_Frame: -124450676
+      Curse_Name: 810618441
+      Power_Frame: 325160606
+      Power_Name: -729721201
+      Skill_Frame: 1570943821
+      Skill_Name: -1286180002
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

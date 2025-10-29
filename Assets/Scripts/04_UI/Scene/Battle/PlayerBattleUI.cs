@@ -30,18 +30,5 @@ namespace UIs.Battle
     {
       txtPlayerEnergy.text = $"Energy: {stat.Energy} / {stat.MaxEnergy} ";
     }
-    
-    public void UpdateHandUI(List<CardSO> hand)
-    {
-
-    }
-    void OnEnable()
-    {
-      BattleEvent.OnHandUpdated += UpdateHandUI;
-    }
-    void OnDisable()
-    {
-      BattleEvent.OnHandUpdated -= UpdateHandUI;
-    }
   }
 }

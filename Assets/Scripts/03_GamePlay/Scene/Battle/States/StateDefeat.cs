@@ -16,18 +16,10 @@ namespace GamePlay.Battle.State
     public void Enter()
     {
       Debug.Log($"Player Defeat");
-      
       _fsm.ChangeState(new StateCleanupBattle(_manager, _fsm, BattleResult.Defeat));
     }
 
-    public void Execute()
-    {
-      
-    }
-
-    public void Exit()
-    {
-      
-    }
+    public void Execute() { }
+    public void Exit() { }
   }
 }

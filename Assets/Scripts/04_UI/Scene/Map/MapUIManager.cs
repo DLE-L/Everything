@@ -14,10 +14,12 @@ namespace UIs.Map
     private GameObject _currentCanvasObject;
 
     public Map_Canvas mapCanvas;
+    private Canvas _mapCanvasObject;
 
     private void Awake()
     {
       mapCanvas ??= FindFirstObjectByType<Map_Canvas>();
+      _mapCanvasObject ??= mapCanvas.GetComponent<Canvas>();
     }
 
     public async Task ShowEncounter(AssetReference encounterRef, Node node)
@@ -38,12 +40,12 @@ namespace UIs.Map
 
     private void OnEncounterEnter()
     {
-      mapCanvas.enabled = false;
+      _mapCanvasObject.enabled = false;
     }
 
     private void OnEncounterExit()
     {
-      mapCanvas.enabled = true;
+      _mapCanvasObject.enabled = true;
     }
 
     private void OnEnable()

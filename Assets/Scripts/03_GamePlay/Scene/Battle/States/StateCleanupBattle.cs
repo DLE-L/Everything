@@ -19,8 +19,8 @@ namespace GamePlay.Battle.State
 
     public void Enter()
     {
-      Debug.Log($"Battle Cleanup");
       _manager.UnitManager.Cleanup();
+      Debug.Log($"---Battle Cleanup---");
       if (_result is BattleResult.Defeat)
       {
         SystemEvent.RaiseEndRun();
@@ -31,14 +31,7 @@ namespace GamePlay.Battle.State
       BattleEvent.RaiseCombatEnd();
     }
 
-    public void Execute()
-    {
-      
-    }
-
-    public void Exit()
-    {
-      
-    }
+    public void Execute() { }
+    public void Exit() { }
   }
 }

@@ -15,7 +15,7 @@ namespace Data.Effect.Card
     public int Value;
     public override void Execute(Unit user, Unit target, BattleManager manager)
     {
-      if (target != null && StatusEffectToApply != null)
+      if (target is not null && StatusEffectToApply is not null)
       {
         target.ApplyStatusEffect(StatusEffectToApply, Duration, Value);
         Debug.Log($"[Apply Status Effect][{user.name}, {target.name} is Exist]");

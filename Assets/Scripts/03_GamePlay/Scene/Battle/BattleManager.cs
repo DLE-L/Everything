@@ -1,14 +1,14 @@
 using UnityEngine;
-using System.Collections.Generic;
 using System.Linq;
 using System;
 using System.Threading.Tasks;
 using Core;
+using Core.Event;
 using Data.Collectible.Card;
 using Data.Act.Encounter;
-using Data.Reward;
 using GamePlay.Battle.State;
 using GamePlay.Units;
+using UI.Units;
 using UIs.Battle;
 using StateMachine = Core.StateMachine;
 using Unit = GamePlay.Units.Unit;
@@ -19,31 +19,39 @@ namespace GamePlay.Battle
   {
     private TaskCompletionSource<Unit> _currentTargetSelectionTask;
     private RaycastHit2D _hit;
-    private CardSO _selectedCard;
-    public event Action<Unit> OnEnemyClicked;
     public EncounterCombat currentCombat;
-    
-    public StateMachine Fsm { get; private set; } = new();
+    private DragCard _currentDragCard;
+
+    public StateMachine Fsm { get; private set; }
     public CardManager CardManager { get; private set; }
     public UnitManager UnitManager { get; private set; }
     public BattleUIManager UIManager { get; private set; }
+    public BattleAssetLoader AssetLoader { get; private set; }
+
+    public TurnOwner CurrentTurnOwner { get; private set; }
 
     private void Awake()
     {
       GameSystem.Instance.RegisterBattleManager(this);
       UnitManager ??= FindAnyObjectByType<UnitManager>();
       UIManager ??= FindAnyObjectByType<BattleUIManager>();
+      AssetLoader ??= FindAnyObjectByType<BattleAssetLoader>();
     }
 
     private async void Start()
     {
       try
       {
+        Fsm = new StateMachine();
+        UIManager.Init();
+        await AssetLoader.Init();
+
         var DeckList = GameSystem.Instance.Run.PlayerRunData.Deck
           .SelectMany(deck => Enumerable.Repeat(deck.Key, deck.Value))
           .ToList();
         CardManager = new CardManager(DeckList);
-      
+        BattleEvent.OnPlayerTurnStart += CardManager.HandlePlayerTurnStart;
+
         // TODO: 적 의도 보여줌
 
         Fsm.ChangeState(new StateSetupBattle(this, Fsm, TurnOwner.PlayerTeam));
@@ -57,53 +65,78 @@ namespace GamePlay.Battle
     public void Update()
     {
       Fsm.Execute();
-
-      HandlePlayerClick();
-    }
-    
-    public Task<Unit> SelectTargetAsync()
-    {
-      // 1. 새로운 '약속 티켓'을 발행합니다.
-      _currentTargetSelectionTask = new TaskCompletionSource<Unit>();
-
-      // 여기에 "적을 선택하세요" 화살표 UI를 활성화하는 코드를 넣습니다.
-      //TargetingArrow.Instance.Show();
-
-      // 2. 약속 티켓(Task)을 즉시 반환합니다. 
-      //    (호출한 쪽에서는 이 Task를 await하며 기다리게 됩니다)
-      return _currentTargetSelectionTask.Task;
     }
 
-    private void HandlePlayerClick()
+    public bool IsDraggingCard()
     {
-      // 타겟 선택 대기 상태가 아닐 때는 클릭을 무시
-      if (_currentTargetSelectionTask is null || _currentTargetSelectionTask.Task.IsCompleted)
+      return _currentDragCard is not null;
+    }
+
+    public void StartDraggingCard(DragCard card)
+    {
+      _currentDragCard = card;
+      Debug.Log("드래그 시작: " + card.CardData.name);
+      // 선택 사항: 타겟팅 시각 효과 표시, 적 하이라이트 등
+    }
+
+    public void StopDraggingCard()
+    {
+      if (_currentDragCard is not null)
       {
-        return;
+        Debug.Log("드래그 중지: " + _currentDragCard.CardData.name);
       }
 
-      if (!Input.GetMouseButtonDown(0)) return;
-      
-      var hitCollider = _hit.collider;
-      
-      if (hitCollider is null) return;
+      _currentDragCard = null;
+      EnemyTargetHighlight.ClearAllHighlights();
+      // 선택 사항: 타겟팅 시각 효과 숨기기
+    }
 
-      if (hitCollider.gameObject.CompareTag("Enemy"))
+    // EnemyDropTarget이 카드 드롭 시 호출
+    public void CardDroppedOnEnemy(DragCard card, EnemyController enemy)
+    {
+      // 드롭된 카드가 내가 추적하던 카드와 일치하는지 확인
+      if (card == _currentDragCard)
       {
-        var enemy = hitCollider.GetComponent<EnemyController>();
-        OnEnemyClicked?.Invoke(enemy);
+        Debug.Log($"{card.CardData.name} 카드를 {enemy.name} 위에 성공적으로 드롭!");
 
-        // 3. '약속 티켓'에 결과를 기록하여, await 하던 곳을 깨웁니다!
-        _currentTargetSelectionTask.SetResult(enemy);  
+        // 1. 카드가 타겟을 필요로 하는지, 타겟이 유효한지 확인
+        //    (예: if (card.CardData.RequiresTarget == TargetType.SingleEnemy))
+
+        // 2. 적에게 카드 효과 적용
+        //    (CardSO 구조에 따라 달라짐)
+        //    예: enemy.TakeDamage(card.CardData.Damage);
+        ApplyCardEffect(card.CardData, enemy);
+
+        // 3. 사용된 카드 처리 (예: 버린 카드 더미로 이동, UI 오브젝트 파괴)
+        //    중요: 카드 스스로가 아니라 매니저가 처리해야 함
+        StartCoroutine(card.ReturnToHandRoutine());
+        UIManager.AddressableObjectPooler.Release(card.gameObject); // 또는 파괴, 이동 등
+        // 예: CardManager.MoveToDiscard(card.CardData);
+
+        // 4. 드래그 상태 초기화 (StopDraggingCard가 OnEndDrag에서 호출되어 이미 처리됨)
       }
-      else if (hitCollider.gameObject.CompareTag("Player"))
+      else
       {
-        
+        Debug.LogWarning("드롭 감지됨, 하지만 추적 중인 카드와 일치하지 않음.");
+        // 선택 사항: 이 경우 처리 (예: 카드를 손으로 되돌림)
+        card.transform.SetParent(card.originalParent); // 예시: 원래 부모로 복귀
       }
-      
 
-      // 화살표 UI 비활성화
-      //TargetingArrow.Instance.Hide();
+      // 오류/불일치 시에도 드래그 상태는 확실히 리셋
+      _currentDragCard = null;
+    }
+
+    // 카드 효과 적용 예시 함수
+    private void ApplyCardEffect(CardSO cardData, EnemyController target)
+    {
+      Debug.Log($"{cardData.name} 효과를 {target.name}에게 적용");
+      // cardData에 기반한 특정 카드 효과 로직을 여기에 작성
+      // 예시:
+      if (target != null)
+      {
+        // Unit 기본 클래스나 EnemyController에 TakeDamage 메소드가 있다고 가정
+        // target.TakeDamage(cardData.GetDamageValue());
+      }
     }
 
     public bool TryUseEnergy(int cardCost)
@@ -116,6 +149,22 @@ namespace GamePlay.Battle
       UnitManager.PlayerStat.Energy -= cardCost;
       //Debug.Log($"남은 에너지: {PlayerStat.Energy}");
       return true;
+    }
+
+    private void UpdateTurnOwner(TurnOwner turnOwner)
+    {
+      CurrentTurnOwner = turnOwner;
+    }
+
+    private void OnEnable()
+    {
+      BattleEvent.OnTurnStart += UpdateTurnOwner;
+    }
+
+    private void OnDisable()
+    {
+      BattleEvent.OnPlayerTurnStart -= CardManager.HandlePlayerTurnStart;
+      BattleEvent.OnTurnStart -= UpdateTurnOwner;
     }
 
     void OnDestroy()

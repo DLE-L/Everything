@@ -29,7 +29,7 @@ namespace GamePlay.Title
         {
           uiManager.btnContinueGameImage.raycastTarget = false;
           uiManager.btnContinueGameImage.color = Color.red; //TODO: 클릭 불가 & 회색처리
-          var defaultAccountSo = await AssetLoader.LoadAssetAsync<AccountSO>(assetLoader.defaultAccountSORef.AssetGUID);
+          var defaultAccountSo = await AssetLoader.LoadAssetAsync<AccountSO>(assetLoader.DefaultAccountSORef.AssetGUID);
           accountData = await PlayerDataManager.NewAccountDefaultDataAsync(defaultAccountSo);
         }
         GameSystem.Instance.PlayerAccountDataInitialize(accountData);
