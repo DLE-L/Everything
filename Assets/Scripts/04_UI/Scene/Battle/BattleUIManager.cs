@@ -23,6 +23,12 @@ namespace UIs.Battle
       _battleCanvas ??= FindAnyObjectByType<Battle_Canvas>();
       _btnPlayerTurnEnd ??= FindAnyObjectByType<btnPlayerTurnEnd>();
     }
+    
+    public void Init()
+    {
+      var battleCardRef = GameSystem.Instance.Battle.AssetLoader.BattleCardRef;
+      AddressableObjectPooler = new AddressableObjectPooler(battleCardRef, CardManager.MAX_COUNT_HAND, true, _battleCanvas.HandTr);
+    }
 
     private async void DrawHandCard(RuntimeCard runtimeCard)
     {
@@ -30,7 +36,7 @@ namespace UIs.Battle
       {
         var obj = await AddressableObjectPooler.Get(_battleCanvas.HandTr);
         var battleCard = obj.GetComponent<Button_BattleCard>();
-        battleCard?.Setup(runtimeCard.Data);
+        battleCard?.Setup(runtimeCard);
         _cardObjects.Add(runtimeCard.InstanceID, obj);
       }
       catch (Exception e)
@@ -47,21 +53,8 @@ namespace UIs.Battle
       _cardObjects.Remove(runtimeCard.InstanceID);
     }
 
-    public void Init()
-    {
-      var battleCardRef = GameSystem.Instance.Battle.AssetLoader.BattleCardRef;
-      AddressableObjectPooler = new AddressableObjectPooler(battleCardRef, CardManager.MAX_COUNT_HAND, true, _battleCanvas.HandTr);
-    }
-
-    private void EnableTurnEndButton()
-    {
-      _btnPlayerTurnEnd.enabled = true;
-    }
-
-    private void DisableTurnEndButton()
-    {
-      _btnPlayerTurnEnd.enabled = false;
-    }
+    private void EnableTurnEndButton() => _btnPlayerTurnEnd.enabled = true;
+    private void DisableTurnEndButton() => _btnPlayerTurnEnd.enabled = false;
 
     private void OnEnable()
     {

@@ -5,13 +5,13 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-namespace UI.Units
+namespace UIs.Units
 {
-  public class EnemyTargetHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
+  public class TargetHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
   {
     [SerializeField] private Image _targetImage;
     private BattleManager _battleManager;
-    private static readonly List<EnemyTargetHighlight> _activeTargets = new();
+    private static readonly List<TargetHighlight> _activeTargets = new();
 
     private void Awake()
     {
@@ -28,18 +28,13 @@ namespace UI.Units
     public void OnPointerEnter(PointerEventData eventData)
     {
       if (!_battleManager.IsDraggingCard()) return;
-
+      
       SetHighlight(true);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
       SetHighlight(false);
-    }
-
-    public void SetHighlight(bool active)
-    {
-      _targetImage.enabled = active;
     }
 
     public static void ClearAllHighlights()
@@ -49,10 +44,16 @@ namespace UI.Units
         target.SetHighlight(false);
       }
     }
-
-    private void OnDisable()
+    
+    private void SetHighlight(bool active)
     {
-      SetHighlight(false);
+      if(_targetImage is null) return;
+      _targetImage.enabled = active;
+    }
+
+    private void OnDestroy()
+    {
+      _activeTargets.Remove(this);
     }
   }
 }

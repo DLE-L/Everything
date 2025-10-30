@@ -7,13 +7,13 @@ namespace Data.Effect.Card
   [CreateAssetMenu(fileName = "Effect_GainEnergy_", menuName = "MyMenu/Effect/Card/GainEnergy")]
   public class EffectGainEnergy : GameEffectSO
   {
-    [SerializeField] private int Amount;
-    public override void Execute(Unit user, Unit target, BattleManager manager)
+    [SerializeField] private int amount;
+    public override void Execute(Unit user, Unit target)
     {
       if (user is not null)
       {
-        user.GainBlock(Amount);        
-        Debug.Log($"[GainEnergy Effect][{user.name} is Gain Block {Amount}]");
+        user.GainBlock(amount);        
+        //Debug.Log($"[GainEnergy Effect][{user.name} is Gain Block {amount}]");
       }
       else
       {

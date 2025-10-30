@@ -8,7 +8,6 @@ namespace Data.Units
     public int HP;
     public int MaxHP;
     public int Energy;
-    public int MaxEnergy;
     public int Block = 0;
 
     public StatData() { }
@@ -17,7 +16,6 @@ namespace Data.Units
       HP = stat.HP;
       MaxHP = stat.MaxHP;
       Energy = stat.Energy;
-      MaxEnergy = stat.MaxEnergy;
       Block = stat.Block;
     }
   }

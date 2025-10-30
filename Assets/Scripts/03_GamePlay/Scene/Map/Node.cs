@@ -41,7 +41,7 @@ namespace GamePlay.Map
       }
       catch (Exception e)
       {
-        Debug.Log($"[Node Error {e.Message}]");
+        Debug.LogWarning($"Node Onclick warning : {e.Message}");
       }
     }
 

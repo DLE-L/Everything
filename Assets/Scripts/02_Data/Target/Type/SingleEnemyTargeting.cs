@@ -16,7 +16,12 @@ namespace Data.Target
         System.Random random = new();
         targets = new List<Unit>() { context.Enemies[random.Next(0, context.Enemies.Count)]};
       }
-      return Task.FromResult(targets); //TODO : 추가해야됨
+      else if (context.User is Player)
+      {
+        targets = new List<Unit>() { context.TargetUnit };
+      }
+      
+      return Task.FromResult(targets);
     }
   }
 }

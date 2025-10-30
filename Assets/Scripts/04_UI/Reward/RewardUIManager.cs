@@ -1,46 +1,41 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
-using Utils;
 using Data.Reward;
 
 namespace UIs.Reward
 {
   public class RewardUIManager : MonoBehaviour
   {
-    public AssetReference rewardCanvasRef;
-    private GameObject _rewardCanvas;
-    private Canvas_Reward_Combat rewardCombat;
+    public GameObject rewardUI;
+    [SerializeField] private List<RewardCard> _rewardCards;
 
-    public async void ShowReward(RewardStrategySO rewardList)
+    private void Awake()
     {
-      try
+      if (_rewardCards.Count < rewardUI.transform.childCount - 1)
       {
-        _rewardCanvas = null;//await AssetLoader.InstantiateAsync(rewardCanvasRef);
-        rewardCombat = _rewardCanvas.GetComponent<Canvas_Reward_Combat>();
-        await rewardCombat.SetRewardData(rewardList);
-        Debug.Log($"Show Reward: {rewardList}");
-      }
-      catch (Exception e)
-      {
-        Debug.Log($"[RewardUIManager ShowReward Error: {e.Message}]");
+        _rewardCards.Clear();
+        for (int i = 0; i < rewardUI.transform.childCount - 1; i++)
+        {
+          _rewardCards.Add(rewardUI.transform.GetChild(i).GetComponent<RewardCard>());
+        }
       }
     }
 
-    public void CloseRewardCanvas()
+    public void ShowReward()
     {
-      //rewardCombat.ReleaseRef();
-      //AssetLoader.ReleaseInstance(_rewardCanvas);
+      rewardUI.SetActive(true);
     }
 
-    private void OnEnable()
+    public void Init(RewardData rewardData)
     {
-      
-    }
+      for (int index = 0; index < _rewardCards.Count; index++)
+      {
+        var rewardCard = _rewardCards[index];
+        rewardCard.SetRewardCard(rewardData.CardsToPresent[index]);
+      }
 
-    private void OnDisable()
-    {
-      
+      //Debug.Log($"Reward Setting End");
+      rewardUI.SetActive(false);
     }
   }
 }

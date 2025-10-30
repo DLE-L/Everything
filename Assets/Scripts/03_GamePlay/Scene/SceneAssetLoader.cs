@@ -1,8 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using Utils;
-using Object = UnityEngine.Object;
 
 namespace GamePlay.Scene
 {

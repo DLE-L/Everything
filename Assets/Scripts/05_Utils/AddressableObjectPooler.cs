@@ -49,7 +49,7 @@ namespace Utils
           await AddObjectToPool();
         }
 
-        Debug.Log($"[{_assetRefToPool}] 풀 초기화 완료 ({_pool.Count}개).");
+        //Debug.Log($"[{_assetRefToPool}] 풀 초기화 완료 ({_pool.Count}개).");
       }
       catch (Exception e)
       {
@@ -62,11 +62,11 @@ namespace Utils
     /// </summary>
     private async Task<GameObject> AddObjectToPool()
     {
-      var newObj = await AssetLoader.InstantiateAsync(_assetRefToPool, _poolContainer);
-      newObj.SetActive(false);
-      _pool.Enqueue(newObj);
-      _allCreatedObjects.Add(newObj);
-      return newObj;
+      var instanceObject = await AssetLoader.InstantiateAsync(_assetRefToPool, _poolContainer);
+      instanceObject.SetActive(false);
+      _pool.Enqueue(instanceObject);
+      _allCreatedObjects.Add(instanceObject);
+      return instanceObject;
     }
 
     /// <summary>
@@ -86,7 +86,7 @@ namespace Utils
       }
       else if (_allowGrowth)
       {
-        Debug.LogWarning($"풀({_assetRefToPool})이 비어 새 오브젝트를 생성합니다.");
+        //Debug.LogWarning($"풀({_assetRefToPool})이 비어 새 오브젝트를 생성합니다.");
         objToGet = await AddObjectToPool();
         _pool.Dequeue(); // 풀에 추가 후 바로 꺼냄
       }
@@ -119,8 +119,6 @@ namespace Utils
       
       obj.SetActive(false);
       obj.transform.SetParent(_poolContainer);
-
-      (obj.GetComponent<IPoolableObject>())?.ResetState();
 
       _pool.Enqueue(obj);
     }

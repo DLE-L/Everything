@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace Data.Collectible.Card
 {
+  [Serializable]
   public class RuntimeCard
   {
     public CardSO Data { get; private set; }

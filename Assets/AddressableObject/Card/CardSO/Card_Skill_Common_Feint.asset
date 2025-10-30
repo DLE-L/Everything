@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf6a51469d6c86b4bb85f128ef42e40a, type: 3}
+  m_Name: Card_Skill_Common_Feint
+  m_EditorClassIdentifier: 
+  Name: "\uC18D\uC784\uC218"
+  Illustration: {fileID: 0}
+  Description: "\uCE74\uB4DC 1\uC7A5\uC744 \uBF51\uC2B5\uB2C8\uB2E4. \uC774 \uCE74\uB4DC\uB294
+    **\uC18C\uBA78(Exhaust)**\uB429\uB2C8\uB2E4."
+  Cost: 0
+  Retain: 0
+  Exhaust: 1
+  Rarity: {fileID: 11400000, guid: 437810856cc084e4cb96206c602c602f, type: 2}
+  Type: {fileID: 11400000, guid: f5f6cd722309e7b43892f667023d2ab0, type: 2}
+  Effects:
+  - Effect: {fileID: 11400000, guid: ef926058aece29247a9bc59ba34042a7, type: 2}
+    Target: {fileID: 11400000, guid: dcf3c1dfcbf24964aa645789ec429ff5, type: 2}

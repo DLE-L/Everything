@@ -3,75 +3,40 @@ using System.Collections.Generic;
 using System.Linq;
 using Core;
 using UnityEngine;
-using Data.Target;
 using Data.Collectible.Card;
-using GamePlay.Units;
 using Core.Event;
-using UIs.Battle;
 
 namespace GamePlay.Battle
 {
-  public class CardManager
+  public class CardManager : MonoBehaviour
   {
     public const int MAX_COUNT_HAND = 10;
     
-    public readonly List<RuntimeCard> DrawPile;
-    public readonly List<RuntimeCard> DiscardPile;
-    public readonly List<RuntimeCard> Hand;
-    public List<CardSO> ExhaustPile;
+    public List<RuntimeCard> DrawPile;
+    public List<RuntimeCard> DiscardPile;
+    public List<RuntimeCard> Hand;
+    public List<RuntimeCard> ExhaustPile;
 
     private readonly System.Random _random = new();
-    
-    public CardManager(List<RuntimeCard> startingDeck)
+
+    public void Init()
     {
-      DrawPile = new List<RuntimeCard>(startingDeck);
+      var DeckList = GameSystem.Instance.Run.PlayerData.Deck;
+      
+      DrawPile = new List<RuntimeCard>(DeckList);
       Hand = new List<RuntimeCard>();
       DiscardPile = new List<RuntimeCard>();
 
-      Shuffle(DrawPile);
+      DrawPileShuffle();
     }
 
-    public void HandlePlayerTurnStart()
+    private void HandlePlayerTurnStart()
     {
       TurnStartDiscardHand();
       Draw(5);
     }
 
-    public async void EnemyPlayCard(RuntimeCard card, Unit user)
-    {
-      try
-      {
-        var battleManager = GameSystem.Instance.Battle;
-        BattleEvent.RaiseCardPlay(card);
-
-        foreach (var cardEffect in card.Data.Effects)
-        {
-          TargetingStrategySO targeting = cardEffect.Target;
-          TargetingContext context = new (
-            user,
-            battleManager.UnitManager.PlayerTeam,
-            battleManager.UnitManager.EnemyTeam
-          );
-
-          List<Unit> targets = await targeting.FindTargetsAsync(context);
-
-          foreach (Unit target in targets)
-          {
-            Debug.Log($"Target: {target}");
-            cardEffect.Effect.Execute(user, target, battleManager);
-          }
-        }
-
-        if (user is Player) card.Data.Type.OnCardPlayed(card, this);
-        Debug.Log($"{card.Data.Name}: is Play");
-      }
-      catch (Exception e)
-      {
-        Debug.LogError($"CardManager PlayCard Error: {e.Message}");
-      }
-    }
-
-    public void Draw(int amount)
+    private void Draw(int amount)
     {
       for (int i = 0; i < amount; i++)
       {
@@ -90,15 +55,17 @@ namespace GamePlay.Battle
         }
         Hand.Add(runtimeCard);
         BattleEvent.RaiseCardDraw(runtimeCard);
-        Debug.Log($"{runtimeCard.Data.Name} is Draw");
+        //Debug.Log($"{runtimeCard.Data.Name} is Draw");
       }
     }
 
-    public void Discard(RuntimeCard cardToDiscard)
+    private void Discard(RuntimeCard cardToDiscard)
     {
       if (Hand.Remove(cardToDiscard))
       {
-        DiscardPile.Add(cardToDiscard);
+        if (cardToDiscard.Data.Exhaust) ExhaustPile.Add(cardToDiscard);
+        else DiscardPile.Add(cardToDiscard);
+
         BattleEvent.RaiseCardDiscard(cardToDiscard);
       }
     }
@@ -120,27 +87,33 @@ namespace GamePlay.Battle
       }
     }
 
-    public void DiscardRandom(int amount)
-    {
-      for (int i = 0; i < amount && Hand.Count > 0; i++)
-      {
-        int randomIndex = _random.Next(0, Hand.Count);
-        RuntimeCard cardToDiscard = Hand[randomIndex];
-        Discard(cardToDiscard); // 기존 Discard 메서드 재사용        
-      }
-    }
-
     // 덱 섞기
     private void Reshuffle()
     {
       DrawPile.AddRange(DiscardPile);
       DiscardPile.Clear();
-      Shuffle(DrawPile);
+      DrawPileShuffle();
     }
 
-    private void Shuffle(List<RuntimeCard> list)
+    private void DrawPileShuffle()
     {
-      var cardSoList = list.OrderBy(x => _random.Next()).ToList();
+      var shuffleList = DrawPile.OrderBy(x => _random.Next()).ToList();
+      DrawPile.Clear();
+      DrawPile.AddRange(shuffleList);
+    }
+
+    private void OnEnable()
+    {
+      BattleEvent.OnPlayerTurnStart += HandlePlayerTurnStart;
+      
+      BattleEvent.OnRequestDraw += Draw;
+    }
+
+    private void OnDisable()
+    {
+      BattleEvent.OnPlayerTurnStart -= HandlePlayerTurnStart;
+      
+      BattleEvent.OnRequestDraw -= Draw;
     }
   }
 }

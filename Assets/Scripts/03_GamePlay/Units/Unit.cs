@@ -11,11 +11,11 @@ namespace GamePlay.Units
 {
   public abstract class Unit : MonoBehaviour
   {
-    public StatData Stat { get; protected set; } = new();
     public event Action<Unit> OnDeath;
+    public StatData Stat { get; protected set; } = new();
     public readonly Dictionary<StatusEffectSO, ActiveStatusData> StatusEffects = new();
     protected TurnOwner Team { get; set; }
-    
+    public bool IsDie { get; private set; }
 
     protected virtual void HandleTurnStart(TurnOwner turnOwner)
     {
@@ -91,7 +91,7 @@ namespace GamePlay.Units
         finalDamage += effect.GetIncomingAdditiveBonus(this);
       }
       finalDamage += additive;
-      Debug.Log($"Modified Additive Damage : {additive}");
+      //Debug.Log($"Modified Additive Damage : {additive}");
 
       // 2. 곱연산      
       float multiple = 1.0f;
@@ -100,12 +100,20 @@ namespace GamePlay.Units
         multiple *= effect.GetIncomingMultiplicativeModifier(this);
       }
       finalDamage *= multiple;
-      Debug.Log($"Modified Multiple Damage : {finalDamage}");
+      //Debug.Log($"Modified Multiple Damage : {finalDamage}");
 
       // 3. 방어도 적용
       int damageAfterBlock = Mathf.FloorToInt(finalDamage) - Stat.Block;
-      if (damageAfterBlock < 0) damageAfterBlock = 0;
-
+      if (damageAfterBlock < 0)
+      {
+        damageAfterBlock = 0;
+        Stat.Block -= Mathf.FloorToInt(finalDamage);
+      }
+      else
+      {
+        Stat.Block = 0;
+      }
+      
       // 4. 체력 감소
       Stat.HP -= damageAfterBlock;
       if (Stat.HP <= 0) { Die(); return; }
@@ -148,7 +156,7 @@ namespace GamePlay.Units
       {
         finalBlock += effect.GetAdditiveGainBlock(this);
       }
-      Debug.Log($"Addictive Block : {finalBlock}");
+      //Debug.Log($"Addictive Block : {finalBlock}");
 
       Stat.Block += finalBlock;
       BattleEvent.RaiseGainBlock(this, finalBlock);
@@ -163,22 +171,31 @@ namespace GamePlay.Units
 
     private void ResetEnergy()
     {
-      Stat.Energy = Stat.MaxEnergy;
+      Stat.Energy = 3;
       //Debug.Log($"Return {name} Reset Energy");
     }
 
     private void Die()
     {
       OnDeath?.Invoke(this);
+      IsDie = true;
+      //Debug.Log($"{this.name} is die");
     }
     
     void OnEnable()
     {
       BattleEvent.OnTurnStart += HandleTurnStart;
+      
+      OnEnableOverride();
     }
     void OnDisable()
     {
       BattleEvent.OnTurnStart -= HandleTurnStart;
+      OnDisableOverride();
     }
+
+    protected virtual void OnEnableOverride(){}
+    protected virtual void OnDisableOverride(){}
+
   }
 }

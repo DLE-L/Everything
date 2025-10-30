@@ -7,8 +7,8 @@ namespace Data.Effect.Card
   [CreateAssetMenu(fileName = "Effect_ModifyGoldGain_", menuName = "MyMenu/Effect/Card/ModifyGoldGain")]
   public class EffectModifyGoldGain : GameEffectSO
   {
-    public int amount;
-    public override void Execute(Unit user, Unit target, BattleManager manager)
+    [SerializeField] private int amount;
+    public override void Execute(Unit user, Unit target)
     {
       if (target is not null)
       {

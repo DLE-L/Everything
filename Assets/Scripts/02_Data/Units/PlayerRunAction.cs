@@ -8,7 +8,7 @@ namespace Data.Units
 {
   public static class PlayerRunAction
   {
-    private static PlayerRunData _runData => GameSystem.Instance.Run.Player.RunData;
+    private static PlayerRunData _runData => GameSystem.Instance.Run.PlayerData;
     
     // TODO: 데미지, 회복 효과 발생시 받는 메서드 추가  
       
@@ -30,8 +30,8 @@ namespace Data.Units
       foreach (var cardSO in reward.Cards)
       {
         var runtimeCard = new RuntimeCard(cardSO);
-        _runData.Deck.TryGetValue(runtimeCard, out var count);
-        _runData.Deck[runtimeCard] = count + 1;
+        _runData.Deck.Add(runtimeCard);
+        Debug.Log($"{runtimeCard.Data.Name}");
       }
 
       foreach (var relicSO in reward.Relics)
@@ -43,6 +43,7 @@ namespace Data.Units
       }
       
       _runData.RunStateGold += reward.Gold;
+      Debug.Log($"{_runData.RunStateGold}");
     }
     
     public static void Init()

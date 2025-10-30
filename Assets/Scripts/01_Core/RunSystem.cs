@@ -1,23 +1,30 @@
-﻿using Data.Units;
-using GamePlay.Units;
+﻿using System;
+using Data.Act.Encounter;
+using Data.Units;
 using UnityEngine;
 
 namespace Core
 {
   public class RunSystem
   {
-    public PlayerRunData PlayerRunData { get; private set; }
-    public Player Player;
+    public PlayerRunData PlayerData { get; private set; }
+    public EncounterSO CurrentEncounter { get; set; }
 
     public RunSystem(PlayerRunData data)
     {
-      PlayerRunData = data;
+      PlayerData = data;
     }
-    public void RunStart()
+
+    public async void EndRun()
     {
-      Player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
-      Player.DataSetting(PlayerRunData);
+      try
+      {
+        await GameSystem.Instance.Scene.LoadSceneLobbyAsync();
+      }
+      catch (Exception e)
+      {
+        Debug.LogWarning($"RunSystem warning: {e.Message}");
+      }
     }
-    
   }
 }

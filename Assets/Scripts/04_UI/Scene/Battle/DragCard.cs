@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections;
+using System.Threading.Tasks;
 using Core;
 using Data.Collectible.Card;
 using GamePlay.Battle;
-using GamePlay.Units;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -19,7 +18,8 @@ namespace UIs.Battle
     private LayoutGroup _originalLayoutGroup;
     private Canvas _rootCanvas;
     private int _originalSiblingIndex;
-    public CardSO CardData => _buttonBattleCard.CardSO;
+    
+    public RuntimeCard RuntimeCard => _buttonBattleCard.RuntimeCard;
     
     private Button_BattleCard _buttonBattleCard;
 
@@ -51,24 +51,18 @@ namespace UIs.Battle
     {
       _rectTransform.anchoredPosition += eventData.delta / _rootCanvas.scaleFactor;
     }
-    
+
     public void OnEndDrag(PointerEventData eventData)
     {
-      Debug.Log("드래그 종료");
+      //Debug.Log("드래그 종료");
       _canvasGroup.blocksRaycasts = true;
-
-      // 드래그를 멈췄다고 매니저에게 알림
       GameSystem.Instance.Battle.StopDraggingCard();
-      bool isDropTarget = eventData?.pointerDrag.GetComponent<EnemyDropTarget>() is not null;
 
-      if (isDropTarget) return;
-      
-      StartCoroutine(ReturnToHandRoutine());
+      ReturnToHandRoutine();
     }
-    
-    public IEnumerator ReturnToHandRoutine()
+
+    private void ReturnToHandRoutine()
     {
-      // 2. 원래 부모의 LayoutGroup을 찾아서 저장하고 비활성화
       _originalLayoutGroup = originalParent.GetComponent<LayoutGroup>();
       if (_originalLayoutGroup is not null)
       {
@@ -77,19 +71,17 @@ namespace UIs.Battle
       
       transform.SetParent(originalParent);
       transform.SetSiblingIndex(_originalSiblingIndex);
-      
-      yield return null;
-      
+
       if (_originalLayoutGroup is not null)
       {
         _originalLayoutGroup.enabled = true;
       }
-      Debug.Log("원래 위치로 복귀 완료");
     }
 
     private void OnEnable()
     {
       originalParent = transform.parent;
+      _canvasGroup.blocksRaycasts = true;
     }
   }
 }

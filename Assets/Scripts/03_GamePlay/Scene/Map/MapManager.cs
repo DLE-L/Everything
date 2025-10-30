@@ -49,7 +49,8 @@ namespace GamePlay.Map
       try
       {
         UnsubscribeBattleEvents();
-        await GameSystem.Instance.Scene.LoadSceneMapAsync();
+        await GameSystem.Instance.Scene.ReturnToMapAsync();
+        SystemEvent.RaiseEncounterExit();
         //GameSystem.Instance.Map.mapUIManager.CanvasMapActive(true);
       }
       catch (Exception e)

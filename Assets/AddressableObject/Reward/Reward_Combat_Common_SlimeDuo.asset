@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: deaa46830c034d3baed8b6da4bb4126c, type: 3}
   m_Name: Reward_Combat_Common_SlimeDuo
   m_EditorClassIdentifier: 
-  CardChoices: 1
+  CardChoices: 3
   goldMin: 10
   goldMax: 15
   SelectableCardCount: 1

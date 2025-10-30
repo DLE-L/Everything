@@ -1,7 +1,6 @@
-﻿using System;
-using Core;
-using Core.Event;
+﻿using Core.Event;
 using Data.Reward;
+using GamePlay.Reward;
 using UIs.Common;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,23 +9,27 @@ namespace UIs.Reward
 {
   public class btnSelectReward : MonoBehaviour
   {
-    private Canvas_Reward_Combat _combat;
-
+    private RewardManager  _rewardManager;
+    [SerializeField] private bool _isActive;
     private void Awake()
     {
-      _combat = FindFirstObjectByType<Canvas_Reward_Combat>();
+      _rewardManager ??= FindAnyObjectByType<RewardManager>();
     }
 
     private void OnClick(PointerEventData obj)
     {
-      if (!_combat.IsCompleteSelection())
+      if (_isActive) return; 
+
+      _isActive = true;
+      var rewardResult = _rewardManager.AcceptReward();
+      if (rewardResult?.Cards.Count < _rewardManager.rewardData.SelectableCardCount) //|| 
+          //rewardResult?.Relics.Count < _rewardManager.rewardData.SelectableRelicCount)
       {
-        Debug.Log($"Please Select all reward ");
         return;
-      } 
-      var rewardResult = _combat.CompleteSelection();
+      }
+      
       SystemEvent.RaiseGrantsReward(rewardResult);
-      GameSystem.Instance.Reward.rewardUIManager.CloseRewardCanvas();
+      BattleEvent.RaiseBattleEnd();
     }
     
     private void OnEnable()
@@ -36,7 +39,7 @@ namespace UIs.Reward
 
     private void OnDisable()
     {
-      UI_EventHandler.Get(gameObject).OnClickAction += OnClick;
+      UI_EventHandler.Get(gameObject).OnClickAction -= OnClick;
     }
   }
 }

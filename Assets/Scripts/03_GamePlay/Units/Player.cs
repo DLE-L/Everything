@@ -1,33 +1,59 @@
-using Data.Collectible.Card;
+using System;
+using System.Threading.Tasks;
+using Core;
+using Core.Event;
+using Data.Target;
 using Data.Units;
 using GamePlay.Battle;
+using UIs.Battle;
+using UnityEngine;
 
 namespace GamePlay.Units
 {
   public class Player : Unit
   {
-    private static Player Instance;
-    public PlayerRunData RunData { get; private set; }
-    public DeckSO DeckSO;
+    public PlayerRunData PlayerData;
 
     void Awake()
     {
-      if (Instance is null)
-      {
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
-      }
-      else
-      {
-        Destroy(gameObject);
-      }
       Team = TurnOwner.PlayerTeam;
+      PlayerData = GameSystem.Instance.Run.PlayerData;
+      Stat = PlayerData.Stat;
     }
-
-    public void DataSetting(PlayerRunData runData)
+    
+    public async void CardUsedOnTarget(DragCard card, Unit targetUnit)
     {
-      RunData = runData;
-      Stat = RunData.Stat;
+      try
+      {
+        var battleManager = GameSystem.Instance.Battle;
+        var userUnit = battleManager.UnitManager.PlayerUnit;
+        
+        var context = new TargetingContext(
+          userUnit,
+          battleManager.UnitManager.PlayerTeam,
+          battleManager.UnitManager.EnemyTeam,
+          targetUnit
+        );
+        
+        foreach (var effect in card.RuntimeCard.Data.Effects)
+        {
+          var targetStrategy = effect.Target;
+
+          var targets = await targetStrategy.FindTargetsAsync(context);
+          foreach (var target in targets)
+          {
+            effect.Effect.Execute(userUnit, target);
+          }
+        }
+
+        await Task.Yield();
+        battleManager.UIManager.AddressableObjectPooler.Release(card.gameObject);
+        BattleEvent.RaiseCardPlay(card.RuntimeCard);
+      }
+      catch (Exception e)
+      {
+        Debug.LogWarning($"CardUsedOnTarget warning: {e.Message}");
+      }
     }
   }
 }

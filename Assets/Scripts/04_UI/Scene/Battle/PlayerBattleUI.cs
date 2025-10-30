@@ -28,7 +28,7 @@ namespace UIs.Battle
     }
     public void SetEnergy_UI(StatData stat)
     {
-      txtPlayerEnergy.text = $"Energy: {stat.Energy} / {stat.MaxEnergy} ";
+      txtPlayerEnergy.text = $"Energy: {stat.Energy} ";
     }
   }
 }

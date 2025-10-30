@@ -10,7 +10,7 @@ namespace Data.Reward.Type
   [CreateAssetMenu(fileName = "Reward_Random_", menuName = "MyMenu/Reward/RandomPool")]
   public class RewardStrategyRandomPool : RewardStrategySO
   {
-    public int CardChoices = 1;
+    public int CardChoices = 3;
     public int goldMin;
     public int goldMax;
     public int SelectableCardCount = 1;
@@ -24,7 +24,7 @@ namespace Data.Reward.Type
       
       var selectedCardChoices = results
         .SelectMany(cardList => cardList) // 여러 리스트를 하나로 병합
-        .OrderBy(card => random.Next())   // 무작위로 섞음
+        .OrderBy(_ => random.Next())      // 무작위로 섞음
         .Take(CardChoices)                // 원하는 개수만큼 가져옴
         .ToList();                        // 최종 리스트로 만듦
       

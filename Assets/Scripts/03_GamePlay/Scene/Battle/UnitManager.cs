@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Core;
-using Core.Event;
 using Data.Act.Encounter;
-using Data.Collectible.Card;
 using Data.Units;
 using GamePlay.Battle.State;
 using GamePlay.Units;
@@ -18,8 +15,8 @@ namespace GamePlay.Battle
 {
   public class UnitManager : MonoBehaviour
   {
-    private Player _player => GameSystem.Instance.Run.Player;
-    public StatData PlayerStat => _player.Stat;
+    public Player PlayerUnit { get; private set; }
+    public StatData PlayerStat => PlayerUnit.Stat;
     public List<Unit> PlayerTeam { get; private set; } = new();
     public List<Unit> EnemyTeam { get; private set; } = new();
     
@@ -27,6 +24,7 @@ namespace GamePlay.Battle
 
     private void Awake()
     {
+      PlayerUnit ??= FindAnyObjectByType<Player>();
       PlayerTeam = new List<Unit>();
       EnemyTeam = new List<Unit>();
     }
@@ -34,15 +32,13 @@ namespace GamePlay.Battle
     public async Task Init()
     {
       _battleManager = GameSystem.Instance.Battle;
-      var currentCombat = GameSystem.Instance.CurrentEncounter as EncounterCombat;
+      var currentCombat = GameSystem.Instance.Run.CurrentEncounter as EncounterCombat;
       _battleManager.currentCombat = currentCombat;
       await SpawnEnemiesAsync(currentCombat,
         _battleManager.AssetLoader.EnemyPrefabRef,
         new List<Transform>(FindAnyObjectByType<Battle_Canvas>().EnemiesTransform));
 
       SubscribeToUnitDeath();
-
-      GameSystem.Instance.CurrentEncounter = null;
     }
 
     public void Cleanup()
@@ -85,8 +81,8 @@ namespace GamePlay.Battle
       deadUnit.OnDeath -= OnUnitDeath;
       if (deadUnit is EnemyController)
       {
-        //AssetLoader.ReleaseInstance(deadUnit.gameObject);
         EnemyTeam.Remove(deadUnit);
+        AssetLoader.ReleaseInstance(deadUnit.gameObject);
         
         if (EnemyTeam.Count is not 0) return;
         
@@ -100,14 +96,14 @@ namespace GamePlay.Battle
 
     private void SubscribeToUnitDeath()
     {
-      _player.OnDeath += OnUnitDeath;
+      PlayerUnit.OnDeath += OnUnitDeath;
       
       EnemyTeam.ForEach(unit =>  unit.OnDeath += OnUnitDeath);
     }
 
     private void UnsubscribeToUnitDeath()
     {
-      _player.OnDeath -= OnUnitDeath;
+      PlayerUnit.OnDeath -= OnUnitDeath;
       
       EnemyTeam.ForEach(unit => unit.OnDeath -= OnUnitDeath);
     }

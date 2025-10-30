@@ -23,7 +23,7 @@ namespace GamePlay.Battle.State
       try
       {
         Debug.Log($"---Battle Setup---");
-        BattleEvent.RaiseCombatStart();
+        BattleEvent.RaiseBattleStart();
         await _manager.UnitManager.Init();
         _fsm.ChangeState(new StateTurnStart(_manager, _fsm, _turnOwner));
       }

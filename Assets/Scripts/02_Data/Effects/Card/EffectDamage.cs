@@ -1,3 +1,4 @@
+using Core.Event;
 using GamePlay.Battle;
 using UnityEngine;
 using GamePlay.Units;
@@ -8,12 +9,13 @@ namespace Data.Effect.Card
   public class EffectDamage : GameEffectSO
   {
     [SerializeField] private int Amount;
-    public override void Execute(Unit user, Unit target, BattleManager manager)
+
+    public override void Execute(Unit user, Unit target)
     {
       if (user is not null && target is not null)
       {
-        user.DealDamage(target, Amount);        
-        Debug.Log($"[Damage Effect][{target.name} is Damaged {user.name}, {Amount}]");
+        user.DealDamage(target, Amount);
+        //Debug.Log($"[Damage Effect][{target.name} is Damaged {user.name}, {Amount}]");
       }
       else
       {

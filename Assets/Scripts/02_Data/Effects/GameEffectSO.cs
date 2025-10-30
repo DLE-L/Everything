@@ -6,7 +6,7 @@ namespace Data.Effect
 {  
   public abstract class GameEffectSO : ScriptableObject
   {
-    public abstract void Execute(Unit user, Unit target, BattleManager manager);
+    public abstract void Execute(Unit user, Unit target);
   }
 }
 

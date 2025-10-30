@@ -5,7 +5,7 @@ using GamePlay.Units;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace UI.Units
+namespace UIs.Units
 {
   public class UI_UnitHP : MonoBehaviour
   {

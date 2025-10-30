@@ -27,8 +27,7 @@ namespace GamePlay.Battle.State
         return;
       }
 
-      BattleEvent.RaiseRewardPhaseStart(_manager.currentCombat.RewardStrategy);
-      BattleEvent.RaiseCombatEnd();
+      BattleEvent.RaiseRewardStart(_manager.currentCombat.RewardStrategy);
     }
 
     public void Execute() { }

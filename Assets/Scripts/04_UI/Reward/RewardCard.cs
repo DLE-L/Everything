@@ -1,56 +1,73 @@
-using System;
+﻿using System;
 using Core;
-using UnityEngine;
-using TMPro;
 using Data.Collectible.Card;
 using GamePlay.Battle;
+using GamePlay.Reward;
+using TMPro;
+using UIs.Common;
+using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using Utils;
 
-namespace UIs.Battle
+namespace UIs.Reward
 {
-  [RequireComponent(typeof(DragCard))]
-  public class Button_BattleCard : MonoBehaviour, IPoolableObject
+  public class RewardCard : MonoBehaviour
   {
-    private DragCard _dragCard;
+    public CardSO CardSo { get; private set; }
     private CardSprite _cardSprite;
     [SerializeField] private CardUI _cardUI;
-    public RuntimeCard RuntimeCard { get; private set; }
+    [SerializeField] private Image _selectImage;
+    [SerializeField] private RewardManager _rewardManager;
+
+    [SerializeField]private bool _isActive;
 
     private void Awake()
     {
       _cardUI.imgFrame ??= transform.GetChild(0).GetComponent<Image>();
-      _cardUI.imgIcon ??=  transform.GetChild(1).GetComponent<Image>();
+      _cardUI.imgIcon ??= transform.GetChild(1).GetComponent<Image>();
       _cardUI.imgName ??= transform.GetChild(2).GetComponent<Image>();
-      _cardUI.imgCost ??=  transform.GetChild(3).GetComponent<Image>();
+      _cardUI.imgCost ??= transform.GetChild(3).GetComponent<Image>();
       _cardUI.txtName ??= transform.GetChild(2).GetChild(0).GetComponent<TextMeshProUGUI>();
       _cardUI.txtDescription ??= transform.GetChild(4).GetComponent<TextMeshProUGUI>();
-      _dragCard = GetComponent<DragCard>();
+
+      _rewardManager ??= FindAnyObjectByType<RewardManager>();
+      _selectImage ??=  transform.GetChild(5).GetComponent<Image>();
     }
 
-    public void Setup(RuntimeCard card)
+    public void SetRewardCard(CardSO cardSo)
     {
-      RuntimeCard = card;
+      CardSo = cardSo;
       _cardSprite = GameSystem.Instance.Battle.AssetLoader.CardSprite;
-      // ... UI 업데이트 ...
-      _cardUI.imgFrame.sprite = GetFrameSprite(card.Data.Type);
+      _cardUI.imgFrame.sprite = GetFrameSprite(CardSo.Type);
       // TODO Icon Sprite
-      _cardUI.imgName.sprite = GetNameSprite(card.Data.Type);
-      _cardUI.imgCost.sprite = GetCostSprite(card.Data.Cost);
-      _cardUI.txtName.text = card.Data.Name;
-      _cardUI.txtDescription.text = card.Data.Description;
-    }
-    
-    public void ResetState()
-    {
-      _cardUI.imgFrame.sprite = null;
-      // TODO Icon Sprite
-      _cardUI.imgName.sprite = null;
-      _cardUI.imgCost.sprite = null;
-      _cardUI.txtName.text = null;
-      _cardUI.txtDescription.text = null;
+      _cardUI.imgName.sprite = GetNameSprite(CardSo.Type);
+      _cardUI.imgCost.sprite = GetCostSprite(CardSo.Cost);
+      _cardUI.txtName.text = CardSo.Name;
+      _cardUI.txtDescription.text = CardSo.Description;
     }
 
+    private void Onclick(PointerEventData obj)
+    {
+      _isActive = !_isActive;
+      var isSuccess = _rewardManager.UpdateRewardResult(this);
+      if (isSuccess) _selectImage.enabled = _isActive;
+      else _isActive = !_isActive;
+    }
+
+    private void OnEnable()
+    {
+      _isActive = false;
+      _selectImage.enabled = false;
+      UI_EventHandler.Get(gameObject).OnClickAction += Onclick;
+    }
+
+    private void OnDisable()
+    {
+      UI_EventHandler.Get(gameObject).OnClickAction -= Onclick;
+    }
+
+
+    #region Set Sprite
     private Sprite GetNameSprite(CardTypeSO type)
     {
       return type switch
@@ -61,7 +78,6 @@ namespace UIs.Battle
         _ => null
       };
     }
-
     private Sprite GetFrameSprite(CardTypeSO type)
     {
       return type switch
@@ -72,7 +88,6 @@ namespace UIs.Battle
         _ => null
       };
     }
-
     private Sprite GetCostSprite(int cost)
     {
       return cost switch
@@ -90,5 +105,6 @@ namespace UIs.Battle
         _ => null
       };
     }
+    #endregion
   }
 }

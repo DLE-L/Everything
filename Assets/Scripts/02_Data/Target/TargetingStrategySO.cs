@@ -13,20 +13,20 @@ namespace Data.Target
   public class TargetingContext
   {
     public Unit User { get; private set; }
-    private List<Unit> _playerTeam;
-    private List<Unit> _enemyTeam;
+    private readonly List<Unit> _playerTeam;
+    private readonly List<Unit> _enemyTeam;
 
     public List<Unit> Allies => _playerTeam.Contains(User) ? _playerTeam : _enemyTeam;
     public List<Unit> Enemies => _playerTeam.Contains(User) ? _enemyTeam : _playerTeam;
 
-    public Unit Attacker { get; set; }
+    public Unit TargetUnit { get; set; }
 
-    public TargetingContext(Unit user, List<Unit> playerTeam, List<Unit> enemyTeam, Unit attacker = null)
+    public TargetingContext(Unit user, List<Unit> playerTeam, List<Unit> enemyTeam, Unit targetUnit = null)
     {
       User = user;
       _playerTeam = playerTeam;
       _enemyTeam = enemyTeam;
-      Attacker = attacker;
+      TargetUnit = targetUnit;
     }
   }
 }

@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5774d24201f5a524aabae48d374384f4, type: 3}
   m_Name: Effect_Block_8
   m_EditorClassIdentifier: 
-  Amount: 8
+  amount: 8

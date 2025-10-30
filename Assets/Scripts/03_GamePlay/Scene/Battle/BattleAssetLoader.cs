@@ -12,7 +12,7 @@ namespace GamePlay.Battle
   {
     [Header("Battle Asset Loader")]
     [SerializeField] private AssetReference _enemyPrefabRef;
-    [SerializeField]  private AssetReference _battleCardRef;
+    [SerializeField] private AssetReference _battleCardRef;
     [SerializeField] private AssetReference _imageCardRef;
     public AssetReference EnemyPrefabRef => _enemyPrefabRef;
     public AssetReference BattleCardRef => _battleCardRef;

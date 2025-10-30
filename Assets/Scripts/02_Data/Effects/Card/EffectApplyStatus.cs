@@ -8,17 +8,17 @@ namespace Data.Effect.Card
   public class EffectApplyStatus : GameEffectSO
   {
     [Header("Status Effect Scriptable Object")]
-    public StatusEffectSO StatusEffectToApply;
+    [SerializeField] private StatusEffectSO StatusEffectToApply;
     [Header("지속 시간")]
-    public int Duration;
+    [SerializeField] private int Duration;
     [Header("적용 수치")]
-    public int Value;
-    public override void Execute(Unit user, Unit target, BattleManager manager)
+    [SerializeField] private int Value;
+    public override void Execute(Unit user, Unit target)
     {
       if (target is not null && StatusEffectToApply is not null)
       {
         target.ApplyStatusEffect(StatusEffectToApply, Duration, Value);
-        Debug.Log($"[Apply Status Effect][{user.name}, {target.name} is Exist]");
+        //Debug.Log($"[Apply Status Effect][{user.name}, {target.name} is Exist]");
       }
       else
       {

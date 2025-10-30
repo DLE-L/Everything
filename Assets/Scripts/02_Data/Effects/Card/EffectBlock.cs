@@ -7,13 +7,13 @@ namespace Data.Effect.Card
   [CreateAssetMenu(fileName = "Effect_Block_", menuName = "MyMenu/Effect/Card/Block")]
   public class EffectBlock : GameEffectSO
   {
-    [SerializeField] private int Amount;
-    public override void Execute(Unit user, Unit target, BattleManager manager)
+    [SerializeField] private int amount;
+    public override void Execute(Unit user, Unit target)
     {
       if (user is not null)
       {
-        user.GainBlock(Amount);
-        Debug.Log($"[Block Effect][{user.name} is Gain Block {Amount}]");
+        user.GainBlock(amount);
+        //Debug.Log($"[Block Effect][{user.name} is Gain Block {amount}]");
       }
       else
       {

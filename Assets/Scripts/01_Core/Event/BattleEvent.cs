@@ -13,11 +13,11 @@ namespace Core.Event
   {
     #region Battle Event
     public static event Action OnBattleStart;
-    public static void RaiseCombatStart() => OnBattleStart?.Invoke();
+    public static void RaiseBattleStart() => OnBattleStart?.Invoke();
     public static event Action OnBattleEnd;
-    public static void RaiseCombatEnd() => OnBattleEnd?.Invoke();
-    public static event Action<RewardStrategySO> OnRewardPhaseStart;
-    public static void  RaiseRewardPhaseStart(RewardStrategySO rewardStrategy) => OnRewardPhaseStart?.Invoke(rewardStrategy);
+    public static void RaiseBattleEnd() => OnBattleEnd?.Invoke();
+    public static event Action<RewardStrategySO> OnRewardStart;
+    public static void RaiseRewardStart(RewardStrategySO rewardStrategy) => OnRewardStart?.Invoke(rewardStrategy);
     public static event Action<TurnOwner> OnTurnStart;
     public static void RaiseTurnStart(TurnOwner team) => OnTurnStart?.Invoke(team);
     public static event Action OnPlayerTurnStart;
@@ -33,6 +33,8 @@ namespace Core.Event
     #region Card Event
     public static event Action<RuntimeCard> OnCardPlay;
     public static void RaiseCardPlay(RuntimeCard card) => OnCardPlay?.Invoke(card);
+    public static event Action<RuntimeCard, Unit> OnCardUsedOnTarget;
+    public static void RaiseCardUsedOnTarget(RuntimeCard card, Unit target) => OnCardUsedOnTarget?.Invoke(card, target);
     public static event Action<RuntimeCard> OnCardDraw;
     public static void RaiseCardDraw(RuntimeCard card) => OnCardDraw?.Invoke(card);
     public static event Action<RuntimeCard> OnCardDiscard;
@@ -58,6 +60,11 @@ namespace Core.Event
     public static void RaiseApplyDebuff(Unit owner, Unit target, int debuff) => OnApplyDebuff?.Invoke(owner, target, debuff);
     public static event Action<Unit, Unit, int> OnApplyBuff;
     public static void RaiseApplyBuff(Unit owner, Unit target, int buff) => OnApplyBuff?.Invoke(owner, target, buff);
+
+    public static event Action<int> OnRequestDraw;
+    public static void RaiseRequestDraw(int amount) => OnRequestDraw?.Invoke(amount);
+    public static event Action<Unit,Unit, int> OnRequestDealDamage;
+    public static void RaiseRequestDealDamage(Unit user, Unit target, int damage) => OnRequestDealDamage?.Invoke(user ,target, damage);
     #endregion
   }
 }

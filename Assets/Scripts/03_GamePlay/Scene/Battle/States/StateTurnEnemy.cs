@@ -1,3 +1,4 @@
+using System;
 using Core;
 using Core.Event;
 using GamePlay.Units;
@@ -16,22 +17,25 @@ namespace GamePlay.Battle.State
       _fsm = fsm;
     }
 
-    public void Enter()
+    public async void Enter()
     {
-      //Debug.Log($"-Enemy Turn-");
-      BattleEvent.RaiseEnemyTurnStart();
-      foreach (var unit in _manager.UnitManager.EnemyTeam)
+      try
       {
-        if (unit is not EnemyController enemy)
+        //Debug.Log($"-Enemy Turn-");
+        BattleEvent.RaiseEnemyTurnStart();
+        foreach (var unit in _manager.UnitManager.EnemyTeam)
         {
-          Debug.LogError($"Enemy is null");
-          return;
+          if (unit is not EnemyController enemy) return;
+          var isActSuccess = await enemy.EnemyActing();
+          if (!isActSuccess) return;
         }
 
-        //_manager.CardManager.EnemyPlayCard(enemy.NextCard, enemy);
+        _fsm.ChangeState(new StateTurnEnd(_manager, _fsm, TurnOwner.EnemyTeam));
       }
-
-      _fsm.ChangeState(new StateTurnEnd(_manager, _fsm, TurnOwner.EnemyTeam));
+      catch (Exception e)
+      {
+        Debug.LogWarning($"StateTurnEnemy warning: {e.Message}");
+      }
     }
 
     public void Execute() { }

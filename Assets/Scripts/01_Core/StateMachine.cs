@@ -1,4 +1,7 @@
+using System;
+using System.Threading.Tasks;
 using GamePlay.Battle.State;
+using UnityEngine;
 
 namespace Core
 {
@@ -11,12 +14,22 @@ namespace Core
       CurrentState?.Execute();
     }
 
-    public void ChangeState(IBattleState newState)
+    public async void ChangeState(IBattleState newState)
     {
-      CurrentState?.Exit();
-      newState?.Enter();
-      CurrentState = newState;
-      //UnityEngine.Debug.Log($"[Current State: {CurrentState.ToString()}]");
+      try
+      {
+        CurrentState?.Exit();
+        
+        await Task.Yield();
+        
+        newState?.Enter();
+        CurrentState = newState;
+        //Debug.Log($"Current State: {CurrentState?.GetType().Name}");
+      }
+      catch (Exception e)
+      {
+        Debug.LogWarning($"ChangeState warning: {e.Message}");
+      }
     }
   }
 }
