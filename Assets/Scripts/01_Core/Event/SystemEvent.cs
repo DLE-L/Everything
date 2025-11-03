@@ -2,16 +2,12 @@ using System;
 using GamePlay.Map;
 using GamePlay.Units;
 using Data.Reward;
-using Data.Units;
-using UIs.Reward;
 
 namespace Core.Event
 {
   public static class SystemEvent
   {
     #region Game Event
-    public static event Action<PlayerRunData> OnBeforeStartNewRun;
-    public static void RaiseBeforeStartNewRun(PlayerRunData data) => OnBeforeStartNewRun?.Invoke(data);
     public static event Action OnStartNewRun;
     public static void RaiseStartNewRun() => OnStartNewRun?.Invoke();
     public static event Action OnEndRun;

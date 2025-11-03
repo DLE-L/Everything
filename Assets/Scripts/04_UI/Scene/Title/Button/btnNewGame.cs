@@ -12,6 +12,7 @@ namespace UIs.Title
     {
       try
       {
+        await GameSystem.Instance.Title.SetNewAccountData();
         await GameSystem.Instance.Scene.LoadSceneLobbyAsync();
       }
       catch (Exception e)

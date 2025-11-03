@@ -1,7 +1,7 @@
 using System;
+using System.Threading.Tasks;
 using Core;
 using Data.Units;
-using GamePlay.Scene;
 using UIs.Title;
 using UnityEngine;
 using Utils;
@@ -20,24 +20,25 @@ namespace GamePlay.Title
       assetLoader ??= FindFirstObjectByType<TitleAssetLoader>();
     }
 
-    private async void Start()
+    private void Start()
     {
-      try
+      var accountData = GameSystem.Instance.PlayerAccountData;
+      if (accountData is not null) return;
+
+      uiManager.DisableContinueGameImage();
+    }
+
+    public async Task SetNewAccountData()
+    {
+      var accountData = GameSystem.Instance.PlayerAccountData;
+      if (accountData is not null)
       {
-        var accountData = await PlayerDataManager.LoadAccountDataAsync();
-        if (accountData is null)
-        {
-          uiManager.btnContinueGameImage.raycastTarget = false;
-          uiManager.btnContinueGameImage.color = Color.red; //TODO: 클릭 불가 & 회색처리
-          var defaultAccountSo = await AssetLoader.LoadAssetAsync<AccountSO>(assetLoader.DefaultAccountSORef.AssetGUID);
-          accountData = await PlayerDataManager.NewAccountDefaultDataAsync(defaultAccountSo);
-        }
-        GameSystem.Instance.PlayerAccountDataInitialize(accountData);
+        // TODO TitleManager : if accountData가 존재할 시에 진짜 새로운 게임 할건지 물어보기
+        Debug.LogWarning($"진짜 새게임 할건가요?");
       }
-      catch (Exception e)
-      {
-        Debug.LogError($"TitleManager Error => {e.Message}");
-      }
+      var defaultAccountSo = await AssetLoader.LoadAssetReferenceAsync<AccountSO>(assetLoader.DefaultAccountSORef);
+      accountData = await PlayerDataManager.LoadDefaultAccountDataAsync(defaultAccountSo);
+      GameSystem.Instance.SetNewAccountData(accountData);
     }
 
     void OnDestroy()

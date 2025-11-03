@@ -18,7 +18,7 @@ namespace Data.Act.Encounter
     
     public override async Task BeginAsync(MapManager mapManager, Node node)
     {
-      GameSystem.Instance.Run.CurrentEncounter = this;
+      RunSystem.Instance.CurrentEncounter = this;
       //GameSystem.Instance.Map.mapUIManager.CanvasMapActive(false);
       await GameSystem.Instance.Scene.LoadSceneBattleAsync();
     }

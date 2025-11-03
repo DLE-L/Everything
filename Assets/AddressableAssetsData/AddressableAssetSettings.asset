@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 64f0947349c674645a494d7b8d05611d
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: 3b7a9d7a6d522d4793f96ad9f1ceee85
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -102,7 +102,6 @@ MonoBehaviour:
     m_LabelNames:
     - Card
     - Enemy
-    - Deck
     - Map
     - Common
     - Uncommon

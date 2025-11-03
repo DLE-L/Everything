@@ -19,7 +19,6 @@ namespace Utils
 
     private static async Task SaveJsonDataAsync<T>(T data, string path)
     {
-      Debug.Log("..Saving..");
       if (_isSaving) return;
 
       try
@@ -43,7 +42,7 @@ namespace Utils
     {
       if (!File.Exists(path))
       {
-        Debug.LogError($"{path} does not exist");
+        Debug.LogWarning($"{path} does not exist");
         return null;
       }
       var jsonString = await File.ReadAllTextAsync(path);

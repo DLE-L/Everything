@@ -17,7 +17,7 @@ namespace GamePlay.Units
     void Awake()
     {
       Team = TurnOwner.PlayerTeam;
-      PlayerData = GameSystem.Instance.Run.PlayerData;
+      PlayerData = RunSystem.Instance.PlayerData;
       Stat = PlayerData.Stat;
     }
     

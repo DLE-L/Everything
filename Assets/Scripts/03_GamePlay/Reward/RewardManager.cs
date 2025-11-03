@@ -26,7 +26,7 @@ namespace GamePlay.Reward
 
     public async Task Init()
     {
-      var encounter = GameSystem.Instance.Run.CurrentEncounter as EncounterCombat;
+      var encounter = RunSystem.Instance.CurrentEncounter as EncounterCombat;
       var strategy = encounter?.RewardStrategy;
       if (strategy is null)
       {

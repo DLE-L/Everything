@@ -134,13 +134,13 @@ MonoBehaviour:
     - Map
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: ba34e9df9cb12b443ab6dca9034184a0
-    m_Address: Deck_Default
+    m_Address: Account_Deck_Default
     m_ReadOnly: 0
     m_SerializedLabels:
-    - Deck
+    - Title
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bde4875621169844fa3470efc75b37b1
-    m_Address: Deck_Account_Default
+    m_Address: Account_Default
     m_ReadOnly: 0
     m_SerializedLabels:
     - Title

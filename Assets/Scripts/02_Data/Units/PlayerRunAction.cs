@@ -8,7 +8,7 @@ namespace Data.Units
 {
   public static class PlayerRunAction
   {
-    private static PlayerRunData _runData => GameSystem.Instance.Run.PlayerData;
+    private static PlayerRunData _runData => RunSystem.Instance.PlayerData;
     
     // TODO: 데미지, 회복 효과 발생시 받는 메서드 추가  
       

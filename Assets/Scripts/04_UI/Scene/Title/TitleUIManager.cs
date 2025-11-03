@@ -7,6 +7,11 @@ namespace UIs.Title
   {
     [Header("Title UI Manager")]
     public Image btnContinueGameImage;
-    
+
+    public void DisableContinueGameImage()
+    {
+      btnContinueGameImage.raycastTarget = false;
+      btnContinueGameImage.color = Color.red;
+    }
   }
 }

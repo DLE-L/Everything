@@ -12,12 +12,13 @@ namespace UIs.Lobby
     {
       try
       {
-        GameSystem.Instance.Lobby.SettingBeforeNewRun();
+        var deckDictionary = GameSystem.Instance.Lobby.SelectDeck();
+        RunSystem.Instance.Init(deckDictionary);
         await GameSystem.Instance.Scene.LoadSceneMapAsync();
       }
       catch (Exception e)
       {
-        Debug.Log($"Lobby-btnStartRun Error: {e.Message}");
+        Debug.LogWarning($"Lobby-btnStartRun warning: {e.Message}");
       }
     }
     void OnEnable()

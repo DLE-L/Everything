@@ -11,9 +11,9 @@ namespace Data.Units
   {
     public StatData Stat;
     public int RunStateGold;
+    public int SaveGold;
 
     public HashSet<RelicSO> Relics = new();
-    public Dictionary<string, int> Items = new();
     public List<RuntimeCard> Deck;
 
     public PlayerRunData(int maxHp, Dictionary<CardSO, int> deck, int takeGold = 0)
@@ -21,7 +21,7 @@ namespace Data.Units
       RunStateGold = takeGold;
       Deck = deck.SelectMany(pair => 
         Enumerable.Range(0, pair.Value)
-                  .Select(_ => new RuntimeCard(pair.Key))
+          .Select(_ => new RuntimeCard(pair.Key))
         ).ToList();
       Stat = new StatData
       {

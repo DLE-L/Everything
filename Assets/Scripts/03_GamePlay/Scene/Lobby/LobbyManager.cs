@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Core;
-using Core.Event;
 using Data.Collectible.Card;
-using Data.Units;
 using UIs.Lobby;
 using UnityEngine;
 
@@ -33,15 +31,13 @@ namespace GamePlay.Lobby
       }
     }
 
-    public void SettingBeforeNewRun()
+    public Dictionary<CardSO, int> SelectDeck()
     {
-      // TODO: 추후 선택 할때로 변경
-      var deck = GameSystem.Instance.PlayerAccountData.Decks["Deck_Default"].
-                                   ToDictionary(item => CardDatabase.AllCards[item.Key], item => item.Value); 
-      var runData = PlayerDataManager.NewRunInitialize(80, deck);
-      SystemEvent.RaiseBeforeStartNewRun(runData);
+      // TODO LobbyManager 선택 덱으로 변경
+      return GameSystem.Instance.PlayerAccountData.DeckRecipes[1].
+        ToDictionary(pair => CardDatabase.AllCards[pair.Key], pair => pair.Value);
     }
-
+    
     void OnDestroy()
     {
       if (GameSystem.Instance.Lobby is not null)

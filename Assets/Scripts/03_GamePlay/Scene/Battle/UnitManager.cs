@@ -32,7 +32,7 @@ namespace GamePlay.Battle
     public async Task Init()
     {
       _battleManager = GameSystem.Instance.Battle;
-      var currentCombat = GameSystem.Instance.Run.CurrentEncounter as EncounterCombat;
+      var currentCombat = RunSystem.Instance.CurrentEncounter as EncounterCombat;
       _battleManager.currentCombat = currentCombat;
       await SpawnEnemiesAsync(currentCombat,
         _battleManager.AssetLoader.EnemyPrefabRef,

@@ -6,7 +6,6 @@ using GamePlay.Map;
 using GamePlay.Title;
 using Core.Event;
 using Data.Units;
-using GamePlay.Reward;
 using Utils;
 
 namespace Core
@@ -17,17 +16,14 @@ namespace Core
     public PlayerAccountData PlayerAccountData { get; private set; }
 
     #region Manager & System
-
     public SceneSystem Scene { get; } = new();
-    public RunSystem Run { get; private set; }
 
     public TitleManager Title { get; private set; }
     public LobbyManager Lobby { get; private set; }
     public MapManager Map { get; private set; }
-    public RewardManager Reward { get; private set; }
     public BattleManager Battle { get; private set; }
-
     #endregion
+    
 
     private void Awake()
     {
@@ -40,15 +36,30 @@ namespace Core
       {
         Destroy(gameObject);
       }
-
-      Debug.Log($"----GameSystem Initialized----");
     }
 
-    private void Start()
+    private async void Start()
     {
-      PlayerRunAction.Init();
+      try
+      {
+        PlayerRunAction.Init();
+        PlayerAccountData = await PlayerDataManager.LoadAccountDataAsync();
+        Debug.Log($"----GameSystem Initialized----");
+      }
+      catch (Exception e)
+      {
+        Debug.LogWarning($"GameSystem-Start warning: {e.Message}");
+      }
     }
-
+    public void SetNewAccountData(PlayerAccountData accountData) => PlayerAccountData = accountData;
+    
+    void OnDestroy()
+    {
+      PlayerRunAction.DeInit();
+      AssetLoader.ReleaseAll();
+    }
+    
+    #region Register Manager
     public void RegisterTitleManager(TitleManager manager) => Title = manager;
     public void UnregisterTitleManager() => Title = null;
     public void RegisterLobbyManager(LobbyManager manager) => Lobby = manager;
@@ -57,42 +68,6 @@ namespace Core
     public void UnregisterMapManager() => Map = null;
     public void RegisterBattleManager(BattleManager manager) => Battle = manager;
     public void UnregisterBattleManager() => Battle = null;
-
-    public void PlayerAccountDataInitialize(PlayerAccountData data) => PlayerAccountData = data;
-
-    private void OnBeforeStartNewRun(PlayerRunData data)
-    {
-      Run = new(data);
-      SystemEvent.OnEndRun += Run.EndRun;
-    }
-
-    private void OnStartNewRun()
-    {
-      
-    }
-    
-    private void OnClickNode(Node node) => Run.CurrentEncounter = node.Encounter;
-
-
-    void OnEnable()
-    {
-      SystemEvent.OnBeforeStartNewRun += OnBeforeStartNewRun;
-      SystemEvent.OnStartNewRun += OnStartNewRun;
-      SystemEvent.OnClickNode += OnClickNode;
-    }
-
-    void OnDisable()
-    {
-      SystemEvent.OnBeforeStartNewRun -= OnBeforeStartNewRun;
-      SystemEvent.OnStartNewRun -= OnStartNewRun;
-      SystemEvent.OnClickNode -= OnClickNode;
-      SystemEvent.OnEndRun -= Run.EndRun;
-    }
-
-    void OnDestroy()
-    {
-      PlayerRunAction.DeInit();
-      AssetLoader.ReleaseAll();
-    }
+    #endregion
   }
 }

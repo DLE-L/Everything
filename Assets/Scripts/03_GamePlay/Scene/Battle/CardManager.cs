@@ -16,12 +16,25 @@ namespace GamePlay.Battle
     public List<RuntimeCard> DiscardPile;
     public List<RuntimeCard> Hand;
     public List<RuntimeCard> ExhaustPile;
+     
+    public List<string> Draws;
+    public List<string> Discards;
+    public List<string> Hands;
+    public List<string> Exhausts;
 
     private readonly System.Random _random = new();
 
+    private void Update()
+    {
+      Draws = DrawPile.Select(x => x.Data.Name).ToList();
+      Discards = DiscardPile.Select(x => x.Data.Name).ToList();
+      Hands = Hand.Select(x => x.Data.Name).ToList();
+      Exhausts = ExhaustPile.Select(x => x.Data.Name).ToList();
+    }
+
     public void Init()
     {
-      var DeckList = GameSystem.Instance.Run.PlayerData.Deck;
+      var DeckList = RunSystem.Instance.PlayerData.Deck;
       
       DrawPile = new List<RuntimeCard>(DeckList);
       Hand = new List<RuntimeCard>();

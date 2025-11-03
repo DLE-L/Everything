@@ -22,7 +22,7 @@ namespace Data.Collectible.Card
     {
       var cardList = await AssetLoader.LoadAssetsByLabelAsync<CardSO>("Card");
       foreach (var card in cardList)
-      {        
+      {
         AllCards.TryAdd(card.name, card);
       }
       //Debug.Log($"CardDatabase Initialized");
