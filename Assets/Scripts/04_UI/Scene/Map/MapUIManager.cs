@@ -12,9 +12,10 @@ namespace UIs.Map
   {
     [Header("Map UI Manager")]
     private GameObject _currentCanvasObject;
-
-    public Map_Canvas mapCanvas;
     private Canvas _mapCanvasObject;
+    
+    public Map_Canvas mapCanvas;
+    public Transform nodeRoot;
 
     private void Awake()
     {

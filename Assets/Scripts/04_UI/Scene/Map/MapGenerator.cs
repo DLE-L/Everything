@@ -9,6 +9,7 @@ using GamePlay.Map;
 using Data.Map;
 using Data.Act;
 using Data.Act.Encounter;
+using TreeEditor;
 using UnityEngine.AddressableAssets;
 
 namespace UIs.Map
@@ -20,14 +21,17 @@ namespace UIs.Map
     private readonly Dictionary<EncounterType, int> _typeCounts = new();
     private readonly Dictionary<EncounterType, int> _lastSpawnFloors = new();
     private int _currentEliteCount;
+    private NodeSprite _nodeSprite;
 
-    public async Task<List<Node>> GenerateMap(AssetReference nodePrefabRef, Transform nodeParent, MapConfigSO mapConfig,
+    public async Task<List<Node>> GenerateMap(AssetReference nodePrefabRef, Transform nodeRoot, MapConfigSO mapConfig,
       AssetReference actNumbering)
     {
       _generatedNodes.Clear();
       _typeCounts.Clear();
       _lastSpawnFloors.Clear();
       _currentEliteCount = 0;
+      
+      _nodeSprite = GameSystem.Instance.Map.assetLoader.NodeSprite;
 
       var act = await AssetLoader.LoadAssetReferenceAsync<ActSO>(actNumbering);
       if (act is null)
@@ -76,13 +80,14 @@ namespace UIs.Map
           var selectedEncounter = encountersFloor[nodeIndex];
           if (selectedEncounter is null) continue;
 
-          GameObject nodeGO = await AssetLoader.InstantiateAsync(nodePrefabRef, nodeParent);
+          GameObject nodeGO = await AssetLoader.InstantiateAsync(nodePrefabRef, nodeRoot);
           var nodeRect = nodeGO.GetComponent<RectTransform>();
 
           Vector2 position = SetNodePosition(floorIndex, nodeIndex, encountersFloor.Count, mapConfig);
           nodeRect.anchoredPosition = position;
 
           var mapNode = nodeGO.GetComponent<Node>();
+          selectedEncounter.Style.Icon = GetNodeSprite(selectedEncounter.Type);
           mapNode.Setup(selectedEncounter);
 
           sb.Append($"Node_{floorIndex}-{nodeIndex}_{selectedEncounter.name}");
@@ -170,6 +175,19 @@ namespace UIs.Map
         EncounterType.Shop => actData.MaxShopCount,
         EncounterType.Rest => actData.MaxRestCount,
         _ => int.MaxValue
+      };
+    }
+
+    private Sprite GetNodeSprite(EncounterType encounterType)
+    {
+      return encounterType switch
+      {
+        EncounterType.Combat => _nodeSprite.Battle,
+        EncounterType.Shop => _nodeSprite.Shop,
+        EncounterType.Narrative => _nodeSprite.Narrative,
+        EncounterType.Rest => _nodeSprite.Rest,
+        EncounterType.Boss => _nodeSprite.Boss,
+        _ => null
       };
     }
   }

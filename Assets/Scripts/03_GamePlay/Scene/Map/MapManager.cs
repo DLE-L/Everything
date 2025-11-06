@@ -12,7 +12,6 @@ namespace GamePlay.Map
     private MapGenerator _generator;
     private MapConfigSO _mapGenerateData;
     private Canvas_Encounter_Narrative _canvasEncounterNarrative;
-    [SerializeField] private Transform _nodeParent;
     
     public MapUIManager uiManager;
     public MapAssetLoader assetLoader;
@@ -32,9 +31,10 @@ namespace GamePlay.Map
       try
       {
         _mapGenerateData = await AssetLoader.LoadAssetReferenceAsync<MapConfigSO>(assetLoader.GenerateDataRef);
+        await assetLoader.Init();
 
         _generator = new();
-        await _generator.GenerateMap(assetLoader.NodePrefabRef, _nodeParent, _mapGenerateData, assetLoader.ActsRef[0]);
+        await _generator.GenerateMap(assetLoader.NodePrefabRef, uiManager.nodeRoot, _mapGenerateData, assetLoader.ActsRef[0]);
 
         AssetLoader.ReleaseAssetByKey(assetLoader.GenerateDataRef.AssetGUID);
       }

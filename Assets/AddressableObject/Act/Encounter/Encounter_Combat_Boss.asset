@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Encounter_Combat_Boss
   m_EditorClassIdentifier: 
   Style: {fileID: 11400000, guid: 9bb9180731d5dcc44979dc494bd2b617, type: 2}
-  Type: 2
+  Type: 5
   weight: 100
   Rarity: {fileID: 11400000, guid: f1ada771feaa9354ebdd7b6dd92362b5, type: 2}
-  Reward: {fileID: 0}
+  RewardStrategy: {fileID: 0}
   Enemies: []

@@ -21,5 +21,6 @@ namespace Data.Act.Encounter
     Combat,
     Shop,
     Rest,
+    Boss,
   }
 }

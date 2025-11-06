@@ -150,6 +150,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bfc681de975a5b54f96ad82fe1f80c3c
+    m_Address: Icon_Node
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e4ec0cd9f3eba154eb33c3574eb6d74a
     m_Address: Scene_Title
     m_ReadOnly: 0

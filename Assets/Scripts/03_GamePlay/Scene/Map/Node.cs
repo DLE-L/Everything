@@ -15,7 +15,7 @@ namespace GamePlay.Map
   public class Node : MonoBehaviour
   {
     public EncounterSO Encounter { get; private set; }
-    public EncounterNodeStyleSO EncounterNodeStyle { get; private set; }
+    public EncounterNodeStyleSO EncounterNodeStyle => Encounter.Style;
     private Image _icon;
 
     void Awake()
@@ -27,7 +27,7 @@ namespace GamePlay.Map
     public void Setup(EncounterSO encounter)
     {
       Encounter = encounter;
-      //_icon.sprite = nodeData.Type.Icon;
+      _icon.sprite = EncounterNodeStyle.Icon;
       //GetComponent<SpriteRenderer>().sprite = nodeData.EncounterType.Icon;
     }
 
@@ -45,6 +45,21 @@ namespace GamePlay.Map
       }
     }
 
+    public void SetState(NodeState state)
+    {
+      UI_EventHandler.Get(gameObject).OnClickAction -= OnClick;
+      switch (state)
+      {
+        case NodeState.Accessible:
+          UI_EventHandler.Get(gameObject).OnClickAction += OnClick;
+          break;
+        case NodeState.Inaccessible:
+        case NodeState.Visited:
+          UI_EventHandler.Get(gameObject).OnClickAction += OnClick;
+          break;
+      }
+    }
+
     void OnEnable()
     {
       UI_EventHandler.Get(gameObject).OnClickAction += OnClick;
@@ -54,5 +69,12 @@ namespace GamePlay.Map
     {
       UI_EventHandler.Get(gameObject).OnClickAction -= OnClick;
     }
+  }
+
+  public enum NodeState
+  {
+    Accessible,
+    Inaccessible,
+    Visited,
   }
 }
