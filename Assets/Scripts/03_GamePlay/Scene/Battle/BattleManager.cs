@@ -8,6 +8,7 @@ using Data.Target;
 using GamePlay.Battle.State;
 using GamePlay.Reward;
 using GamePlay.Units;
+using UIs;
 using UIs.Units;
 using UIs.Battle;
 
@@ -47,17 +48,20 @@ namespace GamePlay.Battle
         await Task.Yield();
         UIManager.Init();
         await RewardManager.Init();
-
+        
+        await FadeManger.Instance.FadeIn();
+        
         // TODO: 적 의도 보여줌
 
         Fsm.ChangeState(new StateSetupBattle(this, Fsm, TurnOwner.PlayerTeam));
+        
       }
       catch (Exception e)
       {
         Debug.LogWarning($"BattleManager Start warning: {e.Message}");
       }
     }
-
+    
     public void Update()
     {
       Fsm.Execute();

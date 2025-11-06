@@ -7,6 +7,15 @@ namespace Core.Event
 {
   public static class SystemEvent
   {
+    #region Scene Event
+
+    public static event Action OnFadeIn;
+    public static void RaiseFadeIn() => OnFadeIn?.Invoke();
+    public static event Action OnFadeOut;
+    public static void RaiseFadeOut() => OnFadeOut?.Invoke();
+
+    #endregion
+    
     #region Game Event
     public static event Action OnStartNewRun;
     public static void RaiseStartNewRun() => OnStartNewRun?.Invoke();

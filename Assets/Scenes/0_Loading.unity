@@ -217,6 +217,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 796287068263941732, guid: b932647a171257e4680b6bf03c3dad02, type: 3}
+      propertyPath: m_Color.b
+      value: 0.5377358
+      objectReference: {fileID: 0}
+    - target: {fileID: 796287068263941732, guid: b932647a171257e4680b6bf03c3dad02, type: 3}
+      propertyPath: m_Color.g
+      value: 0.5377358
+      objectReference: {fileID: 0}
+    - target: {fileID: 796287068263941732, guid: b932647a171257e4680b6bf03c3dad02, type: 3}
+      propertyPath: m_Color.r
+      value: 0.5377358
+      objectReference: {fileID: 0}
     - target: {fileID: 857747801294032017, guid: b932647a171257e4680b6bf03c3dad02, type: 3}
       propertyPath: m_Name
       value: GameSystem
@@ -259,6 +271,22 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2111190818292505354, guid: b932647a171257e4680b6bf03c3dad02, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3251371643342897078, guid: b932647a171257e4680b6bf03c3dad02, type: 3}
+      propertyPath: _defaultFadeDuration
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6972390246273236320, guid: b932647a171257e4680b6bf03c3dad02, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6972390246273236320, guid: b932647a171257e4680b6bf03c3dad02, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6972390246273236320, guid: b932647a171257e4680b6bf03c3dad02, type: 3}
+      propertyPath: m_BackGroundColor.r
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

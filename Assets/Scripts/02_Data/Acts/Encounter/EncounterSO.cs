@@ -18,7 +18,7 @@ namespace Data.Act.Encounter
   {
     None,
     Narrative,
-    Combat,
+    Battle,
     Shop,
     Rest,
     Boss,

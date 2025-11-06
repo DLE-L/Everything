@@ -55,7 +55,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -90,7 +90,7 @@ TextureImporter:
   platformSettings:
   - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
-    maxTextureSize: 2048
+    maxTextureSize: 1024
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
@@ -160,19 +160,19 @@ TextureImporter:
       name: Icon_Battle
       rect:
         serializedVersion: 2
-        x: 4
-        y: 5
-        width: 44
-        height: 45
+        x: 5
+        y: 68
+        width: 42
+        height: 43
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: fb762d8dc1c22d840800000000000000
+      spriteID: 1a278267d9303c94aa8095003e485662
       internalID: 5247305018248423359
       vertices: []
       indices: 
@@ -182,20 +182,20 @@ TextureImporter:
       name: Icon_Rest
       rect:
         serializedVersion: 2
-        x: 52
-        y: 5
-        width: 44
-        height: 45
+        x: 53
+        y: 68
+        width: 42
+        height: 43
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: e2b2019b26e080a40800000000000000
-      internalID: 5334529575794780974
+      spriteID: ea43e17d2819073448c1b1c5bf58deab
+      internalID: 871549499
       vertices: []
       indices: 
       edges: []
@@ -204,20 +204,20 @@ TextureImporter:
       name: Icon_Shop
       rect:
         serializedVersion: 2
-        x: 100
-        y: 5
-        width: 45
-        height: 45
+        x: 101
+        y: 68
+        width: 43
+        height: 43
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 31ee7b42861258da0800000000000000
-      internalID: -5943307402069152237
+      spriteID: ac30e2d2ac771df44ad640cde5cc7072
+      internalID: 2124417410
       vertices: []
       indices: 
       edges: []
@@ -226,20 +226,20 @@ TextureImporter:
       name: Icon_Boss
       rect:
         serializedVersion: 2
-        x: 149
-        y: 5
-        width: 45
-        height: 45
+        x: 150
+        y: 68
+        width: 43
+        height: 43
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 1864b782c08f62610800000000000000
-      internalID: 1596235849051883137
+      spriteID: 46dec7ff3f33ceb4b9159e1983bea8d9
+      internalID: -1508191464
       vertices: []
       indices: 
       edges: []
@@ -248,20 +248,42 @@ TextureImporter:
       name: Icon_Narrative
       rect:
         serializedVersion: 2
-        x: 198
-        y: 5
-        width: 45
-        height: 45
+        x: 199
+        y: 68
+        width: 43
+        height: 43
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 2d18bf6910cc62eb0800000000000000
-      internalID: -4744880850188140078
+      spriteID: 4ccaa10f8912f8343be6830358890749
+      internalID: 1208026246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Icon_Elite
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 15
+        width: 42
+        height: 43
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bca85dd4a3746946a6724a274318c5e
+      internalID: -1992471284
       vertices: []
       indices: 
       edges: []
@@ -281,12 +303,11 @@ TextureImporter:
       entries: []
     nameFileIdTable:
       Icon_Battle: 5247305018248423359
-      Icon_Boss: 1596235849051883137
-      Icon_Narrative: -4744880850188140078
-      Icon_Node 1_1: -2190915946510134532
-      Icon_Node 1_2: -3597375651951228316
-      Icon_Rest: 5334529575794780974
-      Icon_Shop: -5943307402069152237
+      Icon_Boss: -1508191464
+      Icon_Elite: -1992471284
+      Icon_Narrative: 1208026246
+      Icon_Rest: 871549499
+      Icon_Shop: 2124417410
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

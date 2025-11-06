@@ -16,6 +16,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3425e73d9ba234d49814b6f9be344da4, type: 2}
   - {fileID: 11400000, guid: 258d455114f750641bdc02c8852f4144, type: 2}
   - {fileID: 11400000, guid: 2146ea9af27b6954db42e1711d1f9d49, type: 2}
+  - {fileID: 11400000, guid: 0e0aa83185cfe6c4d80eb268d5e4c343, type: 2}
+  - {fileID: 11400000, guid: 5189587be7d95784c964cc68c01306e6, type: 2}
   BossEncounter: {fileID: 11400000, guid: adaef328a621bea4c8b86265efe09856, type: 2}
   EncounterPoints: []
   MaxShopCount: 2

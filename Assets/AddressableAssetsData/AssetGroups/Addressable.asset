@@ -145,11 +145,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - Title
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: bf3da558c6533194caa535de1d7b6683
-    m_Address: Button_Reward_Relic
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bfc681de975a5b54f96ad82fe1f80c3c
     m_Address: Icon_Node
     m_ReadOnly: 0
@@ -173,11 +168,6 @@ MonoBehaviour:
     m_SerializedLabels:
     - Card
     - Uncommon
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f321f636b23fb1e4fbdd50af4dec58df
-    m_Address: Button_Reward_Card
-    m_ReadOnly: 0
-    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f7d2f9116a2bd1548941f8eecc8a7347
     m_Address: Scene_Battle

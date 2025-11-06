@@ -1,4 +1,6 @@
 using System.Threading.Tasks;
+using Core.Event;
+using UIs;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
@@ -39,7 +41,8 @@ namespace Core
     public async Task ReturnToMapAsync()
     {
       // 페이드 아웃
-
+      await FadeManger.Instance.FadeOut();
+      
       // 배틀 씬만 언로드합니다.
       if (_currentAdditiveHandle.IsValid())
       {
@@ -51,11 +54,13 @@ namespace Core
       // if (_mapSceneHandle.IsValid()) _mapSceneHandle.Result.Scene.GetRootGameObjects()[0]?.SetActive(true);
     
       // 페이드 인
+      await FadeManger.Instance.FadeIn();
     }
     
     private async Task LoadSceneAsync(SceneType sceneType, bool unloadMapScene = false)
     {
       // 1. 페이드 아웃
+      await FadeManger.Instance.FadeOut();
 
       // 2. 새 씬 로드
       var sceneName = GetSceneName(sceneType);
@@ -94,6 +99,7 @@ namespace Core
       }
 
       // 5. 페이드 인
+      await FadeManger.Instance.FadeIn();
     }
 
     private string GetSceneName(SceneType sceneType)

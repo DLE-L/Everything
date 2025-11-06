@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Core;
 using Data.Collectible.Card;
+using UIs;
 using UIs.Lobby;
 using UnityEngine;
 
@@ -24,6 +26,7 @@ namespace GamePlay.Lobby
       try
       {
         await CardDatabase.InitializeAsync();
+        await FadeManger.Instance.FadeIn();
       }
       catch (Exception e)
       {

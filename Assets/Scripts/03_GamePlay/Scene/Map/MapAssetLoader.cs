@@ -40,6 +40,7 @@ namespace GamePlay.Map
   public class NodeSprite
   {
     public Sprite Battle;
+    public Sprite Elite;
     public Sprite Boss;
     public Sprite Narrative;
     public Sprite Rest;
@@ -72,6 +73,7 @@ namespace GamePlay.Map
       var nodeSprite = new NodeSprite();
 
       spriteMap.TryGetValue("Icon_Battle", out nodeSprite.Battle);
+      spriteMap.TryGetValue("Icon_Elite", out nodeSprite.Elite);
       spriteMap.TryGetValue("Icon_Boss", out nodeSprite.Boss);
       spriteMap.TryGetValue("Icon_Narrative", out nodeSprite.Narrative);
       spriteMap.TryGetValue("Icon_Rest", out nodeSprite.Rest);

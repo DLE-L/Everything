@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using Core;
 using UnityEngine;
 
@@ -14,7 +15,7 @@ namespace GamePlay.Loading
       }
       catch (Exception e)
       {
-        Debug.LogError($"LoadingManager Error: {e.Message}");
+        Debug.LogWarning($"LoadingManager-Start warning: {e.Message}");
       }
     }
   }
