@@ -11,7 +11,7 @@ using Utils;
 
 namespace UIs.Map
 {
-  public class Button_Narrative_Choice : MonoBehaviour
+  public class btnNarrativeChoice : MonoBehaviour
   {
     [SerializeField] private TextMeshProUGUI _choiceText;
     private NarrativeChoice _narrativeChoice;
@@ -26,13 +26,12 @@ namespace UIs.Map
       _narrativeChoice = narrativeChoice;
       _choiceText.text = narrativeChoice.Description;
     }
-    
 
     private async void OnClick(PointerEventData data)
     {
       try
       {
-        var rewardData = await _narrativeChoice.RewardStrategy.GenerateRewardAsync(); //TODO: 수정 필요
+        var rewardData = await _narrativeChoice.RewardStrategy.GenerateRewardAsync(); //TODO btnNarrativeChoice. Reward 방식 수정 필요
         var rewardResult = new RewardResult()
         {
           Cards = rewardData.CardsToPresent,
@@ -44,7 +43,7 @@ namespace UIs.Map
       }
       catch (Exception e)
       {
-        Debug.LogError($"NarrativeChoice Error: {e.Message}");
+        Debug.LogWarning($"NarrativeChoice warning: {e.Message}");
       }
     }
 

@@ -19,16 +19,16 @@ namespace UIs.Battle
     private Canvas _rootCanvas;
     private int _originalSiblingIndex;
     
-    public RuntimeCard RuntimeCard => _buttonBattleCard.RuntimeCard;
+    public RuntimeCard RuntimeCard => _battleCard.RuntimeCard;
     
-    private Button_BattleCard _buttonBattleCard;
+    private BattleCard _battleCard;
 
     private void Awake()
     {
       _rectTransform ??= GetComponent<RectTransform>();
       _canvasGroup  ??= GetComponent<CanvasGroup>();
       _rootCanvas ??= GetComponentInParent<Canvas>();
-      _buttonBattleCard ??= GetComponent<Button_BattleCard>();
+      _battleCard ??= GetComponent<BattleCard>();
       
     }
 

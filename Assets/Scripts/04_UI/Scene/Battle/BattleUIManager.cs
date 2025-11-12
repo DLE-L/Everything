@@ -35,7 +35,7 @@ namespace UIs.Battle
       try
       {
         var obj = await AddressableObjectPooler.Get(_battleCanvas.HandTr);
-        var battleCard = obj.GetComponent<Button_BattleCard>();
+        var battleCard = obj.GetComponent<BattleCard>();
         battleCard?.Setup(runtimeCard);
         _cardObjects.Add(runtimeCard.InstanceID, obj);
       }

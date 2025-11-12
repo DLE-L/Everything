@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e8ac16e70d26d564b9daedde1a6e395a, type: 3}
-  m_Name: Data_GenerateMap
+  m_Name: Data_MapConfig
   m_EditorClassIdentifier: 
   Act_FloorCount: 15
   Node_BossIndex: 14

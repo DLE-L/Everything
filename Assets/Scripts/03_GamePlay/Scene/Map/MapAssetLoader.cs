@@ -12,7 +12,6 @@ namespace GamePlay.Map
   {
     [Header("Map Asset Loader")]
     [SerializeField] private AssetReference _nodePrefabRef;
-    [SerializeField] private AssetReference _buttonNarrativeChoiceRef;
     [SerializeField] private AssetReference _narrativeCanvasRef;
     [SerializeField] private AssetReference _shopCanvasRef;
     [SerializeField] private AssetReference _restCanvasRef;
@@ -21,7 +20,6 @@ namespace GamePlay.Map
     [SerializeField] private List<AssetReference> _actsRef;
     
     public AssetReference NodePrefabRef => _nodePrefabRef;
-    public AssetReference ButtonNarrativeChoiceRef => _buttonNarrativeChoiceRef;
     public AssetReference NarrativeCanvasRef => _narrativeCanvasRef;
     public AssetReference ShopCanvasRef => _shopCanvasRef;
     public AssetReference RestCanvasRef => _restCanvasRef;

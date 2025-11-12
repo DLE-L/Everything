@@ -10,7 +10,7 @@ using Utils;
 namespace UIs.Battle
 {
   [RequireComponent(typeof(DragCard))]
-  public class Button_BattleCard : MonoBehaviour, IPoolableObject
+  public class BattleCard : MonoBehaviour, IPoolableObject
   {
     private DragCard _dragCard;
     private CardSprite _cardSprite;

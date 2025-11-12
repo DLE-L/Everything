@@ -12,7 +12,7 @@ namespace GamePlay.Units
   public abstract class Unit : MonoBehaviour
   {
     public event Action<Unit> OnDeath;
-    public StatData Stat { get; protected set; } = new();
+    public StatData Stat { get; protected set; }
     public readonly Dictionary<StatusEffectSO, ActiveStatusData> StatusEffects = new();
     protected TurnOwner Team { get; set; }
     public bool IsDie { get; private set; }
@@ -82,70 +82,61 @@ namespace GamePlay.Units
 
     public void TakeDamage(Unit attacker, int damage)
     {
-      float finalDamage = damage;
+      float calculateDamage = damage;
 
       // 1. 합연산
       int additive = 0;
       foreach (var effect in StatusEffects.Keys)
       {
-        finalDamage += effect.GetIncomingAdditiveBonus(this);
+        calculateDamage += effect.GetIncomingAdditiveBonus(this);
       }
-      finalDamage += additive;
+      calculateDamage += additive;
       //Debug.Log($"Modified Additive Damage : {additive}");
 
       // 2. 곱연산      
-      float multiple = 1.0f;
+      var multiple = 1.0f;
       foreach (var effect in this.StatusEffects.Keys)
       {
         multiple *= effect.GetIncomingMultiplicativeModifier(this);
       }
-      finalDamage *= multiple;
+      calculateDamage *= multiple;
       //Debug.Log($"Modified Multiple Damage : {finalDamage}");
-
-      // 3. 방어도 적용
-      int damageAfterBlock = Mathf.FloorToInt(finalDamage) - Stat.Block;
-      if (damageAfterBlock < 0)
-      {
-        damageAfterBlock = 0;
-        Stat.Block -= Mathf.FloorToInt(finalDamage);
-      }
-      else
-      {
-        Stat.Block = 0;
-      }
       
-      // 4. 체력 감소
-      Stat.HP -= damageAfterBlock;
-      if (Stat.HP <= 0) { Die(); return; }
-
-      // 5. 피격시 발동 효과
+      var finalDamage = Mathf.FloorToInt(calculateDamage);
+      
+      // 3. 피격시 발동 효과
       foreach (var effect in StatusEffects.Keys.ToList())
       {
         ActiveStatusData data = StatusEffects[effect];
-        effect.OnOwnerTakesDamage(this, ref data, damageAfterBlock);
+        effect.OnOwnerTakesDamage(this, ref data, finalDamage);
         StatusEffects[effect] = data;
       }
+      
+      // 4. 피격 실행 & 체력 피해량, 사망여부 체크
+      var (loosHp, isDead) = Stat.ApplyDamage(Mathf.FloorToInt(finalDamage));
+      
+      BattleEvent.RaiseTakeDamage(attacker, this, loosHp);
+      BattleEvent.RaiseDamageFeedback(this, loosHp);
+      Debug.Log($"{attacker.name} attack {this.name}. Take Damage {loosHp}. Remain HP: {Stat.HP}");
 
-      // 6. 피격 이벤트 발생
-      BattleEvent.RaiseTakeDamage(attacker, this, damageAfterBlock);
-      BattleEvent.RaiseDamageFeedback(this, damageAfterBlock);
-      Debug.Log($"{attacker.name} attack {this.name}. Take Damage {damageAfterBlock}. Remain HP: {Stat.HP}");
+      if (!isDead) return;
+      
+      Die(); 
+      Debug.Log($"{name} is Dead");
     }
 
     public void Heal(int heal)
     {
-      int finalHeal = heal;
+      int calculateHeal = heal;
 
       foreach (var effect in StatusEffects.Keys)
       {
 
       }
-      Stat.HP += finalHeal;
-      if (Stat.HP > Stat.MaxHP)
-      {
-        Stat.HP = Stat.MaxHP;
-      }
-      Debug.Log($"{finalHeal}체력 획득. 현재체력: {Stat.HP}");
+      
+      Stat.Heal(calculateHeal);
+      
+      Debug.Log($"{calculateHeal}체력 획득. 현재체력: {Stat.HP}");
     }
 
     public virtual void GainBlock(int block)

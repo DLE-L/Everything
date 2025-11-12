@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -12,41 +13,37 @@ namespace UIs.Map
 {
   public class Canvas_Encounter_Narrative : CanvasEncounterBase
   {
-    [SerializeField] private TextMeshProUGUI _txtEncounterName;
-    [SerializeField] private TextMeshProUGUI _txtEncounterDescription;
+    [SerializeField] private TextMeshProUGUI _txtEventName;
+    [SerializeField] private TextMeshProUGUI _txtDescription;
     [SerializeField] private Transform _choiceRoot;
-
+    [SerializeField] private List<btnNarrativeChoice> _narrativeChoices;
+    
     private Canvas _canvas;
 
     private void Awake()
     {
-      _choiceRoot = GetComponentInChildren<HorizontalLayoutGroup>().transform;
+      _choiceRoot ??= GetComponentInChildren<VerticalLayoutGroup>().transform;
     }
 
-    public override async Task SettingUIAsync(Node node)
+    private void Start()
     {
-      if (node.Encounter.Type is not EncounterType.Narrative) return;
+      _narrativeChoices.ForEach(choice => choice.gameObject.SetActive(false));
+    }
 
-      var spawnTasks = new List<Task<GameObject>>();
-      if (node.Encounter is not EncounterNarrative narrative) { Debug.Log($"Narrative not found"); return; }
+    public override Task SettingUIAsync(Node node)
+    {
+      if (node.Encounter is not EncounterNarrative narrative) { Debug.Log($"Encounter is not Narrative"); return null; }
 
-      _txtEncounterName.text = narrative.Name;
-      _txtEncounterDescription.text = narrative.Description;
+      _txtEventName.text = narrative.Name;
+      _txtDescription.text = narrative.Description;
       
       for (var i = 0; i < narrative.Choices.Count; i++)
       {
-        Task<GameObject> spawnTask = AssetLoader.InstantiateAsync(GameSystem.Instance.Map.assetLoader.ButtonNarrativeChoiceRef, _choiceRoot);
-        spawnTasks.Add(spawnTask);
+        _narrativeChoices[i].gameObject.SetActive(true);
+        _narrativeChoices[i].SetChoice(narrative.Choices[i]);
       }
 
-      var choiceInstances = await Task.WhenAll(spawnTasks);
-      for (var i = 0; i < choiceInstances.Length; i++)
-      {
-        var instance = choiceInstances[i];
-        var buttonChoice = instance.GetComponent<Button_Narrative_Choice>();
-
-        buttonChoice.SetChoice(narrative.Choices[i]);
-      }
+      return null; // TODO Canvas_Encounter_Narrative 반환 Task? 계속 쓸건지
     }
   }
 }

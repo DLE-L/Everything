@@ -15,12 +15,6 @@ MonoBehaviour:
   m_GroupName: Addressable
   m_GUID: b58ab4a15bc312c4cb1ebcded6bdd1e6
   m_SerializeEntries:
-  - m_GUID: 038f6afb477e7b446a544e84b5ea06de
-    m_Address: Button_Narrative_Choice
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - Map
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 06a23482b85cda941a1b9fc96861f821
     m_Address: Card_Skill_Common_Feint
     m_ReadOnly: 0
@@ -36,7 +30,7 @@ MonoBehaviour:
     - Enemy
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 2af4d636bae95b04eba740d9f688ea81
-    m_Address: Button_BattleCard
+    m_Address: BattleCard
     m_ReadOnly: 0
     m_SerializedLabels:
     - Battle

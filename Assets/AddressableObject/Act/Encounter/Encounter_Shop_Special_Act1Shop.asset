@@ -15,3 +15,8 @@ MonoBehaviour:
   Style: {fileID: 11400000, guid: 13d1e2ba44398f24cb2332fdeb35bd30, type: 2}
   Type: 3
   weight: 100
+  _cardCount: 3
+  Rarities:
+  - {fileID: 11400000, guid: 437810856cc084e4cb96206c602c602f, type: 2}
+  - {fileID: 11400000, guid: 773a4956810fec149805bcbe162687ec, type: 2}
+  - {fileID: 11400000, guid: 4a4413e006227e144bdf9f4944294c10, type: 2}

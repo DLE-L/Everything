@@ -39,6 +39,19 @@ namespace UIs.Map
         Debug.LogError($"{actNumbering}에 해당하는 Act를 찾을 수 없습니다!");
         return null;
       }
+      
+      #region Set Scroll View Size
+      var contentRect = nodeRoot.GetComponent<RectTransform>();
+
+      float maxMapHeight = (mapConfig.Act_FloorCount - 2) * mapConfig.Node_Distance;
+
+      float maxPossibleWidth = (mapConfig.Floor_MaxNode - 1) * mapConfig.Node_Distance 
+                               + mapConfig.Node_RandomRange * 2 
+                               + (mapConfig.Node_Distance * 2);
+      
+      contentRect.sizeDelta = new Vector2(maxPossibleWidth, maxMapHeight);
+      contentRect.pivot = new Vector2(0.5f, 0);
+      #endregion
 
       var encounterFixPoint = act.EncounterPoints
         .ToDictionary(point => (point.FloorIndex, point.NodeIndex), point => point.Encounter);
@@ -107,7 +120,7 @@ namespace UIs.Map
       Debug.Log($"Node Queue : {nodePrefabQueue.Count}");
 
       #region SetFloorData
-
+      
       for (int floorIndex = 0; floorIndex < floorCount; floorIndex++)
       {
         if (!floorEncounters.TryGetValue(floorIndex, out var nodeEncounters))
@@ -127,7 +140,11 @@ namespace UIs.Map
 
           var nodePrefab = nodePrefabQueue.Dequeue();
           var nodeRect = nodePrefab.GetComponent<RectTransform>();
-
+          
+          if(floorIndex == mapConfig.Node_BossIndex)
+          {
+            nodeRect.sizeDelta = new Vector2(nodeRect.rect.width * 2f, nodeRect.rect.height * 2f);
+          }
           Vector2 position = SetNodePosition(floorIndex, nodeIndex, nodeCount, mapConfig);
           nodeRect.anchoredPosition = position;
 
@@ -168,8 +185,6 @@ namespace UIs.Map
 
         foreach (var node in currentLayer)
         {
-          // Slay the Spire와 유사한 연결 (가까운 노드 위주)
-          // 여기서는 간단히 1~2개의 랜덤 노드와 연결합니다.
           int connectionCount = _random.Next(1, 3); // 1 또는 2개 연결
             
           // 다음 층의 노드들을 섞어서 중복 없이 뽑기
@@ -185,16 +200,17 @@ namespace UIs.Map
       }
     }
 
-    private Vector2 SetNodePosition(int floorIndex, int nodeIndex, int totalNodesOnFloor, MapConfigSO generateData)
+    private Vector2 SetNodePosition(int floorIndex, int nodeIndex, int totalNodesOnFloor, MapConfigSO mapConfig)
     {
-      float totalWidth = (totalNodesOnFloor - 1) * generateData.Node_Distance;
-      float startX = -totalWidth / 2f;
-      float xPos = startX + nodeIndex * generateData.Node_Distance;
-
-      float GetRandomOffset() => ((float)_random.NextDouble() * 2 - 1.0f) * generateData.Node_RandomRange;
-      xPos += GetRandomOffset();
-
-      float yPos = floorIndex * generateData.Node_Distance + GetRandomOffset();
+      var totalWidth = (totalNodesOnFloor - 1) * mapConfig.Node_Distance;
+      var startX = -totalWidth / 2f;
+      var totalMapHeight = (mapConfig.Act_FloorCount - 1) * mapConfig.Node_Distance;
+      var startY = -totalMapHeight / 2;
+      
+      float GetRandomOffset() => ((float)_random.NextDouble() * 2 - 1.0f) * mapConfig.Node_RandomRange;
+      
+      var xPos = startX + nodeIndex * mapConfig.Node_Distance + GetRandomOffset();
+      var yPos = startY + floorIndex * mapConfig.Node_Distance + GetRandomOffset();
 
       return new Vector2(xPos, yPos);
     }

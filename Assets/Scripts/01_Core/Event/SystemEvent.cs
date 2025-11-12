@@ -29,6 +29,8 @@ namespace Core.Event
     public static void RaiseEncounterEnter() => OnEncounterEnter?.Invoke();
     public static event Action OnEncounterExit;
     public static void RaiseEncounterExit() => OnEncounterExit?.Invoke();
+    public static event Action OnVisitShop;
+    public static void RaiseVisitShop() => OnVisitShop?.Invoke();
 
     #endregion
 

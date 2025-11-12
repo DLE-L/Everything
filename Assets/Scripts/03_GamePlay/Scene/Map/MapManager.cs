@@ -21,6 +21,8 @@ namespace GamePlay.Map
     
     private List<List<Node>> _mapLayers; // 생성된 맵의 계층 구조
     private Node _currentNode; // 플레이어의 현재 위치
+
+    public int ShopVisitCount { get; private set; } = 0;
     
     public void Awake()
     {
@@ -113,6 +115,11 @@ namespace GamePlay.Map
         Debug.LogError($"MapManager CombatEnd Error: {e.Message}");
       }
     }
+
+    private void OnVisitShop()
+    {
+      ShopVisitCount++;
+    }
     
     private void SubscribeBattleEvents()
     {
@@ -127,12 +134,14 @@ namespace GamePlay.Map
     private void OnEnable()
     {
       SystemEvent.OnClickNode += OnSelectNode;
+      SystemEvent.OnVisitShop += OnVisitShop;
       BattleEvent.OnBattleStart += SubscribeBattleEvents;
     }
     private void OnDisable()
     {
       BattleEvent.OnBattleStart -= SubscribeBattleEvents;
       SystemEvent.OnClickNode -= OnSelectNode;
+      SystemEvent.OnVisitShop -= OnVisitShop;
       UnsubscribeBattleEvents();
     }
 
