@@ -15,7 +15,7 @@ namespace Data.Act.Encounter
     public List<NarrativeChoice> Choices;
     public override async Task BeginAsync(MapManager mapManager, Node node)
     {
-      await mapManager.uiManager.ShowEncounter(mapManager.assetLoader.NarrativeCanvasRef, node);
+      await mapManager.uiManager.ShowEncounter(mapManager.AssetLoader.NarrativeCanvasRef, node);
     }
   }
 

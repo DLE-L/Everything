@@ -14,7 +14,7 @@ namespace Data.Act.Encounter
     [SerializeField] private int _cardCount;
     public List<RaritySO> Rarities;
     
-    public List<CardSO> CardList { get; private set; }
+    public List<RuntimeCard> CardList { get; private set; }
     
     public override async Task BeginAsync(MapManager mapManager, Node node)
     {
@@ -23,11 +23,10 @@ namespace Data.Act.Encounter
       var results = await Task.WhenAll(cardLoadingTasks);
       
       CardList.AddRange(results.
-        Select(result => result.
-          OrderBy(_ => random.Next()).First())
+        Select(result => new RuntimeCard(result.OrderBy(_ => random.Next()).First()))
       );
       
-      await mapManager.uiManager.ShowEncounter(mapManager.assetLoader.ShopCanvasRef, node);
+      await mapManager.uiManager.ShowEncounter(mapManager.AssetLoader.ShopCanvasRef, node);
     }
   }
 }

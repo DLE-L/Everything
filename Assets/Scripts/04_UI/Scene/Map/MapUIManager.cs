@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using Core;
 using Core.Event;
 using GamePlay.Map;
 using UnityEngine;
@@ -16,6 +17,8 @@ namespace UIs.Map
     
     public Map_Canvas mapCanvas;
     public Transform nodeRoot;
+    
+    public GameObject DeckCanvasObject { get; private set; }
 
     private void Awake()
     {
@@ -33,9 +36,27 @@ namespace UIs.Map
       Debug.Log($"Show EncounterRef: {_currentCanvasObject.name}");
     }
 
+    public async void ShowDeckList()
+    {
+      try
+      {
+        DeckCanvasObject = await AssetLoader.InstantiateAsync(GameSystem.Instance.Map.AssetLoader.DeckCardListCanvasRef);
+      }
+      catch (Exception e)
+      {
+        Debug.Log($"MapUIManager-ShowDeckList warning: {e.Message}");
+      }
+    }
+    
+    public void CloseDeckList()
+    {
+      AssetLoader.ReleaseInstance(DeckCanvasObject);
+      DeckCanvasObject = null;
+    }
+
     public void CloseCurrentCanvas()
     {
-      //AssetLoader.ReleaseInstance(_currentCanvasObject);
+      AssetLoader.ReleaseInstance(_currentCanvasObject);
       Debug.Log($"Close EncounterRef: {_currentCanvasObject.name}");
     }
 
@@ -60,5 +81,6 @@ namespace UIs.Map
       SystemEvent.OnEncounterEnter -= OnEncounterEnter;
       SystemEvent.OnEncounterExit -= OnEncounterExit;
     }
+    
   }
 }

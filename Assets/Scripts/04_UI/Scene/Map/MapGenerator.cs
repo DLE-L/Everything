@@ -31,7 +31,7 @@ namespace UIs.Map
       _mapLayers.Clear();
       _currentEliteCount = 0;
 
-      _nodeSprite = GameSystem.Instance.Map.assetLoader.NodeSprite;
+      _nodeSprite = GameSystem.Instance.Map.AssetLoader.NodeSprite;
 
       var act = await AssetLoader.LoadAssetReferenceAsync<ActSO>(actNumbering);
       if (act is null)
@@ -41,6 +41,7 @@ namespace UIs.Map
       }
       
       #region Set Scroll View Size
+      
       var contentRect = nodeRoot.GetComponent<RectTransform>();
 
       float maxMapHeight = (mapConfig.Act_FloorCount - 2) * mapConfig.Node_Distance;

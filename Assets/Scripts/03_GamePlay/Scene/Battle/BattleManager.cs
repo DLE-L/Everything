@@ -4,10 +4,8 @@ using System.Threading.Tasks;
 using Core;
 using Core.Event;
 using Data.Act.Encounter;
-using Data.Target;
 using GamePlay.Battle.State;
 using GamePlay.Reward;
-using GamePlay.Units;
 using UIs;
 using UIs.Units;
 using UIs.Battle;
@@ -124,6 +122,8 @@ namespace GamePlay.Battle
       {
         GameSystem.Instance.UnregisterBattleManager();
       }
+
+      UIManager.AddressableObjectPooler.Cleanup();
     }
   }
 }

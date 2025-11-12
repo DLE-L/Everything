@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Core;
 using Core.Event;
+using Data.Collectible.Card;
 using Data.Target;
 using Data.Units;
 using GamePlay.Battle;
@@ -47,6 +48,12 @@ namespace GamePlay.Units
         }
 
         await Task.Yield();
+        
+        if (card.RuntimeCard.Data.Type is CardTypePower)
+        {
+          PlayerRunAction.RemoveCardFromDeckPermanently(card.RuntimeCard);
+        }
+        
         battleManager.UIManager.AddressableObjectPooler.Release(card.gameObject);
         BattleEvent.RaiseCardPlay(card.RuntimeCard);
       }

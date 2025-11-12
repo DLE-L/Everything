@@ -41,8 +41,6 @@ namespace Core.Event
     public static void RaiseCardDiscard(RuntimeCard card) => OnCardDiscard?.Invoke(card);
     public static event Action<RuntimeCard> OnCardExhaust;
     public static void RaiseCardExhaust(RuntimeCard card) => OnCardExhaust?.Invoke(card);
-    public static event Action<RuntimeCard> OnPlayPowerCard;
-    public static void RaisePlayPowerCard(RuntimeCard card) => OnPlayPowerCard?.Invoke(card);
     #endregion
 
     #region Battle Effect Event

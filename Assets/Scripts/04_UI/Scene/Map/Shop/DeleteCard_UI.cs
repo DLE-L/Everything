@@ -2,7 +2,6 @@
 using Core;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace UIs.Map
 {
@@ -11,14 +10,21 @@ namespace UIs.Map
     private const int DELETE_PRICE = 75;
     private const int DELETE_PRICE_INCREASE = 25;
     
-    [SerializeField] private GameObject _deleteCard;
-    [SerializeField] private Image _imgDeleteSelect;
-    [SerializeField] private TextMeshProUGUI _txtPrice;
     [SerializeField] private GameObject _deleteCardListPrefab;
+    [SerializeField] private TextMeshProUGUI _txtPrice;
+    [SerializeField] private btnDeleteSelect _btnDeleteSelect;
+    public DeleteCard DeleteCard;
+
+    private void Awake()
+    {
+      _txtPrice ??= transform.Find("txtPrice").GetComponent<TextMeshProUGUI>();
+      _btnDeleteSelect ??= transform.Find("btnDeleteSelect").GetComponent<btnDeleteSelect>();
+      DeleteCard ??= transform.Find("DeleteCard").GetComponent<DeleteCard>();
+    }
 
     private void Start()
     {
-      _deleteCard.SetActive(false);
+      DeleteCard.gameObject.SetActive(false);
       _txtPrice.text = $"{DELETE_PRICE + DELETE_PRICE_INCREASE * GameSystem.Instance.Map.ShopVisitCount}";
     }
     

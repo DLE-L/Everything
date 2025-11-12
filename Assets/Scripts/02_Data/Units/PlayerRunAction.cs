@@ -12,7 +12,7 @@ namespace Data.Units
     
     // TODO: 데미지, 회복 효과 발생시 받는 메서드 추가  
       
-    private static void RemoveCardFromDeckPermanently(RuntimeCard cardToRemove)
+    public static void RemoveCardFromDeckPermanently(RuntimeCard cardToRemove)
     {
       var permanentDeck = _runData.Deck;
       if (permanentDeck.Remove(cardToRemove))
@@ -74,12 +74,12 @@ namespace Data.Units
 
     private static void SubscribeBattleEvents()
     {
-      BattleEvent.OnPlayPowerCard += RemoveCardFromDeckPermanently;
+      
     }
     
     private static void UnsubscribeBattleEvents()
     {
-      BattleEvent.OnPlayPowerCard -= RemoveCardFromDeckPermanently;
+      
     }
   }
 }

@@ -14,7 +14,7 @@ namespace Data.Act.Encounter
     public List<RestOptionSO> Options;
     public override async Task BeginAsync(MapManager mapManager, Node node)
     {
-      await mapManager.uiManager.ShowEncounter(mapManager.assetLoader.RestCanvasRef, node);
+      await mapManager.uiManager.ShowEncounter(mapManager.AssetLoader.RestCanvasRef, node);
     }
   }
 }

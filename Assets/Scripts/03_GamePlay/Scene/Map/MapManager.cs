@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Core;
 using Core.Event;
 using UIs;
@@ -17,7 +16,7 @@ namespace GamePlay.Map
     private Canvas_Encounter_Narrative _canvasEncounterNarrative;
     
     public MapUIManager uiManager;
-    public MapAssetLoader assetLoader;
+    public MapAssetLoader AssetLoader;
     
     private List<List<Node>> _mapLayers; // 생성된 맵의 계층 구조
     private Node _currentNode; // 플레이어의 현재 위치
@@ -28,7 +27,7 @@ namespace GamePlay.Map
     {
       GameSystem.Instance.RegisterMapManager(this);
       uiManager ??= FindFirstObjectByType<MapUIManager>();
-      assetLoader ??= FindFirstObjectByType<MapAssetLoader>();
+      AssetLoader ??= FindFirstObjectByType<MapAssetLoader>();
       
       Debug.Log($"---New Run Start---");
       SystemEvent.RaiseStartNewRun();
@@ -38,13 +37,13 @@ namespace GamePlay.Map
     {
       try
       {
-        _mapGenerateData = await AssetLoader.LoadAssetReferenceAsync<MapConfigSO>(assetLoader.GenerateDataRef);
-        await assetLoader.Init();
+        _mapGenerateData = await Utils.AssetLoader.LoadAssetReferenceAsync<MapConfigSO>(AssetLoader.GenerateDataRef);
+        await AssetLoader.Init();
 
         _generator = new();
-        _mapLayers = await _generator.GenerateMap(assetLoader.NodePrefabRef, uiManager.nodeRoot, _mapGenerateData, assetLoader.ActsRef[0]);
+        _mapLayers = await _generator.GenerateMap(AssetLoader.NodePrefabRef, uiManager.nodeRoot, _mapGenerateData, AssetLoader.ActsRef[0]);
 
-        AssetLoader.ReleaseAssetByKey(assetLoader.GenerateDataRef.AssetGUID);
+        Utils.AssetLoader.ReleaseAssetByKey(AssetLoader.GenerateDataRef.AssetGUID);
         InitializeMapState();
         
         await FadeManger.Instance.FadeIn();

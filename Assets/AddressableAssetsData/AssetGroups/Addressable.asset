@@ -139,10 +139,22 @@ MonoBehaviour:
     m_SerializedLabels:
     - Title
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bea9e79e9c1bdf7478dc0e2922e9bf6c
+    m_Address: Canvas_DeckCardList
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Map
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bfc681de975a5b54f96ad82fe1f80c3c
     m_Address: Icon_Node
     m_ReadOnly: 0
     m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d44893405985a6f49a2eaa1de353457c
+    m_Address: DeckCard
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Map
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e4ec0cd9f3eba154eb33c3574eb6d74a
     m_Address: Scene_Title

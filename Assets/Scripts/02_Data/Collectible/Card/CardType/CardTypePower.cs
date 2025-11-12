@@ -1,8 +1,4 @@
 using UnityEngine;
-using GamePlay.Battle;
-using Core;
-using Core.Event;
-using Data.Units;
 
 namespace Data.Collectible.Card
 {

@@ -208,10 +208,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04f5c9486fa3424385a32e008e78d84a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _deleteCard: {fileID: 4258888244663789937}
-  _imgDeleteSelect: {fileID: 5626117875011891283}
-  _txtPrice: {fileID: 7663945297447342922}
   _deleteCardListPrefab: {fileID: 0}
+  _txtPrice: {fileID: 7663945297447342922}
+  _btnDeleteSelect: {fileID: 7017352755053222104}
+  DeleteCard: {fileID: 8273010037247777084}
 --- !u!1 &418353441787508744
 GameObject:
   m_ObjectHideFlags: 0
@@ -1621,6 +1621,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf0859fc8c61448485176ab80df1cd99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _deleteCardUI: {fileID: 7685821188340825076}
 --- !u!1 &2174566719291026128
 GameObject:
   m_ObjectHideFlags: 0
@@ -2390,6 +2391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 70d2a34906eb4d198cc9c1265d76491e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _deleteCardUI: {fileID: 0}
 --- !u!1 &3772121027234455856
 GameObject:
   m_ObjectHideFlags: 0
@@ -3563,7 +3565,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _choiceRoot: {fileID: 0}
-  _txtGoldAmount: {fileID: 0}
+  _txtGoldAmount: {fileID: 5820865124855719416}
   _restShopCard:
   - {fileID: 5409443589894391593}
   - {fileID: 7738440361743789968}
