@@ -74,6 +74,7 @@ BattleEvent.OnTurnStart += UpdateTurnUI;
 
   * **목적:** 끊김 없는(Seamless) 씬 전환 경험 제공. Memory Profiler를 보고 성능에 크게 미치지 않는 것 비교 후 Pre-Loading 도입.
   * **구현:** `SceneAssetLoader`를 통해 다음 씬에 필요한 에셋(UI, 캐릭터, 환경)을 `Addressables.LoadAssetAsync`로 미리 메모리에 적재.
+![Flow Chart](./docs/FlowChart.png)
 
 <br>
 
