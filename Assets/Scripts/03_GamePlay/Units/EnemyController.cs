@@ -29,8 +29,11 @@ namespace GamePlay.Units
     {
       _battleManager = manager;
       gameObject.name = enemySo.name;
+      
+      Stat ??= new StatData();
       Stat.MaxHP = enemySo.MaxHP;
       Stat.HP = enemySo.MaxHP;
+      
       _cards = enemySo.Deck.Select(cardSo => new RuntimeCard(cardSo)).ToList();
       _uiUnitHP.InitializeUnitHPBar(this);
     }

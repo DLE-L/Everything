@@ -169,12 +169,12 @@ namespace UIs.Map
 
       AssetLoader.ReleaseAssetByKey(actNumbering.AssetGUID);
 
-      ConnectNodesRandomly();
+      ConnectNodesRandom();
 
       return _mapLayers;
     }
     
-    private void ConnectNodesRandomly()
+    private void ConnectNodesRandom()
     {
       // 마지막 계층(보스) 직전까지만 연결
       for (int i = 0; i < _mapLayers.Count - 1; i++)

@@ -29,7 +29,7 @@ namespace GamePlay.Battle.State
       }
       catch (Exception e)
       {
-        Debug.LogWarning($"SetupBattle Error: {e}");
+        Debug.LogException(e);
       }
     }
 

@@ -44,7 +44,7 @@ namespace UIs.Map
       }
       catch (Exception e)
       {
-        Debug.Log($"MapUIManager-ShowDeckList warning: {e.Message}");
+        Debug.LogException(e);
       }
     }
     

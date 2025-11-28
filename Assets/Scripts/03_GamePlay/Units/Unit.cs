@@ -135,7 +135,7 @@ namespace GamePlay.Units
       }
       
       Stat.Heal(calculateHeal);
-      
+      BattleEvent.RaiseHeal(this, calculateHeal);
       Debug.Log($"{calculateHeal}체력 획득. 현재체력: {Stat.HP}");
     }
 

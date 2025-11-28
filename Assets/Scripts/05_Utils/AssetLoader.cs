@@ -26,7 +26,7 @@ namespace Utils
 
       return null;
     }
-
+    
     public static async Task<IList<T>> LoadAssetsByLabelsAsync<T>(List<string> labels) where T : Object
     {
       string key = GenerateKey(labels);
@@ -258,6 +258,9 @@ namespace Utils
       }
     }
 
+    /// <summary>
+    /// 로드한 모든 에셋 반환(GameSystem.OnDestroy)
+    /// </summary>
     public static void ReleaseAll()
     {
       Debug.Log("[AssetLoader] Release All Handle");
@@ -307,7 +310,7 @@ namespace Utils
       _assetRefHandles.Clear();
     }
 
-    public static string GenerateKey(List<string> labels)
+    private static string GenerateKey(List<string> labels)
     {
       if (labels is null || labels.Count is 0) return string.Empty;
       var sb = new StringBuilder();

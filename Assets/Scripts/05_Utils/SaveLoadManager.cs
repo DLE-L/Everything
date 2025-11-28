@@ -13,7 +13,7 @@ namespace Utils
     public static StringBuilder _sb = new();
     private static bool _isSaving;
     private static readonly string _savePath = Path.Combine(Application.persistentDataPath, "AccountData.json");
-
+    
     public static Task SavePlayerDataAsync(PlayerAccountData data) => SaveJsonDataAsync(data, _savePath);
     public static Task<PlayerAccountData> LoadPlayerData() => LoadJsonData<PlayerAccountData>(_savePath);
 

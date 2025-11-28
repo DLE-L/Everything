@@ -258,6 +258,7 @@ MonoBehaviour:
     txtDescription: {fileID: 795865443}
   _selectImage: {fileID: 693260115}
   _rewardManager: {fileID: 2021543854}
+  _isActive: 0
 --- !u!222 &146284325
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -320,13 +321,6 @@ MonoBehaviour:
     m_AssetGUID: 2af4d636bae95b04eba740d9f688ea81
     m_SubObjectName: 
     m_SubObjectType: 
-    m_SubObjectGUID: 
-    m_EditorAssetChanged: 0
-  _imageCardRef:
-    m_AssetGUID: a0f0b07f341332d4b8679fc966badc4e
-    m_SubObjectName: 
-    m_SubObjectType: UnityEngine.Sprite, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
     m_SubObjectGUID: 
     m_EditorAssetChanged: 0
 --- !u!1 &193204080
@@ -2224,6 +2218,7 @@ MonoBehaviour:
     txtDescription: {fileID: 610856310}
   _selectImage: {fileID: 1751737594}
   _rewardManager: {fileID: 2021543854}
+  _isActive: 0
 --- !u!222 &1385863366
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2372,6 +2367,7 @@ MonoBehaviour:
     txtDescription: {fileID: 1063177761}
   _selectImage: {fileID: 65611681}
   _rewardManager: {fileID: 2021543854}
+  _isActive: 0
 --- !u!222 &1533774293
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2680,6 +2676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e523ed2597b546ce9db1757ea50ca772, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isActive: 0
 --- !u!1 &1751212703
 GameObject:
   m_ObjectHideFlags: 0
@@ -2878,6 +2875,10 @@ MonoBehaviour:
   DiscardPile: []
   Hand: []
   ExhaustPile: []
+  Draws: []
+  Discards: []
+  Hands: []
+  Exhausts: []
 --- !u!1 &1858378143
 GameObject:
   m_ObjectHideFlags: 0
@@ -3125,10 +3126,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 7995969146477024931}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 230.40001, y: -40.5}
-  m_SizeDelta: {x: 440.80002, y: 61}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1081340898628463393
 GameObject:
@@ -3200,7 +3201,7 @@ GameObject:
   - component: {fileID: 3006172662599577111}
   - component: {fileID: 6563291499534683051}
   m_Layer: 5
-  m_Name: imgHP_Bar
+  m_Name: imgHPBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3619,11 +3620,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f5e52e1d060f47ee9933555f7a3cbc7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _horizontalLayoutGroup: {fileID: 0}
-  _layoutRectTransform: {fileID: 0}
-  _myUnit: {fileID: 0}
-  _hPBarPrefab: {fileID: 0}
-  _hPBars: []
+  _imgHPBar: {fileID: 6563291499534683051}
+  _myUnit: {fileID: 6668387748744616173}
 --- !u!222 &4567298139046432774
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3746,10 +3744,10 @@ RectTransform:
   m_Children: []
   m_Father: {fileID: 3108654648980420767}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 25, y: -40.5}
-  m_SizeDelta: {x: 50, y: 50}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &5695502344724203371
 GameObject:
@@ -3766,7 +3764,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &5774218819835961284
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3958,6 +3956,7 @@ MonoBehaviour:
       Energy: 0
       Block: 0
     RunStateGold: 0
+    SaveGold: 0
     Deck: []
 --- !u!1 &6825208996302249428
 GameObject:
